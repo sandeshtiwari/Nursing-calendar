@@ -1,3 +1,7 @@
+<?php
+  require "config/config.php";
+?>
+
 <!doctype html>
 <html lang="en">
   <head>

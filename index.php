@@ -16,6 +16,14 @@
   </head>
   <body>
     <div class='container'>
+      <?php
+        if(isset($_GET['error']))
+        {
+          echo "<div class='alert alert-danger' role='alert'>
+            Login failed
+            </div>";
+        }
+      ?>
       <form action = 'login.php' method = 'POST'>
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>

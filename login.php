@@ -11,7 +11,7 @@
 			header("Location: calendar.php");
 		}
 		else{
-			echo "error";
+			header("Location: index.php?error=1");
 		}
 		
 	}

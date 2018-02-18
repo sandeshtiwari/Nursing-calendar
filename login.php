@@ -8,7 +8,7 @@
 		$row = mysqli_fetch_array($check_database_query);
 		if(isset($row) && ($_POST['password'] == $row['password']))
 		{
-			echo "logged in!";
+			header("Location: calendar.php");
 		}
 		else{
 			echo "error";

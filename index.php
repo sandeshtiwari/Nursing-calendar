@@ -23,6 +23,12 @@
             Login failed
             </div>";
         }
+        else if(isset($_GET['logout']))
+        {
+            echo "<div class='alert alert-success' role='alert'>
+            Successfully logged out!
+            </div>";
+        }
       ?>
       <form action = 'login.php' method = 'POST'>
         <div class="form-group">

@@ -5,3 +5,4 @@
 		header("Location: index.php");
 	}
 ?>
+<a href="logout.php">Logout</a>

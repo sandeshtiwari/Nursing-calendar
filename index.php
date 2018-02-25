@@ -1,5 +1,9 @@
 <?php
   require "config/config.php";
+  if(isset($_SESSION['username']))
+  {
+    header("Location: calendar.php");
+  }
 ?>
 
 <!doctype html>

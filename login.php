@@ -8,6 +8,8 @@
 		$row = mysqli_fetch_array($check_database_query);
 		if(isset($row) && ($_POST['password'] == $row['password']))
 		{
+			$parts = explode("@",$email);
+			$_SESSION['username'] = $parts[0];
 			header("Location: calendar.php");
 		}
 		else{

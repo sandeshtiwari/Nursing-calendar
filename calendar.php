@@ -1,10 +1,20 @@
 <?php
-	session_start();
+	require 'check_privilege.php';
 	if(!isset($_SESSION['username']))
 	{
 		header("Location: index.php");
 	}
-	echo "Welcome ". $_SESSION['username'];
+	$_SESSION['privilege'] = 'admin';
+	if(check_student($con))
+	{
+		$_SESSION['privilege'] = 'student';
+	}
+	else if(check_teacher($con))
+	{
+		$_SESSION['privilege'] = 'teacher';
+	}
+	echo "Welcome ". $_SESSION['username']."<br/>";
+	echo $_SESSION['privilege'];
 ?>
 <!DOCTYPE html>
 
@@ -97,6 +107,7 @@
  <h2>Nursing Calendar</h2>
  <a href="logout.php">Logout</a>
 
+ <br/>
  <br/>
 
  <div id='calendar'></div>

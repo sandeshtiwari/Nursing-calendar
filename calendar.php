@@ -73,12 +73,12 @@
         //defaultDate: '2016-01-15T16:00:00',
        events: [{
             id: 1,
-            title:"Front End",
+            title:"My class",
             start:'10:00', 
             end:  '13:00', 
-            dow: [1, 2, 3, 4, 5],
-            dowstart: new Date('2016/01/03'),
-            dowend: new Date('2016/05/17')
+            dow: [2,4],
+            dowstart: new Date('2018/01/03'),
+            dowend: new Date('2018/05/17')
        }
     ]
   });

@@ -15,6 +15,15 @@
 	}
 	echo "Welcome ". $_SESSION['username']."<br/>";
 	echo $_SESSION['privilege'];
+	$display = "";
+	if($_SESSION['privilege'] == 'admin')
+	{
+		$display = "<a href='admin_page.php'>My Admin Page</a>";
+	}
+	else if($_SESSION['privilege'] == 'teacher')
+	{
+		$display = "<a href='register.php'>Register Classroom</a>";
+	}
 ?>
 <!DOCTYPE html>
 
@@ -106,7 +115,9 @@
 
  <h2>Nursing Calendar</h2>
  <a href="logout.php">Logout</a>
-
+ <?php
+ 	echo "<br/>".$display;
+ ?>
  <br/>
  <br/>
 

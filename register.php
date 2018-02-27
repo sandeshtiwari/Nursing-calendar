@@ -1,3 +1,11 @@
+<?php
+  require "config/config.php";
+  if($_SESSION['privilege'] != 'teacher' || !isset($_SESSION['email']))
+  {
+    header("Location: index.php");
+  }
+?>
+
 <!doctype html>
 <html lang="en">
   <head>

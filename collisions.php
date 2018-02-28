@@ -48,7 +48,7 @@
 
    <div id="data"><br>
 
-    <center>Hello</center>
+    <center>Collision Page</center>
      
 
    </div> 

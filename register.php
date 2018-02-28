@@ -1,9 +1,11 @@
 <?php
   require "config/config.php";
+  require "classes/Teacher.php";
   if($_SESSION['privilege'] != 'teacher' || !isset($_SESSION['email']))
   {
     header("Location: index.php");
   }
+  $teacher = new Teacher($con, $_SESSION['email']);
 ?>
 
 <!doctype html>
@@ -19,6 +21,16 @@
     <title>Registration</title>
   </head>
   <body>
+      <?php
+        $classes = $teacher->myClasses();
+        if(isset($classes))
+        {
+          foreach($classes as $class)
+          {
+            echo $class. "<br/>";
+          }
+        }
+      ?>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

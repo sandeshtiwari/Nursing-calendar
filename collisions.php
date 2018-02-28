@@ -35,10 +35,11 @@
       <ul>
         
         <a href="collisions.php"><li>View Conflicts</li></a>
-        <li>Book a room</li>
+        <a href="bookRoom.php"><li>Book a room</li></a>
         <li>Set Deadlines</li>
         <a href="calendar.php"><li>View Master Calendar</li></a>
         <a href="admin_page.php"><li>Admin Page</li></a>
+
 
 
       </ul>

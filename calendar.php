@@ -1,5 +1,6 @@
 <?php
 	require 'check_privilege.php';
+  require 'classes/Teacher.php';
 	if(!isset($_SESSION['username']))
 	{
 		header("Location: index.php");
@@ -23,7 +24,9 @@
 	else if($_SESSION['privilege'] == 'teacher')
 	{
 		$display = "<a href='register.php'>Register Classroom</a>";
+    $person = new Teacher($con, $_SESSION['email']);
 	}
+  $json = $person->getJSON();
 ?>
 <!DOCTYPE html>
 
@@ -71,17 +74,19 @@
         right: 'month,agendaWeek,agendaDay'
         },
         //defaultDate: '2016-01-15T16:00:00',
-       events: [{
-            id: 1,
-            title:"My class",
-            start:'10:00', 
-            end:  '13:00', 
-            dow: [2,4],
-            dowstart: new Date('2018/01/03'),
-            dowend: new Date('2018/05/17')
-       }
-    ]
+        events: giveEvents()
   });
+  function giveEvents()
+  {
+    var data = <?php echo $json;?>;
+    console.log(data[0]);
+    for(i = 0; i < data.length; i++)
+    {
+      data[i]['dowstart'] = new Date(data[i]['dowstart']);
+      data[i]['dowend'] = new Date(data[i]['dowend']);
+    }
+    return data;
+  }
 });
 </script>
 <style>

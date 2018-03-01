@@ -2,6 +2,7 @@
 	require 'check_privilege.php';
   require 'classes/Teacher.php';
   require 'classes/Student.php';
+  require 'classes/Admin.php';
 	if(!isset($_SESSION['username']))
 	{
 		header("Location: index.php");
@@ -21,6 +22,7 @@
 	if($_SESSION['privilege'] == 'admin')
 	{
 		$display = "<a href='admin_page.php'>My Admin Page</a>";
+    $person = new Admin($con, $_SESSION['email']);
 	}
 	else if($_SESSION['privilege'] == 'teacher')
 	{

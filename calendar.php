@@ -68,6 +68,7 @@
         },
 
         defaultView: 'month',
+        nowIndicator: true,
         header: {
         left: 'prev,next today',
         center: 'title',

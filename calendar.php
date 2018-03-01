@@ -1,6 +1,7 @@
 <?php
 	require 'check_privilege.php';
   require 'classes/Teacher.php';
+  require 'classes/Student.php';
 	if(!isset($_SESSION['username']))
 	{
 		header("Location: index.php");
@@ -26,6 +27,10 @@
 		$display = "<a href='register.php'>Register Classroom</a>";
     $person = new Teacher($con, $_SESSION['email']);
 	}
+  else
+  {
+    $person = new Student($con, $_SESSION['email']);
+  }
   $json = $person->getJSON();
 ?>
 <!DOCTYPE html>

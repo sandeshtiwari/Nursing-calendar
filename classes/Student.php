@@ -33,6 +33,20 @@
 			}
 			return json_encode($data);
 		}
-		
+		private function getDaysOfWeek($days)
+		{
+			$dow = [];
+			if($days['M'] != 'no')
+				$dow[] = 1;
+			if($days['T'] != 'no')
+				$dow[] = 2;
+			if($days['W'] != 'no')
+				$dow[] = 3;
+			if($days['R'] != 'no')
+				$dow[] = 4;
+			if($days['F'] != 'no')
+				$dow[] = 5;
+			return $dow;
+		}
 	}
 ?>

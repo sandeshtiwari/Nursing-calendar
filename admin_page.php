@@ -1,6 +1,9 @@
 <?php
   require "config/config.php";
-  
+  if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
+  {
+    header("Location: index.php");
+  }
 ?>
 
 <!doctype html>

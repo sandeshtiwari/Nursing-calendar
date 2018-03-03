@@ -34,7 +34,7 @@
           {
             $parts = explode(" ",$class);
             echo "<li class='list-group-item list-group-item-light'>".$class."
-            <a href='bookRoom.php?email=".$hassedEmail."&classId=".$parts[0]."' class='btn btn-primary'>Register</a></li>";
+            <a href='bookRoom.php?email=".$hassedEmail."&courseID=".$parts[0]."' class='btn btn-primary'>Register</a></li>";
           }
           echo "</ul>";
         }

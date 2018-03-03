@@ -6,7 +6,11 @@
 		{
 			$this->id = $id;
 		}
-		public function showRooms($class_id)
+		public function showRooms($course_id)
+		{
+
+		}
+		private function getStartTime($course_id)
 		{
 
 		}

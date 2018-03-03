@@ -28,11 +28,13 @@
         {
           echo "<h2>Register a room for your classes.</h2>";
           echo "<ul class='list-group'>";
+          $hassedEmail = password_hash($_SESSION['email'], PASSWORD_DEFAULT);
           //print_r($classes);
           foreach($classes as $class)
           {
+            $parts = explode(" ",$class);
             echo "<li class='list-group-item list-group-item-light'>".$class."
-            <a href='#' class='btn btn-primary'>Register</a></li>";
+            <a href='bookRoom.php?email=".$hassedEmail."&classId=".$parts[0]."' class='btn btn-primary'>Register</a></li>";
           }
           echo "</ul>";
         }

@@ -21,16 +21,27 @@
     <title>Registration</title>
   </head>
   <body>
+    <div class='container'>
       <?php
         $classes = $teacher->myClasses();
         if(isset($classes))
         {
+          echo "<h2>Register a room for your classes.</h2>";
+          echo "<ul class='list-group'>";
+          //print_r($classes);
           foreach($classes as $class)
           {
-            echo $class. "<br/>";
+            echo "<li class='list-group-item list-group-item-light'>".$class."
+            <a href='#' class='btn btn-primary'>Register</a></li>";
           }
+          echo "</ul>";
+        }
+        else
+        {
+          echo "<h2>You are not assigned to teach any classes so far.</h2>";
         }
       ?>
+      </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

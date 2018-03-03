@@ -2,9 +2,11 @@
 	class Room
 	{
 		private $id;
-		public function __construct($id)
+		private $con;
+		public function __construct($con,$id)
 		{
 			$this->id = $id;
+			$this->con = $con;
 		}
 		public function showRooms($course_id)
 		{

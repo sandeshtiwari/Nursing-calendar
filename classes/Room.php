@@ -10,8 +10,8 @@
 		}
 		public function showRooms($course_id)
 		{
-			$startTime = $this->getStartTime($course_id);
-			$endTime = $this->getEndTime($course_id);
+			$startTime = strtotime($this->getStartTime($course_id));
+			$endTime = strtotime($this->getEndTime($course_id));
 		}
 		private function getStartTime($course_id)
 		{

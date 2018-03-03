@@ -27,5 +27,12 @@
 			$row = mysqli_fetch_assoc($query);
 			return $row[0];
 		}
+		private function getDaysOfWeek($course_id)
+		{
+			$string = "SELECT M, T, W, R, F FROM course WHERE Course_id = '$course_id'";
+			$query = mysqli_query($this-con, $string);
+			$row = mysqli_fetch_assoc($query);
+			return $row;
+		}
 	}
 ?>

@@ -6,5 +6,9 @@
 		{
 			$this->id = $id;
 		}
+		public function showRooms($class_id)
+		{
+
+		}
 	}
 ?>

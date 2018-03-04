@@ -14,6 +14,8 @@
   {
     header('Location: index.php');
   }
+  $rooms = new Room($con);
+  $properties = $rooms->getRoomProperties();
 ?>
 <!doctype html>
 <html lang="en">
@@ -31,16 +33,31 @@
     <div class='container'>
 
       <h3></h3>
+      <table class="table">
+        <thead class='thead-dark'>
+          <tr>
+            <?php 
+              for($i = 1 ; $i<sizeof($properties);$i++)
+              {
+                echo "<th scope='col'>".$properties[$i]."</th>";
+              }
+              echo "<th scope='col'></th>";
+            ?>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
       <?php
-        $rooms = new Room($con);
         $occupied = $rooms->getOccupiedRooms($_GET['courseID']);
         $occupiedRooms = $rooms->getFullRow($occupied);
         $vacant = $rooms->getVacantRooms($occupied);
         $vacantRooms = $rooms->getFullRow($vacant);
         //print_r($occupiedRooms);
         //print_r($vacantRooms);
-        $rooms->getRoomProperties();
        ?>
+            </tr>
+          </tbody>
+       </table>
     </div>
 
     <!-- Optional JavaScript -->

@@ -61,7 +61,7 @@
 				//echo $id[$i];
 				$string = "SELECT * FROM room WHERE ID='$id[$i]'";
 				$query = mysqli_query($this->con, $string);
-				$row = mysqli_fetch_assoc($query);
+				$row = mysqli_fetch_array($query);
 				$id[$i] = $row;
 			}
 			return $id;

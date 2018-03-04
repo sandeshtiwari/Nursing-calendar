@@ -36,26 +36,47 @@
       <table class="table">
         <thead class='thead-dark'>
           <tr>
-            <?php 
-              for($i = 1 ; $i<sizeof($properties);$i++)
+            <?php
+              $count=0;
+              for($count = 1 ; $i<sizeof($properties);$i++)
               {
-                echo "<th scope='col'>".$properties[$i]."</th>";
+                echo "<th scope='col'>".$properties[$count]."</th>";
               }
+              $count += 1;
               echo "<th scope='col'></th>";
             ?>
           </tr>
         </thead>
         <tbody>
-          <tr>
       <?php
         $occupied = $rooms->getOccupiedRooms($_GET['courseID']);
         $occupiedRooms = $rooms->getFullRow($occupied);
         $vacant = $rooms->getVacantRooms($occupied);
         $vacantRooms = $rooms->getFullRow($vacant);
+        if(isset($vacantRooms))
+        {
+          //print_r($vacantRooms);
+          foreach($vacantRooms as $vacantRoom)
+          {
+            echo "<tr>";
+            //print_r($vacantRoom);
+            for($i = 1; $i< sizeof($vacantRoom); $i++)
+            {
+              //echo $vacantRoom[$i];
+              echo "<td>".$vacantRoom[$i]."</td>";
+            }
+            echo "</tr>";
+          }
+          else
+          {
+            echo "<tr><td colspan='$count'>All the rooms have a conflicting time with your desired class<td></tr>"
+          }
+          
+        }
         //print_r($occupiedRooms);
         //print_r($vacantRooms);
        ?>
-            </tr>
+            
           </tbody>
        </table>
     </div>

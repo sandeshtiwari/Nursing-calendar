@@ -1,5 +1,44 @@
-<?php
+<?php 
   require "config/config.php";
+
+$room;
+
+$sql = "select Coll_ID, Room from collision where Coll_ID in (Select Coll_ID from collision GROUP by Coll_ID having COUNT(Coll_ID)> 1 ) group by coll_ID;";
+
+
+
+$resullt = mysqli_query($con, $sql);
+
+
+
+  while ($row = mysqli_fetch_array($resullt, MYSQLI_ASSOC)){
+
+            $collisionID = $row['Coll_ID'];
+
+            $sql1 = "SELECT Course_ID, Room  FROM collision WHERE Coll_ID = ".$collisionID.";";
+
+            $resultData = mysqli_query($con, $sql1);
+
+            echo "<b>Grupe by Collision Id: ".$collisionID."</b><br/>";     
+
+            echo "<table>";
+            echo "<tr><th>Course Id</th><th>Room</th><tr>";
+
+              while ($row1 = mysqli_fetch_array($resultData, MYSQLI_ASSOC)){
+
+                echo "<tr><td>";
+                echo $row1['Course_ID'];
+                echo "</td><td>";
+                echo $row1['Room'];
+                echo "</td></tr>";
+
+
+      }
+     echo "</table><br/>";
+
+  }
+
+ 
   
 ?>
 

@@ -33,10 +33,6 @@
 						$occupied[] = $id['Room_ID'];
 						//echo 'here';
 					}
-					/*else
-					{
-						$vacant[] = $id['Room_ID'];
-					}*/
 				}
 			}
 			//print_r($occupied);

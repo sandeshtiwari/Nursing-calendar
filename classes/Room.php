@@ -39,8 +39,24 @@
 					}*/
 				}
 			}
-			print_r($occupied);
+			//print_r($occupied);
+			$vacant = $this->giveFreeRooms($occupied);
 			//print_r($vacant);
+		}
+		private function giveFreeRooms($occupied)
+		{
+			$vacant = array();
+			$string = "SELECT ID FROM room";
+			$query = mysqli_query($this->con, $string);
+			while($roomID = mysqli_fetch_assoc($query))
+			{
+				//echo $roomID['ID'];
+				if(!in_array($roomID['ID'], $occupied))
+				{
+					$vacant[] = $roomID['ID'];
+				}
+			}
+			return $vacant;
 		}
 		private function getStartTime($course_id)
 		{

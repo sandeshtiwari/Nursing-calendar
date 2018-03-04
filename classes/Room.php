@@ -38,6 +38,28 @@
 			//print_r($occupied);
 			$vacant = $this->giveFreeRooms($occupied);
 			//print_r($vacant);
+			return $this->getAllRooms($vacant, $occupied);
+		}
+		private function getAllRooms($vacant, $occupied)
+		{
+			$allRooms = array();
+			$allRooms ['vacant'] = $this->getFullRow($vacant);
+			$allRooms ['occupied'] = $this->getFullRow($occupied);
+			//echo json_encode($allRooms);
+			return $allRooms;
+		}
+		private function getFullRow($id)
+		{
+			//echo $id.length;
+			for($i = 0; $i< sizeof($id);$i++)
+			{
+				//echo $id[$i];
+				$string = "SELECT * FROM room WHERE ID='$id[$i]'";
+				$query = mysqli_query($this->con, $string);
+				$row = mysqli_fetch_assoc($query);
+				$id[$i] = $row;
+			}
+			return $id;
 		}
 		private function giveFreeRooms($occupied)
 		{

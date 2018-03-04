@@ -1,5 +1,6 @@
 <?php
   require "config/config.php";
+  require "classes/Room.php";
   error_reporting(0);
   // authenticating the teacher or the person logged in
   if(isset($_GET['courseID']) && isset($_GET['email']) && isset($_SESSION['email']) && $_SESSION['privilege'] != 'student')
@@ -30,6 +31,10 @@
     <div class='container'>
 
       <h3></h3>
+      <?php
+        $room = new Room($con);
+        $room->showRooms($_GET['courseID']);
+       ?>
 
     </div>
 

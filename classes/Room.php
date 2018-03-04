@@ -8,6 +8,7 @@
 			//$this->id = $id;
 			$this->con = $con;
 		}
+		// method to get all the occupied rooms IDs for a given course
 		public function getOccupiedRooms($course_id)
 		{
 			//echo 'here';
@@ -41,6 +42,7 @@
 			//print_r($vacant);
 			//return $this->getAllRooms($vacant, $occupied);
 		}
+		// method to get all the properties of the rooms from the nursing building
 		public function getRoomProperties()
 		{
 			$columns = array();
@@ -50,9 +52,9 @@
 			{
 				$columns[] = $result['COLUMN_NAME'];
 			}
-
 			return $columns;
 		}
+		// method to get full details for a set of rooms of a given room's ID
 		public function getFullRow($id)
 		{
 			//echo $id.length;
@@ -66,6 +68,7 @@
 			}
 			return $id;
 		}
+		// method to get all the vacant rooms with by using all the occupied rooms
 		public function getVacantRooms($occupied)
 		{
 			$vacant = array();

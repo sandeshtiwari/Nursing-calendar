@@ -38,10 +38,12 @@
           <tr>
             <?php 
               $count = 0;
+              //going over all the column names except the ID column and making them the header
               for($count = 1 ; $count<sizeof($properties);$count++)
               {
                 echo "<th scope='col'>".$properties[$count]."</th>";
               }
+              // adding one to the count to calculate the colspan in case of empty table
               $count += 1;
               echo "<th scope='col'></th>";
             ?>
@@ -49,11 +51,15 @@
         </thead>
         <tbody>
       <?php
+        // getting the IDs of the occupied rooms
         $occupied = $rooms->getOccupiedRooms($_GET['courseID']);
+        // getting all the fields from database of all the occupied rooms
         $occupiedRooms = $rooms->getFullRow($occupied);
+        // getting the IDs of the vacant rooms
         $vacant = $rooms->getVacantRooms($occupied);
+        // getting all the fields from the database of all the vacant rooms
         $vacantRooms = $rooms->getFullRow($vacant);
-        if(isset($vacantRooms))
+        if(!empty($vacantRooms))
         {
           //print_r($vacantRooms);
           foreach($vacantRooms as $vacantRoom)
@@ -63,6 +69,7 @@
             for($i = 1; $i< sizeof($vacantRoom); $i++)
             {
               //echo $vacantRoom[$i];
+              // displaying the fields like Name, Available etc.
               echo "<td>".$vacantRoom[$i]."</td>";
             }
             echo "<td><a href='#' class='btn btn-primary'>Book room</a></td>";
@@ -71,6 +78,7 @@
         }
         else
           {
+            // if there are no vacant rooms display a friendly message
             echo "<tr><td colspan='$count'>There are not rooms available for this class time.<td></tr>";
           }
         //print_r($occupiedRooms);
@@ -97,7 +105,7 @@
         </thead>
         <tbody>
       <?php
-        if(isset($occupiedRooms))
+        if(!empty($occupiedRooms))
         {
           //print_r($vacantRooms);
           foreach($occupiedRooms as $occupiedRoom)

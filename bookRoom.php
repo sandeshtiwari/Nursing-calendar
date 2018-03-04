@@ -32,7 +32,7 @@
   <body>
     <div class='container'>
 
-      <h3></h3>
+      <h3>Available classes</h3>
       <table class="table">
         <thead class='thead-dark'>
           <tr>
@@ -65,6 +65,7 @@
               //echo $vacantRoom[$i];
               echo "<td>".$vacantRoom[$i]."</td>";
             }
+            echo "<td><a href='#' class='btn btn-dark'>Book room</a></td>";
             echo "</tr>";
           } 
         }

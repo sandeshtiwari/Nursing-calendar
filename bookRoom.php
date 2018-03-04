@@ -36,9 +36,9 @@
       <table class="table">
         <thead class='thead-dark'>
           <tr>
-            <?php
-              $count=0;
-              for($count = 1 ; $i<sizeof($properties);$i++)
+            <?php 
+              $count = 0;
+              for($count = 1 ; $count<sizeof($properties);$count++)
               {
                 echo "<th scope='col'>".$properties[$count]."</th>";
               }
@@ -66,13 +66,12 @@
               echo "<td>".$vacantRoom[$i]."</td>";
             }
             echo "</tr>";
-          }
-          else
-          {
-            echo "<tr><td colspan='$count'>All the rooms have a conflicting time with your desired class<td></tr>"
-          }
-          
+          } 
         }
+        else
+          {
+            echo "<tr><td colspan='$count'>There are not rooms available for this class time.<td></tr>";
+          }
         //print_r($occupiedRooms);
         //print_r($vacantRooms);
        ?>

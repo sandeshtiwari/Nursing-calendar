@@ -8,7 +8,7 @@
 			//$this->id = $id;
 			$this->con = $con;
 		}
-		public function showRooms($course_id)
+		public function getOccupiedRooms($course_id)
 		{
 			//echo 'here';
 			$startTime = $this->getStartTime($course_id);
@@ -36,19 +36,12 @@
 				}
 			}
 			//print_r($occupied);
-			$vacant = $this->giveFreeRooms($occupied);
+			return $occupied;
+			//$vacant = $this->giveFreeRooms($occupied);
 			//print_r($vacant);
-			return $this->getAllRooms($vacant, $occupied);
+			//return $this->getAllRooms($vacant, $occupied);
 		}
-		private function getAllRooms($vacant, $occupied)
-		{
-			$allRooms = array();
-			$allRooms ['vacant'] = $this->getFullRow($vacant);
-			$allRooms ['occupied'] = $this->getFullRow($occupied);
-			//echo json_encode($allRooms);
-			return $allRooms;
-		}
-		private function getFullRow($id)
+		public function getFullRow($id)
 		{
 			//echo $id.length;
 			for($i = 0; $i< sizeof($id);$i++)
@@ -61,7 +54,7 @@
 			}
 			return $id;
 		}
-		private function giveFreeRooms($occupied)
+		public function getVacantRooms($occupied)
 		{
 			$vacant = array();
 			$string = "SELECT ID FROM room";

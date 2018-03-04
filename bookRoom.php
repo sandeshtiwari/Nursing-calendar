@@ -32,8 +32,13 @@
 
       <h3></h3>
       <?php
-        $room = new Room($con);
-        $room->showRooms($_GET['courseID']);
+        $rooms = new Room($con);
+        $occupied = $rooms->getOccupiedRooms($_GET['courseID']);
+        $occupiedRooms = $rooms->getFullRow($occupied);
+        $vacant = $rooms->getVacantRooms($occupied);
+        $vacantRooms = $rooms->getFullRow($vacant);
+        //print_r($occupiedRooms);
+        //print_r($vacantRooms);
        ?>
 
     </div>

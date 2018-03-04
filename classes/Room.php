@@ -41,6 +41,18 @@
 			//print_r($vacant);
 			//return $this->getAllRooms($vacant, $occupied);
 		}
+		public function getRoomProperties()
+		{
+			$columns = array();
+			$string = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='nursing_scratch' AND `TABLE_NAME`='room'";
+			$query = mysqli_query($this->con, $string);
+			while($result = mysqli_fetch_assoc($query))
+			{
+				$columns[] = $result['COLUMN_NAME'];
+			}
+
+			return $columns;
+		}
 		public function getFullRow($id)
 		{
 			//echo $id.length;

@@ -39,8 +39,8 @@
         $vacantRooms = $rooms->getFullRow($vacant);
         //print_r($occupiedRooms);
         //print_r($vacantRooms);
+        $rooms->getRoomProperties();
        ?>
-
     </div>
 
     <!-- Optional JavaScript -->

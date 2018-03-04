@@ -34,7 +34,7 @@
 
       <h3>Available classes</h3>
       <table class="table">
-        <thead class='thead-dark'>
+        <thead class='thead'>
           <tr>
             <?php 
               $count = 0;
@@ -65,7 +65,7 @@
               //echo $vacantRoom[$i];
               echo "<td>".$vacantRoom[$i]."</td>";
             }
-            echo "<td><a href='#' class='btn btn-dark'>Book room</a></td>";
+            echo "<td><a href='#' class='btn btn-primary'>Book room</a></td>";
             echo "</tr>";
           } 
         }
@@ -75,6 +75,48 @@
           }
         //print_r($occupiedRooms);
         //print_r($vacantRooms);
+       ?>
+            
+          </tbody>
+       </table>
+<!-- Classes that are not available -->
+       <h3>Classes you can request</h3>
+      <table class="table">
+        <thead class='thead'>
+          <tr>
+            <?php 
+              $count = 0;
+              for($count = 1 ; $count<sizeof($properties);$count++)
+              {
+                echo "<th scope='col'>".$properties[$count]."</th>";
+              }
+              $count += 1;
+              echo "<th scope='col'></th>";
+            ?>
+          </tr>
+        </thead>
+        <tbody>
+      <?php
+        if(isset($occupiedRooms))
+        {
+          //print_r($vacantRooms);
+          foreach($occupiedRooms as $occupiedRoom)
+          {
+            echo "<tr>";
+            //print_r($vacantRoom);
+            for($i = 1; $i< sizeof($occupiedRoom); $i++)
+            {
+              //echo $vacantRoom[$i];
+              echo "<td>".$occupiedRoom[$i]."</td>";
+            }
+            echo "<td><a href='#' class='btn btn-info'>Request room</a></td>";
+            echo "</tr>";
+          } 
+        }
+        else
+          {
+            echo "<tr><td colspan='$count'>All class are available for you to register.<td></tr>";
+          }
        ?>
             
           </tbody>

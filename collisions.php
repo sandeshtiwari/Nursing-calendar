@@ -251,7 +251,7 @@
 
 				$room = $row['Room_ID'];
 
-				echo "<table><tr><td><b>Conflict in ".$room." :</b></td></tr>";
+				echo "<table><tr><td><b>Conflict in the".$room." :</b></td></tr>";
 
 				
 
@@ -263,9 +263,9 @@
 
 					$course = $new_row['Course_ID'];
 
-					echo "<tr><td>";
+					echo "<tr><td><center>";
 					echo $course;
-					echo "</tr></td>";
+					echo "</center></tr></td>";
 
 
 

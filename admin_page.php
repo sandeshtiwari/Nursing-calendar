@@ -40,7 +40,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="admin_page.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>ULM</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -169,8 +169,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="..\collisions.php"><i class="fa fa-circle-o"></i> See Conflicts</a></li>
-            <li><a href="..\bookRoom.php"><i class="fa fa-circle-o"></i> Book a room</a></li>
+            <li><a href="collisions.php"><i class="fa fa-circle-o"></i> See Conflicts</a></li>
+            <li><a href="bookRoom.php"><i class="fa fa-circle-o"></i> Book a room</a></li>
           </ul>
         </li>
 

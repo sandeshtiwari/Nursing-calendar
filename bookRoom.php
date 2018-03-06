@@ -59,8 +59,14 @@
         }
         else
           {
-            // if there are no vacant rooms display a friendly message
-            echo "<tr><td colspan='$count'>There are not rooms available for this class time.<td></tr>";
+            if($collide == 'no')
+            {
+              echo "<tr><td colspan='$count'>All classrooms are available to you<td></tr>";
+            }
+            else
+            {
+              echo "<tr><td colspan='$count'>There are not rooms available for this class time.<td></tr>";
+            }
           }
   }
 ?>

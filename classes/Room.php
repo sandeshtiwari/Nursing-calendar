@@ -170,5 +170,10 @@
 			$row = mysqli_fetch_assoc($query);
 			return $row['Coll_ID'];
 		}
+		public function cancelRegistration($course_id)
+		{
+			$string = "DELETE FROM occupied WHERE Course_ID = '$course_id'";
+			mysqli_query($this->con, $string);
+		}
 	}
 ?>

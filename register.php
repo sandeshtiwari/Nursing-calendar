@@ -46,6 +46,12 @@
                     Failed to register
                   </div>";
           }
+          if(isset($_GET['cancled']))
+          {
+            echo "<div class='alert alert-success' role='alert'>
+                    Successfully cancled registration.
+                  </div>";
+          }
           echo "<ul class='list-group'>";
           $hassedEmail = password_hash($_SESSION['email'], PASSWORD_DEFAULT);
           //print_r($classes);

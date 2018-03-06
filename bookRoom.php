@@ -106,7 +106,7 @@
             else
             {
               echo "<h2>The class is already registered. Please submit the button to cancel registration</h2>";
-              echo "<a href='#' class='btn btn-warning'>Submit</a>";
+              echo "<a href='roomSelected.php?course_id=".$_GET['courseID']."&remove' class='btn btn-warning'>Submit</a>";
             }
             
             ?>

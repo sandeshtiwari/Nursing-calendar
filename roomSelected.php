@@ -14,6 +14,14 @@
 		}
 
 	}
-	$room->addCollision($_GET['course_id'], $_GET['room_id']);
-	header("Location: register.php?requested");
+	else if($_GET['collide'] == 'yes')
+	{
+		$room->addCollision($_GET['course_id'], $_GET['room_id']);
+		header("Location: register.php?requested");	
+	}
+	if(isset($_GET['remove']) && isset($_GET['course_id']))
+	{
+		$room->cancelRegistration($_GET['course_id']);
+		header("Location: register.php?cancled");
+	}
 ?>

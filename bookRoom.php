@@ -72,7 +72,8 @@
               // displaying the fields like Name, Available etc.
               echo "<td>".$vacantRoom[$i]."</td>";
             }
-            echo "<td><a href='#' class='btn btn-primary'>Book room</a></td>";
+            // the buttun can send get request with room id i.e. $vacantRoom[0] or $vacantRoom['ID'] and send get class id i.e. $_GET['courseID']
+            echo "<td><a href='roomSelected.php?roomID=".$vacantRoom["ID"]."&courseID=".$_GET['courseID']."' class='btn btn-primary'>Book room</a></td>";
             echo "</tr>";
           } 
         }

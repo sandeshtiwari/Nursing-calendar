@@ -105,7 +105,7 @@
 			$string = "SELECT M, T, W, R, F FROM course WHERE Course_id = '$course_id'";
 			$query = mysqli_query($this->con, $string);
 			$row = mysqli_fetch_assoc($query);
-			print_r($row);
+			//print_r($row);
 			return $row;
 		}
 		public function reserveRoom($room_id, $course_id)

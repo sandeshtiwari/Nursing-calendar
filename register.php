@@ -27,6 +27,12 @@
         if(isset($classes))
         {
           echo "<h2>Register a room for your classes.</h2>";
+          if(isset($_GET) && $_GET['registered'] == 'yes')
+          {
+            echo "<div class='alert alert-success' role='alert'>
+                    Registered Successfully
+                  </div>";
+          }
           echo "<ul class='list-group'>";
           $hassedEmail = password_hash($_SESSION['email'], PASSWORD_DEFAULT);
           //print_r($classes);

@@ -17,6 +17,7 @@
   $rooms = new Room($con);
   $properties = $rooms->getRoomProperties();
   $checkIfBooked = $rooms->checkBookStatus($_GET['courseID']);
+  // funciton to display the heading of the table being displayed
   function heading($properties)
   {
     $count = 0;
@@ -30,6 +31,7 @@
     echo "<th scope='col'></th>";
     return $count;
   }
+  // function to display rooms from a list of rooms
   function displayRooms($roomList, $collide,$count)
   {
     if(!empty($roomList))
@@ -46,6 +48,7 @@
               echo "<td>".$room[$i]."</td>";
             }
             // the buttun can send get request with room id i.e. $vacantRoom[0] or $vacantRoom['ID'] and send get class id i.e. $_GET['courseID']
+            // checking whether to display the book button or request room button
             if($collide == 'no')
             {
               echo "<td><a href='roomSelected.php?collide=".$collide."&room_id=".$room["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-primary'>Book room</a></td>";

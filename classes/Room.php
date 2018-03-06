@@ -103,10 +103,16 @@
 		private function getDaysOfWeek($course_id)
 		{
 			$string = "SELECT M, T, W, R, F FROM course WHERE Course_id = '$course_id'";
-			$query = mysqli_query($this-con, $string);
+			$query = mysqli_query($this->con, $string);
 			$row = mysqli_fetch_assoc($query);
 			print_r($row);
 			return $row;
+		}
+		public function reserveRoom($room_id, $course_id)
+		{
+			$string = "INSERT INTO occupied(Course_ID, Room_ID) VALUES('$course_id', '$room_id')";
+			$query = mysqli_query($this->con, $string);
+			return $query;
 		}
 	}
 ?>

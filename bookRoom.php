@@ -73,7 +73,7 @@
               echo "<td>".$vacantRoom[$i]."</td>";
             }
             // the buttun can send get request with room id i.e. $vacantRoom[0] or $vacantRoom['ID'] and send get class id i.e. $_GET['courseID']
-            echo "<td><a href='roomSelected.php?roomID=".$vacantRoom["ID"]."&courseID=".$_GET['courseID']."' class='btn btn-primary'>Book room</a></td>";
+            echo "<td><a href='roomSelected.php?room_id=".$vacantRoom["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-primary'>Book room</a></td>";
             echo "</tr>";
           } 
         }

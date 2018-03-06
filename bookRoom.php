@@ -15,7 +15,9 @@
     header('Location: index.php');
   }
   $rooms = new Room($con);
+  // getting all the columns from the rooms table to display
   $properties = $rooms->getRoomProperties();
+  // checking if a course is already booked or not
   $checkIfBooked = $rooms->checkBookStatus($_GET['courseID']);
   // funciton to display the heading of the table being displayed
   function heading($properties)
@@ -103,6 +105,7 @@
               // get the heading for the table to be shown
               $count = heading($properties);  
             }
+            // if the room is already book display button to cancle registration
             else
             {
               echo "<h2>The class is already registered. Please submit the button to cancel registration</h2>";

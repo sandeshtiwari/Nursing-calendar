@@ -34,18 +34,21 @@
                     Registered Successfully
                   </div>";
           }
-          if(isset($_GET['requested']))
-          {
-            echo "<div class='alert alert-success' role='alert'>
-                    Request placed successfully
-                  </div>";
-          }
+          // display message if registration failed
           else if(isset($_GET['registered']) && $_GET['registered'] == 'no')
           {
             echo "<div class='alert alert-danger' role='alert'>
                     Failed to register
                   </div>";
           }
+          // display message if request was successfull
+          if(isset($_GET['requested']))
+          {
+            echo "<div class='alert alert-success' role='alert'>
+                    Request placed successfully
+                  </div>";
+          }
+          // display message if successfully cancled registration
           if(isset($_GET['cancled']))
           {
             echo "<div class='alert alert-success' role='alert'>

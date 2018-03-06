@@ -108,12 +108,14 @@
 			//print_r($row);
 			return $row;
 		}
+		// method to book a room for a course
 		public function reserveRoom($room_id, $course_id)
 		{
 			$string = "INSERT INTO occupied(Course_ID, Room_ID) VALUES('$course_id', '$room_id')";
 			$query = mysqli_query($this->con, $string);
 			return $query;
 		}
+		// function to check if already booked or not
 		public function checkBookStatus($course_id)
 		{
 			$string = "SELECT * FROM occupied WHERE Course_ID='$course_id'";
@@ -124,6 +126,7 @@
 			}
 			return false;
 		}
+		// function to add collision
 		public function addCollision($course_id, $room_id)
 		{
 			$startTime = $this->getStartTime($course_id);
@@ -161,6 +164,7 @@
 			}
 			//return $occupied;
 		}
+		// function to get a unique collision id which is not already in the table
 		private function getUniqueCollID()
 		{
 			$string = "SELECT FLOOR(RAND() * 99999) AS Coll_ID 
@@ -170,6 +174,7 @@
 			$row = mysqli_fetch_assoc($query);
 			return $row['Coll_ID'];
 		}
+		// function to cancle registration for a course
 		public function cancelRegistration($course_id)
 		{
 			$string = "DELETE FROM occupied WHERE Course_ID = '$course_id'";

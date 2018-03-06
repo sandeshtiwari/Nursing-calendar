@@ -27,10 +27,17 @@
         if(isset($classes))
         {
           echo "<h2>Register a room for your classes.</h2>";
+          // display message if registered or not
           if(isset($_GET['registered']) && $_GET['registered'] == 'yes')
           {
             echo "<div class='alert alert-success' role='alert'>
                     Registered Successfully
+                  </div>";
+          }
+          else if(isset($_GET['registered']) && $_GET['registered'] == 'no')
+          {
+            echo "<div class='alert alert-danger' role='alert'>
+                    Failed to register
                   </div>";
           }
           echo "<ul class='list-group'>";

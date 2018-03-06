@@ -16,6 +16,20 @@
   }
   $rooms = new Room($con);
   $properties = $rooms->getRoomProperties();
+  
+  function heading($properties)
+  {
+    $count = 0;
+    //going over all the column names except the ID column and making them the header
+    for($count = 1 ; $count<sizeof($properties);$count++)
+    {
+      echo "<th scope='col'>".$properties[$count]."</th>";
+    }
+    // adding one to the count to calculate the colspan in case of empty table
+    $count += 1;
+    echo "<th scope='col'></th>";
+    return $count;
+  }
 ?>
 <!doctype html>
 <html lang="en">
@@ -37,15 +51,8 @@
         <thead class='thead'>
           <tr>
             <?php 
-              $count = 0;
-              //going over all the column names except the ID column and making them the header
-              for($count = 1 ; $count<sizeof($properties);$count++)
-              {
-                echo "<th scope='col'>".$properties[$count]."</th>";
-              }
-              // adding one to the count to calculate the colspan in case of empty table
-              $count += 1;
-              echo "<th scope='col'></th>";
+            // get the heading for the table to be shown
+            $count = heading($properties);
             ?>
           </tr>
         </thead>
@@ -93,14 +100,9 @@
       <table class="table">
         <thead class='thead'>
           <tr>
-            <?php 
-              $count = 0;
-              for($count = 1 ; $count<sizeof($properties);$count++)
-              {
-                echo "<th scope='col'>".$properties[$count]."</th>";
-              }
-              $count += 1;
-              echo "<th scope='col'></th>";
+            <?php
+            // get the heading 
+              heading($properties);
             ?>
           </tr>
         </thead>

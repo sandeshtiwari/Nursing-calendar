@@ -124,5 +124,51 @@
 			}
 			return false;
 		}
+		public function addCollision($course_id, $room_id)
+		{
+			$startTime = $this->getStartTime($course_id);
+			$endTime = $this->getEndTime($course_id);
+			$daysOfWeek = $this->getDaysOfWeek($course_id);
+			//echo strtotime($startTime);
+			$vacant = array();
+			$collidingCourses = array();
+			$string = "SELECT Course_ID FROM occupied WHERE Course_ID != '$course_id' AND Room_ID = '$room_id'";
+			$query = mysqli_query($this->con,$string);
+			while( $id = mysqli_fetch_assoc($query))
+			{
+				//print_r($id['Room_ID']);
+				//echo $id['Room_ID']." ".$id['Course_ID'];
+				if($daysOfWeek == ($this->getDaysOfWeek($id['Course_ID'])))
+				{
+					//echo 'here';
+					$cStartTime = $this->getStartTime($id['Course_ID']);
+					$cEndTime = $this->getEndTime($id['Course_ID']);
+					if(($cStartTime >= $startTime && $cStartTime <= $endTime) || ($cEndTime >= $startTime && $cEndTime <= $endTime))
+					{
+						$collidingCourses[] = $id['Course_ID'];
+						//echo 'here';
+					}
+				}
+			}
+			print_r($collidingCourses);
+			$Coll_ID = $this->getUniqueCollID();
+			$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID) VALUES('$course_id','$Coll_ID', '$room_id')";
+				mysqli_query($this->con, $string);
+ 			foreach($collidingCourses as $col_courses)
+			{
+				$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID) VALUES('$col_courses','$Coll_ID', '$room_id')";
+				mysqli_query($this->con, $string);
+			}
+			//return $occupied;
+		}
+		private function getUniqueCollID()
+		{
+			$string = "SELECT FLOOR(RAND() * 99999) AS Coll_ID 
+			FROM occupied 
+			WHERE 'Coll_ID' NOT IN (SELECT Coll_ID FROM collision) LIMIT 1";
+			$query = mysqli_query($this->con, $string);
+			$row = mysqli_fetch_assoc($query);
+			return $row['Coll_ID'];
+		}
 	}
 ?>

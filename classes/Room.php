@@ -114,5 +114,15 @@
 			$query = mysqli_query($this->con, $string);
 			return $query;
 		}
+		public function checkBookStatus($course_id)
+		{
+			$string = "SELECT * FROM occupied WHERE Course_ID='$course_id'";
+			$query = mysqli_query($this->con, $string);
+			if(mysqli_num_rows($query) > 0)
+			{
+				return true;
+			}
+			return false;
+		}
 	}
 ?>

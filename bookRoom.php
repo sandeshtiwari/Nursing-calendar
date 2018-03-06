@@ -30,6 +30,39 @@
     echo "<th scope='col'></th>";
     return $count;
   }
+  function displayRooms($roomList, $collide)
+  {
+    if(!empty($roomList))
+        {
+          //print_r($vacantRooms);
+          foreach($roomList as $room)
+          {
+            echo "<tr>";
+            //print_r($vacantRoom);
+            for($i = 1; $i< sizeof($room); $i++)
+            {
+              //echo $vacantRoom[$i];
+              // displaying the fields like Name, Available etc.
+              echo "<td>".$room[$i]."</td>";
+            }
+            // the buttun can send get request with room id i.e. $vacantRoom[0] or $vacantRoom['ID'] and send get class id i.e. $_GET['courseID']
+            if($collide == 'no')
+            {
+              echo "<td><a href='roomSelected.php?collide=".$collide."&room_id=".$room["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-primary'>Book room</a></td>";
+            }
+            else
+            {
+              echo "<td><a href='roomSelected.php?collide=".$collide."&room_id=".$room["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-info'>Request room</a></td>";
+            }
+            echo "</tr>";
+          } 
+        }
+        else
+          {
+            // if there are no vacant rooms display a friendly message
+            echo "<tr><td colspan='$count'>There are not rooms available for this class time.<td></tr>";
+          }
+  }
 ?>
 <!doctype html>
 <html lang="en">
@@ -66,29 +99,7 @@
         $vacant = $rooms->getVacantRooms($occupied);
         // getting all the fields from the database of all the vacant rooms
         $vacantRooms = $rooms->getFullRow($vacant);
-        if(!empty($vacantRooms))
-        {
-          //print_r($vacantRooms);
-          foreach($vacantRooms as $vacantRoom)
-          {
-            echo "<tr>";
-            //print_r($vacantRoom);
-            for($i = 1; $i< sizeof($vacantRoom); $i++)
-            {
-              //echo $vacantRoom[$i];
-              // displaying the fields like Name, Available etc.
-              echo "<td>".$vacantRoom[$i]."</td>";
-            }
-            // the buttun can send get request with room id i.e. $vacantRoom[0] or $vacantRoom['ID'] and send get class id i.e. $_GET['courseID']
-            echo "<td><a href='roomSelected.php?collide=no&room_id=".$vacantRoom["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-primary'>Book room</a></td>";
-            echo "</tr>";
-          } 
-        }
-        else
-          {
-            // if there are no vacant rooms display a friendly message
-            echo "<tr><td colspan='$count'>There are not rooms available for this class time.<td></tr>";
-          }
+        displayRooms($vacantRooms, 'no');
         //print_r($occupiedRooms);
         //print_r($vacantRooms);
        ?>
@@ -108,26 +119,7 @@
         </thead>
         <tbody>
       <?php
-        if(!empty($occupiedRooms))
-        {
-          //print_r($vacantRooms);
-          foreach($occupiedRooms as $occupiedRoom)
-          {
-            echo "<tr>";
-            //print_r($vacantRoom);
-            for($i = 1; $i< sizeof($occupiedRoom); $i++)
-            {
-              //echo $vacantRoom[$i];
-              echo "<td>".$occupiedRoom[$i]."</td>";
-            }
-            echo "<td><a href='#' class='btn btn-info'>Request room</a></td>";
-            echo "</tr>";
-          } 
-        }
-        else
-          {
-            echo "<tr><td colspan='$count'>All class are available for you to register.<td></tr>";
-          }
+        displayRooms($occupiedRooms, 'yes');
        ?>
             
           </tbody>

@@ -34,6 +34,12 @@
                     Registered Successfully
                   </div>";
           }
+          if(isset($_GET['requested']))
+          {
+            echo "<div class='alert alert-success' role='alert'>
+                    Request placed successfully
+                  </div>";
+          }
           else if(isset($_GET['registered']) && $_GET['registered'] == 'no')
           {
             echo "<div class='alert alert-danger' role='alert'>

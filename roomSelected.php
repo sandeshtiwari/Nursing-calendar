@@ -15,4 +15,5 @@
 
 	}
 	$room->addCollision($_GET['course_id'], $_GET['room_id']);
+	header("Location: register.php?requested");
 ?>

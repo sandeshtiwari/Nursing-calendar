@@ -12,8 +12,8 @@
 		{
 			$data = array();
 			$databaseQuery = "SELECT course.Course_ID as id, Number, Title as title 
-			FROM course, registered, student WHERE 
-			course.Course_ID = registered.Course_ID AND registered.CWID = student.CWID AND student.email = '$this->email'";
+			FROM course, registered, person WHERE 
+			course.Course_ID = registered.Course_ID AND registered.CWID = person.CWID AND person.email = '$this->email'";
 			$result = mysqli_query($this->con, $databaseQuery);
 			while($row = mysqli_fetch_assoc($result))
 			{

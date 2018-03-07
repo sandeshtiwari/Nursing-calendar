@@ -55,6 +55,8 @@
             $checkIFRequested = $rooms->checkRequested($_GET['courseID'], $room["ID"]);
             // the buttun can send get request with room id i.e. $vacantRoom[0] or $vacantRoom['ID'] and send get class id i.e. $_GET['courseID']
             // checking whether to display the book button or request room button
+
+            //checking if the room is already booked and checking which table to display,i.e. request table or book table
             if($collide == 'no' && !$checkIfBooked)
             {
               echo "<td><a href='roomSelected.php?collide=".$collide."&room_id=".$room["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-primary'>Book room</a></td>";
@@ -63,6 +65,7 @@
             {
               echo "<td><a href='roomSelected.php?course_id=".$_GET['courseID']."&remove' class='btn btn-info'>Cancel room</a></td>";
             }
+            // checking if a room is already requested or not and checkig which table to display, i.e. 
             else if($collide == 'yes' && !$checkIFRequested)
             {
               echo "<td><a href='roomSelected.php?collide=".$collide."&room_id=".$room["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-info'>Request room</a></td>";

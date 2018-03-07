@@ -115,7 +115,7 @@
 			$query = mysqli_query($this->con, $string);
 			return $query;
 		}
-		// function to check if already booked or not
+		// function to check if already booked for a course
 		public function checkBookStatus($course_id, $room_id)
 		{
 			//echo $course_id." ".$room_id;
@@ -182,6 +182,7 @@
 			$string = "DELETE FROM occupied WHERE Course_ID = '$course_id'";
 			mysqli_query($this->con, $string);
 		}
+		// method to check if a room is already requested for a course
 		public function checkRequested($course_id, $room_id)
 		{
 			$string = "SELECT Course_ID FROM collision WHERE Course_ID = '$course_id' AND Room_ID = '$room_id'";

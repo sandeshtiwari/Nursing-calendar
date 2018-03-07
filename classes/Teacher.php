@@ -10,7 +10,10 @@
 		}
 		public function myClasses()
 		{
-			$string = "SELECT Course_ID, Prefix, Number, Title FROM course, person WHERE course.Teacher_CWID = person.CWID AND person.email = '$this->email'";
+			$string = "SELECT Course_ID, Prefix, Number, Title 
+			FROM course, person, semester 
+			WHERE course.Teacher_CWID = person.CWID AND semester.ID = course.Semester_ID AND person.email = '$this->email' AND
+			end_date = (SELECT MAX(end_date) FROM semester)";
 			$check_database_query = mysqli_query($this->con, $string);
 			$rows = array();
 			while($row = mysqli_fetch_assoc($check_database_query))

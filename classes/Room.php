@@ -116,10 +116,12 @@
 			return $query;
 		}
 		// function to check if already booked or not
-		public function checkBookStatus($course_id)
+		public function checkBookStatus($course_id, $room_id)
 		{
-			$string = "SELECT * FROM occupied WHERE Course_ID='$course_id'";
+			//echo $course_id." ".$room_id;
+			$string = "SELECT * FROM occupied WHERE Course_ID='$course_id' AND Room_ID = '$room_id'";
 			$query = mysqli_query($this->con, $string);
+			//$rows = mysqli_fetch_assoc($query);
 			if(mysqli_num_rows($query) > 0)
 			{
 				return true;
@@ -179,6 +181,17 @@
 		{
 			$string = "DELETE FROM occupied WHERE Course_ID = '$course_id'";
 			mysqli_query($this->con, $string);
+		}
+		public function checkRequested($course_id, $room_id)
+		{
+			$string = "SELECT Course_ID FROM collision WHERE Course_ID = '$course_id' AND Room_ID = '$room_id'";
+			$query = mysqli_query($this->con, $string);
+			if(mysqli_num_rows($query) > 0)
+			{
+				return true;
+			}
+			return false;
+
 		}
 	}
 ?>

@@ -18,7 +18,8 @@
   // getting all the columns from the rooms table to display
   $properties = $rooms->getRoomProperties();
   // checking if a course is already booked or not
-  $checkIfBooked = $rooms->checkBookStatus($_GET['courseID']);
+  //$checkIfBooked = $rooms->checkBookStatus($_GET['courseID']);
+  //$checkIFRequested = $rooms->checkRequested($_GET['courseID']);
   // funciton to display the heading of the table being displayed
   function heading($properties)
   {
@@ -34,7 +35,7 @@
     return $count;
   }
   // function to display rooms from a list of rooms
-  function displayRooms($roomList, $collide,$count)
+  function displayRooms($roomList, $collide,$count, $checkIFRequested, $checkIfBooked,$con)
   {
     if(!empty($roomList))
         {
@@ -49,15 +50,26 @@
               // displaying the fields like Name, Available etc.
               echo "<td>".$room[$i]."</td>";
             }
+            $rooms = new Room($con);
+            $checkIfBooked = $rooms->checkBookStatus($_GET['courseID'], $room["ID"]);
+            $checkIFRequested = $rooms->checkRequested($_GET['courseID'], $room["ID"]);
             // the buttun can send get request with room id i.e. $vacantRoom[0] or $vacantRoom['ID'] and send get class id i.e. $_GET['courseID']
             // checking whether to display the book button or request room button
-            if($collide == 'no')
+            if($collide == 'no' && !$checkIfBooked)
             {
               echo "<td><a href='roomSelected.php?collide=".$collide."&room_id=".$room["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-primary'>Book room</a></td>";
             }
-            else
+            else if($collide == 'no' && $checkIfBooked)
+            {
+              echo "<td><a href='roomSelected.php?course_id=".$_GET['courseID']."&remove' class='btn btn-info'>Cancel room</a></td>";
+            }
+            else if($collide == 'yes' && !$checkIFRequested)
             {
               echo "<td><a href='roomSelected.php?collide=".$collide."&room_id=".$room["ID"]."&course_id=".$_GET['courseID']."' class='btn btn-info'>Request room</a></td>";
+            }
+            else if($collide == 'yes' && $checkIFRequested)
+            {
+              echo "<td><a href='#' class='btn btn-info disabled'>Request room</a></td>";
             }
             echo "</tr>";
           } 
@@ -91,34 +103,28 @@
     <div class='container'>
 
       <?php
-        if(!$checkIfBooked)
-        {
           echo "<h3>Available classes</h3>";
-        }
       ?>
       <table class="table">
         <thead class='thead'>
           <tr>
             <?php 
-            if(!$checkIfBooked)
-            {
               // get the heading for the table to be shown
               $count = heading($properties);  
-            }
             // if the room is already book display button to cancle registration
-            else
-            {
-              echo "<h2>The class is already registered. Please submit the button to cancel registration</h2>";
-              echo "<a href='roomSelected.php?course_id=".$_GET['courseID']."&remove' class='btn btn-warning'>Submit</a>";
-            }
+            //else
+            //{
+              //echo "<h2>The class is already registered. Please submit the button to cancel registration</h2>";
+              //echo "<a href='roomSelected.php?course_id=".$_GET['courseID']."&remove' class='btn btn-warning'>Submit</a>";
+            //}
             
             ?>
           </tr>
         </thead>
         <tbody>
       <?php
-      if(!$checkIfBooked)
-      {
+      //if(!$checkIfBooked)
+      //{
         // getting the IDs of the occupied rooms
         $occupied = $rooms->getOccupiedRooms($_GET['courseID']);
         // getting all the fields from database of all the occupied rooms
@@ -127,8 +133,8 @@
         $vacant = $rooms->getVacantRooms($occupied);
         // getting all the fields from the database of all the vacant rooms
         $vacantRooms = $rooms->getFullRow($vacant);
-        displayRooms($vacantRooms, 'no',$count);
-      }
+        displayRooms($vacantRooms, 'no',$count,$checkIFRequested,  $checkIfBooked,$con);
+      //}
         
         //print_r($occupiedRooms);
         //print_r($vacantRooms);
@@ -138,30 +144,30 @@
        </table>
 <!-- Classes that are not available -->
       <?php
-        if(!$checkIfBooked)
-        {
+        //if(!$checkIfBooked)
+        //{
           echo "<h3>Classes you can request</h3>";
-        }
+        //}
       ?> 
       <table class="table">
         <thead class='thead'>
           <tr>
             <?php
-            if(!$checkIfBooked)
-            {
+            //if(!$checkIfBooked)
+            //{
               // get the heading 
               heading($properties);  
-            }
+            //}
             
             ?>
           </tr>
         </thead>
         <tbody>
       <?php
-      if(!$checkIfBooked)
-      {
-        displayRooms($occupiedRooms, 'yes',$count);
-      }
+      //if(!$checkIfBooked)
+      //{
+        displayRooms($occupiedRooms, 'yes',$count, $checkIFRequested,  $checkIfBooked,$con);
+      //}
        ?>
             
           </tbody>

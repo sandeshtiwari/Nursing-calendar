@@ -29,10 +29,6 @@
 			$databaseQuery = "SELECT Course_ID as id, Number, Title as title
 			FROM course, person WHERE person.CWID = course.Teacher_CWID AND person.email = '$this->email'";
 			$result = mysqli_query($this->con, $databaseQuery);
-			//query to get the start and the end date of the semester, max(id) will g
-			// give the semester with the highest id,i.e. the last input value in the table or the lastest semester added to the table.
-			$dates = mysqli_query($this->con, "SELECT MAX(id), start_date, end_date FROM semester");
-			$dateRows = mysqli_fetch_assoc($dates);
 			// iterate through the classes taught by the teacher
 			while($row = mysqli_fetch_assoc($result))
 			{
@@ -41,9 +37,12 @@
 				$courseDay = mysqli_query($this->con, "SELECT M, T, W, R, F, Start_time, End_time FROM course WHERE Course_ID = '$Course_ID'");
 				$days = mysqli_fetch_assoc($courseDay);
 				$dow = $this->getDaysOfWeek($days);
+				// get the starting and ending dates for the course
+				$dates = mysqli_query($this->con, "SELECT start_date, end_date FROM semester, course WHERE semester.ID = course.Semester_ID AND course.Course_ID = '$Course_ID'");
+				$dateRow = mysqli_fetch_assoc($dates);
 				$row['dow'] = $dow;
-				$row['dowstart'] = date('Y-m-d', strtotime($dateRows['start_date']));
-				$row['dowend'] = date('Y-m-d', strtotime($dateRows['end_date']));
+				$row['dowstart'] = date('Y-m-d', strtotime($dateRow['start_date']));
+				$row['dowend'] = date('Y-m-d', strtotime($dateRow['end_date']));
 				$row['start'] = $days['Start_time'];
 				$row['end'] = $days['End_time'];
 				$data[] = $row;

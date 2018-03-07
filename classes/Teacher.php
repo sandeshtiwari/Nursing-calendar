@@ -10,7 +10,7 @@
 		}
 		public function myClasses()
 		{
-			$string = "SELECT Course_ID, Prefix, Number, Title FROM course, teacher WHERE course.Teacher_CWID = teacher.CWID AND teacher.email = '$this->email'";
+			$string = "SELECT Course_ID, Prefix, Number, Title FROM course, person WHERE course.Teacher_CWID = person.CWID AND person.email = '$this->email'";
 			$check_database_query = mysqli_query($this->con, $string);
 			$rows = array();
 			while($row = mysqli_fetch_assoc($check_database_query))

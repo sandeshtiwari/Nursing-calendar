@@ -3,7 +3,7 @@
 	function check_student($con)
 	{
 		$email = $_SESSION['email'];
-		$check_database_query = mysqli_query($con, "SELECT * FROM student WHERE email = '$email'");
+		$check_database_query = mysqli_query($con, "SELECT * FROM person WHERE email = '$email' AND role = 'student'");
 		$row = mysqli_fetch_array($check_database_query);
 		if(isset($row['email']))
 		{
@@ -15,7 +15,7 @@
 	function check_teacher($con)
 	{
 		$email = $_SESSION['email'];
-		$check_database_query = mysqli_query($con, "SELECT * FROM teacher WHERE email = '$email'");
+		$check_database_query = mysqli_query($con, "SELECT * FROM person WHERE email = '$email' AND role = 'teacher'");
 		$row = mysqli_fetch_array($check_database_query);
 		if(isset($row))
 		{

@@ -43,6 +43,10 @@
 				// get the starting and ending dates for the course
 				$dates = mysqli_query($this->con, "SELECT start_date, end_date FROM semester, course WHERE semester.ID = course.Semester_ID AND course.Course_ID = '$Course_ID'");
 				$dateRow = mysqli_fetch_assoc($dates);
+				$roomString = "SELECT room.Name as roomName FROM room, occupied WHERE room.ID = occupied.Room_ID AND Course_ID = '$Course_ID'";
+				$roomQuery = mysqli_query($this->con, $roomString);
+				$room = mysqli_fetch_assoc($roomQuery);
+				$row['title'] .= "\n".$room['roomName'];
 				$row['dow'] = $dow;
 				$row['dowstart'] = date('Y-m-d', strtotime($dateRow['start_date']));
 				$row['dowend'] = date('Y-m-d', strtotime($dateRow['end_date']));

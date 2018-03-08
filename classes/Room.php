@@ -177,9 +177,9 @@
 			return $row['Coll_ID'];
 		}
 		// function to cancle registration for a course
-		public function cancelRegistration($course_id)
+		public function cancelRegistration($course_id, $room_id)
 		{
-			$string = "DELETE FROM occupied WHERE Course_ID = '$course_id'";
+			$string = "DELETE FROM occupied WHERE Course_ID = '$course_id' AND Room_ID='$room_id'";
 			mysqli_query($this->con, $string);
 		}
 		// method to check if a room is already requested for a course

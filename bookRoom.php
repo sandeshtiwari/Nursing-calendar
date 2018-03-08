@@ -63,7 +63,7 @@
             }
             else if($collide == 'no' && $checkIfBooked)
             {
-              echo "<td><a href='roomSelected.php?course_id=".$_GET['courseID']."&remove' class='btn btn-info'>Cancel room</a></td>";
+              echo "<td><a href='roomSelected.php?course_id=".$_GET['courseID']."&room_id=".$room["ID"]."&remove' class='btn btn-info'>Cancel room</a></td>";
             }
             // checking if a room is already requested or not and checkig which table to display, i.e. 
             else if($collide == 'yes' && !$checkIFRequested)

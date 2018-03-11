@@ -1,6 +1,6 @@
 <?php
 require 'config/config.php';
-if ($_SESSION['previlege'] != 'admin' || isset($_SESSION['email']))
+if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 {
   header("locaton: index.php");
 }

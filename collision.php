@@ -182,16 +182,23 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
             $admin = new Admin($con, $_SESSION['email']);
             $rooms = $admin->giveCollisions();
             //print_r($rooms);
-            foreach($rooms as $room => $details)
+            if(!empty($rooms))
             {
-              $roomName = $admin->giveRoomName($room);
-              echo "<div class='card-header'> A collision in ".$roomName."</div>";
-              echo "<div class='card-body'>";
-              foreach($details as $detail)
+              foreach($rooms as $room => $details)
               {
-                echo $detail['Course_ID']." ".$detail['Prefix']." ".$detail['Number']. " ".$detail['Title']."<br>";
+                $roomName = $admin->giveRoomName($room);
+                echo "<div class='card-header'> A collision in ".$roomName."</div>";
+                echo "<div class='card-body'>";
+                foreach($details as $detail)
+                {
+                  echo $detail['Course_ID']." ".$detail['Prefix']." ".$detail['Number']. " ".$detail['Title']."<br>";
+                }
+                echo "</div>";
               }
-              echo "</div>";
+            }
+            else
+            {
+              echo "<div class='card-header'>No collisins at the time.</div>";
             }
           ?>
           </div>

@@ -111,9 +111,17 @@
 		// method to book a room for a course
 		public function reserveRoom($room_id, $course_id)
 		{
-			$string = "INSERT INTO occupied(Course_ID, Room_ID) VALUES('$course_id', '$room_id')";
+			$latestSem = $this->getLatestSem();
+			$string = "INSERT INTO occupied(Course_ID, Room_ID, Semester_ID) VALUES('$course_id', '$room_id', '$latestSem')";
 			$query = mysqli_query($this->con, $string);
 			return $query;
+		}
+		private function getLatestSem()
+		{
+			$string = "SELECT ID, MAX(end_date) FROM semester LIMIT 1";
+			$query = mysqli_query($this->con, $string);
+			$sem = mysqli_fetch_assoc($query);
+			return $sem['ID'];
 		}
 		// function to check if already booked for a course
 		public function checkBookStatus($course_id, $room_id)
@@ -137,7 +145,8 @@
 			//echo strtotime($startTime);
 			$vacant = array();
 			$collidingCourses = array();
-			$string = "SELECT Course_ID FROM occupied WHERE Course_ID != '$course_id' AND Room_ID = '$room_id'";
+			$string = "SELECT Course_ID, end_date FROM occupied,semester WHERE Course_ID != '$course_id' AND Room_ID = '$room_id'
+			AND end_date = (SELECT MAX(end_date) FROM semester)";
 			$query = mysqli_query($this->con,$string);
 			while( $id = mysqli_fetch_assoc($query))
 			{

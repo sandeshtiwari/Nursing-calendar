@@ -1,6 +1,7 @@
 <?php
 require 'config/config.php';
 require "classes/Admin.php";
+require "classes/Room.php";
 if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 {
   header("locaton: index.php");
@@ -176,11 +177,24 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
       </ol>
       <div class="row">
         <div class="col-12">
+          <div class='card mb-3'>
           <?php 
             $admin = new Admin($con, $_SESSION['email']);
-            echo $admin->giveCollisions();
+            $rooms = $admin->giveCollisions();
+            //print_r($rooms);
+            foreach($rooms as $room => $details)
+            {
+              $roomName = $admin->giveRoomName($room);
+              echo "<div class='card-header'> A collision in ".$roomName."</div>";
+              echo "<div class='card-body'>";
+              foreach($details as $detail)
+              {
+                echo $detail['Course_ID']." ".$detail['Prefix']." ".$detail['Number']. " ".$detail['Title']."<br>";
+              }
+              echo "</div>";
+            }
           ?>
-          <p>Hereeeeeeee</p>
+          </div>
         </div>
       </div>
     </div>

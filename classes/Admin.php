@@ -78,7 +78,14 @@
 				}
 				$allCols[$collisions['Room_ID']] = $courses;
 			}
-			return json_encode($allCols);
+			return $allCols;
+		}
+		public function giveRoomName($room_id)
+		{
+			$string = "SELECT Name FROM room WHERE ID = '$room_id'";
+			$query = mysqli_query($this->con,$string);
+			$name = mysqli_fetch_assoc($query);
+			return $name['Name'];
 		}
 }
 ?>

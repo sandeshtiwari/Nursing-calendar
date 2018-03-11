@@ -56,5 +56,29 @@
 				$dow[] = 5;
 			return $dow;
 		}
-	}
+		public function giveCollisions()
+		{
+			$string = "SELECT DISTINCT Coll_ID, Room_ID FROM collision";
+			$query = mysqli_query($this->con,$string);
+			$allCols = array();
+			while($collisions = mysqli_fetch_assoc($query))
+			{
+				$coll_id = $collisions['Coll_ID'];
+				$string = "SELECT course.Course_ID as Course_ID, Prefix, Number, Title FROM collision,course WHERE collision.Course_ID = course.Course_ID AND Coll_ID = '$coll_id'";
+				$courseQuery = mysqli_query($this->con, $string);
+				$courses = array();
+				while($course = mysqli_fetch_assoc($courseQuery))
+				{
+					$collDetails = array();
+					$collDetails['Course_ID'] = $course['Course_ID'];
+					$collDetails['Prefix'] = $course['Prefix'];
+					$collDetails['Number'] = $course['Number'];
+					$collDetails['Title'] = $course['Title'];
+					$courses[] = $collDetails;
+				}
+				$allCols[$collisions['Room_ID']] = $courses;
+			}
+			return json_encode($allCols);
+		}
+}
 ?>

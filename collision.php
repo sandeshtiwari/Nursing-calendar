@@ -1,5 +1,6 @@
 <?php
 require 'config/config.php';
+require "classes/Admin.php";
 if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 {
   header("locaton: index.php");
@@ -175,7 +176,10 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
       </ol>
       <div class="row">
         <div class="col-12">
-          
+          <?php 
+            $admin = new Admin($con, $_SESSION['email']);
+            echo $admin->giveCollisions();
+          ?>
           <p>Hereeeeeeee</p>
         </div>
       </div>

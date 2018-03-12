@@ -92,5 +92,21 @@
 			$name = mysqli_fetch_assoc($query);
 			return $name['Name'];
 		}
+		public function giveStudents()
+		{
+			$students = array();
+			$string = "SELECT CWID, Fname, Lname, email FROM person WHERE role = 'student'";
+			$query = mysqli_query($this->con, $string);
+			while($student = mysqli_fetch_assoc($query))
+			{
+				$oneStudent = array();
+				$oneStudent['CWID'] = $student['CWID'];
+				$oneStudent['Fname'] = $student['Fname'];
+				$oneStudent['Lname'] = $student['Lname'];
+				$oneStudent['email'] = $student['email'];
+				$students[] = $oneStudent; 
+			}
+			return $students;
+		}
 }
 ?>

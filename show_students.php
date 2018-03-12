@@ -1,5 +1,6 @@
 <?php
 require 'config/config.php';
+require "classes/Admin.php";
 if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 {
   header("locaton: index.php");
@@ -24,6 +25,39 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+  <style type="text/css">
+    #cwidInput {
+    background-position: 10px 12px; /* Position the search icon */
+    background-repeat: no-repeat; /* Do not repeat the icon image */
+    width: 100%; /* Full-width */
+    font-size: 16px; /* Increase font-size */
+    padding: 12px 20px 12px 40px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-bottom: 12px; /* Add some space below the input */
+}
+
+#students {
+    /* Remove default list styling */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#students li a {
+    border: 1px solid #ddd; /* Add a border to all links */
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6; /* Grey background color */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove default text underline */
+    font-size: 18px; /* Increase the font-size */
+    color: black; /* Add a black text color */
+    display: block; /* Make it into a block element to fill the whole list */
+}
+
+#students li a:hover:not(.header) {
+    background-color: #eee; /* Add a hover effect to all links, except for headers */
+}
+  </style>
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -181,7 +215,25 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
       </ol>
       <div class="row">
         <div class="col-12">
-          <p>Show all students here</p>
+          <?php
+            $admin = new Admin($con,$_SESSION['email']);
+            $students = $admin->giveStudents();
+            echo "<input type='text' id='cwidInput' onkeyup='filter()' placeholder='Search by CWID here..'>";
+            echo "<table class='table' id='table'>";
+            echo "<tr>";
+            echo "<th scope = 'col'>CWID</th>";
+            echo "<th scope = 'col'>First Name</th>";
+            echo "<th scope = 'col'>Last Name</th>";
+            echo "<th scope = 'col'>Email</th></tr>";
+            
+            foreach($students as $student)
+            {
+              echo "<tr>";
+              echo "<td><a href ='#'>".$student['CWID']."</a></td><td>".$student['Fname']."</td><td>".$student['Lname']."</td><td>".$student['email']."</td>";
+              echo "</tr>";
+            }
+            echo "</table>";
+          ?>
         </div>
       </div>
     </div>
@@ -216,6 +268,28 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
         </div>
       </div>
     </div>
+    <script>
+    function filter() {
+      // Declare variables
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("cwidInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("table");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+</script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

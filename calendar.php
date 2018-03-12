@@ -39,6 +39,11 @@
     $person = new Student($con, $_GET['email']);
     echo "<h2>".$_GET['student']."'s</h2>";
   }
+  else if(isset($_GET['email']) && isset($_GET['teacher']) && ($_SESSION['privilege'] == 'admin'))
+  {
+    $person = new Teacher($con, $_GET['email']);
+    echo "<h2>".$_GET['teacher']."'s</h2>";
+  }
   $json = $person->getJSON();
 ?>
 <!DOCTYPE html>

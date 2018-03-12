@@ -37,6 +37,12 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="admin_page.php">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Rooms</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
           <a class="nav-link" href="calendar.php">
             <i class="fa fa-fw fa-dashboard"></i>
@@ -47,6 +53,18 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="show_students.php">
+            <i class="fa fa-fw fa-graduation-cap"></i>
+            <span class="nav-link-text">Students</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="show_teachers.php">
+            <i class="fa fa-fw fa-leanpub"></i>
+            <span class="nav-link-text">Teachers</span>
           </a>
         </li>
 

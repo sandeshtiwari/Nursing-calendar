@@ -93,6 +93,12 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
             <span class="nav-link-text">Students</span>
           </a>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="show_teachers.php">
+            <i class="fa fa-fw fa-leanpub"></i>
+            <span class="nav-link-text">Teachers</span>
+          </a>
+        </li>
 
         <!--
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">

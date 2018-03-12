@@ -216,7 +216,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="show_students.php"><h3>All Students</h3></a>
+          <a href="show_teachers.php"><h3>All Teachers</h3></a>
         </li>
       </ol>
       <div class="row">

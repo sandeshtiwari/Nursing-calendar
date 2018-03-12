@@ -6,7 +6,7 @@
 		public function __construct($con, $email)
 		{
 			$this->con = $con;
-			$this->email = $_SESSION['email'];
+			$this->email = $email;
 		}
 		public function getJSON()
 		{

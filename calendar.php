@@ -33,6 +33,12 @@
   {
     $person = new Student($con, $_SESSION['email']);
   }
+  // if the admin wants to view a specific student's calendar
+  if(isset($_GET['email']) && isset($_GET['student']) && ($_SESSION['privilege'] == 'admin'))
+  {
+    $person = new Student($con, $_GET['email']);
+    echo "<h2>".$_GET['student']."'s</h2>";
+  }
   $json = $person->getJSON();
 ?>
 <!DOCTYPE html>

@@ -115,5 +115,22 @@
 			$person = mysqli_fetch_assoc($query);
 			return $person['email'];
 		}
+		public function giveTeachers()
+		{
+			$teachers = array();
+			$string = "SELECT CWID, Fname, Lname, email FROM person WHERE role = 'teacher'";
+			$query = mysqli_query($this->con, $string);
+			while($teacher = mysqli_fetch_assoc($query))
+			{
+				$oneTeacher = array();
+				$oneTeacher['CWID'] = $teacher['CWID'];
+				$oneTeacher['Fname'] = $teacher['Fname'];
+				$oneTeacher['Lname'] = $teacher['Lname'];
+				$oneTeacher['email'] = $teacher['email'];
+				$teachers[] = $oneTeacher; 
+			}
+			return $teachers;
+
+		}
 }
 ?>

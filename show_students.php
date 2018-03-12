@@ -229,7 +229,8 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
             foreach($students as $student)
             {
               echo "<tr>";
-              echo "<td><a href ='#'>".$student['CWID']."</a></td><td>".$student['Fname']."</td><td>".$student['Lname']."</td><td>".$student['email']."</td>";
+              $email = $admin->getEmail($student['CWID'], "student");
+              echo "<td><a href ='calendar.php?email=".$email."&student'>".$student['CWID']."</a></td><td>".$student['Fname']."</td><td>".$student['Lname']."</td><td>".$student['email']."</td>";
               echo "</tr>";
             }
             echo "</table>";

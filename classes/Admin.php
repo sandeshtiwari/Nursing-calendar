@@ -108,5 +108,12 @@
 			}
 			return $students;
 		}
+		public function getEmail($cwid, $privilege)
+		{
+			$string = "SELECT email FROM person WHERE CWID = '$cwid' AND role = '$privilege'";
+			$query = mysqli_query($this->con, $string);
+			$person = mysqli_fetch_assoc($query);
+			return $person['email'];
+		}
 }
 ?>

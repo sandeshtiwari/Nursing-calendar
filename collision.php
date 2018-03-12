@@ -180,15 +180,20 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
           <div class='card mb-3'>
           <?php 
             $admin = new Admin($con, $_SESSION['email']);
+            // get rooms with collisions as key and details of the class as value
             $rooms = $admin->giveCollisions();
             //print_r($rooms);
             if(!empty($rooms))
             {
+              // displaying collisions
               foreach($rooms as $room => $details)
               {
+                // getting the name of a room using room name
                 $roomName = $admin->giveRoomName($room);
+                // displaying room name
                 echo "<div class='card-header'> A collision in ".$roomName."</div>";
                 echo "<div class='card-body'>";
+                // displaying classes which are colliding
                 foreach($details as $detail)
                 {
                   echo $detail['Course_ID']." ".$detail['Prefix']." ".$detail['Number']. " ".$detail['Title']."<br>";
@@ -198,6 +203,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
             }
             else
             {
+              // display message if no collision exists
               echo "<div class='card-header'>No collisins at the time.</div>";
             }
           ?>

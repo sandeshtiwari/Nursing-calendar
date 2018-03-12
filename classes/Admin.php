@@ -56,17 +56,21 @@
 				$dow[] = 5;
 			return $dow;
 		}
+		// method to  return an array with the rooms with collisions and collisions
 		public function giveCollisions()
 		{
 			$string = "SELECT DISTINCT Coll_ID, Room_ID FROM collision";
 			$query = mysqli_query($this->con,$string);
 			$allCols = array();
+			// going over each collisions
 			while($collisions = mysqli_fetch_assoc($query))
 			{
 				$coll_id = $collisions['Coll_ID'];
+				// selecting courses with a particular collision id
 				$string = "SELECT course.Course_ID as Course_ID, Prefix, Number, Title FROM collision,course WHERE collision.Course_ID = course.Course_ID AND Coll_ID = '$coll_id'";
 				$courseQuery = mysqli_query($this->con, $string);
 				$courses = array();
+				// going over courses which are colliding
 				while($course = mysqli_fetch_assoc($courseQuery))
 				{
 					$collDetails = array();
@@ -80,6 +84,7 @@
 			}
 			return $allCols;
 		}
+		// method to give the name of a room given a room id
 		public function giveRoomName($room_id)
 		{
 			$string = "SELECT Name FROM room WHERE ID = '$room_id'";

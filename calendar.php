@@ -19,7 +19,7 @@
   $display = "";
   if($_SESSION['privilege'] == 'admin')
   {
-    $display = "<a href='admin_page.php'></a>";
+    $display = "<a href='admin_page.php'>Admin Page</a>";
     $person = new Admin($con, $_SESSION['email']);
   }
   else if($_SESSION['privilege'] == 'teacher')
@@ -189,7 +189,7 @@
     font-size: 1em;
     margin-top: 1.0em;
     margin-bottom: 1.0em;
-    margin-left: 6.0em;
+    margin-left: 4.0em;
     margin-right: 0;
     font-weight: bold;
 }
@@ -317,6 +317,7 @@ img {
  <br/>
  <br/>
  <br/>
+
  <br/>
 </div> 
  <div id='calendar'></div>

@@ -16,8 +16,6 @@
   {
     $_SESSION['privilege'] = 'teacher';
   }
-  echo "Welcome ". $_SESSION['username']."<br/>";
-  echo $_SESSION['privilege'];
   $display = "";
   if($_SESSION['privilege'] == 'admin')
   {
@@ -74,8 +72,14 @@
 
 
  $(document).ready(function() {
+
+
+
+
   $('#calendar').fullCalendar({
-  
+        
+      
+
         eventRender: function(event, element, view) {
 
         var theDate = event.start
@@ -91,20 +95,66 @@
         }
         
         },
+        windowResize: function(view) {
+  },
+
+  
+
+    customButtons: {
+    myCustomButton: {
+      text: 'Print',
+      click: function() {
+
+     $('.fc-agendaWeek-button').hide();
+     $('.fc-agendaDay-button').hide();
+     $('.fc-month-button').hide();
+     $('.fc-prev-button').hide();
+     $('.fc-next-button').hide();
+     $('.fc-today-button').hide();
+     $('.fc-myCustomButton-button').hide();
+      window.print();
+     $('.fc-agendaWeek-button').show();
+     $('.fc-agendaDay-button').show();
+     $('.fc-month-button').show();
+     $('.fc-prev-button').show();
+     $('.fc-next-button').show();
+     $('.fc-today-button').show();
+     $('.fc-myCustomButton-button').show();
+        
+    
+       
+      }
+    }
+  },
 
         defaultView: 'month',
         nowIndicator: true,
         theme: true,
         default: 'false',
 
-
+         
         header: {
         left: 'prev,next today',
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
         },
+        
+        buttonText: {
+        prev: '<',
+        next: '>',
+        today: 'Today',
+        month: 'Month',
+        agendaWeek: 'Week',
+        agendaDay: 'Day',
+        },
+
+         footer: {
+         right: 'myCustomButton'
+        },
         //defaultDate: '2016-01-15T16:00:00',
         events: giveEvents()
+
+          
   });
   function giveEvents()
   {
@@ -123,7 +173,7 @@
 
  body {
 
-  margin-top: 40px;
+  margin-top: 0px;
 
   text-align: center;
 
@@ -133,6 +183,26 @@
 
   background-color: #F5F5F5;
   }
+
+  h4 { 
+    display: block;
+    font-size: 1em;
+    margin-top: 1.0em;
+    margin-bottom: 1.0em;
+    margin-left: 6.0em;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+  .footer {
+   position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0px;
+  background-color: #000000;
+  text-align: center;
+}
 
  #calendar {
 
@@ -145,24 +215,28 @@
   }
 
   ul {
+
     list-style-type: none;
-    margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #AA1F01;
+    background-color: #6f0029;
 }
 
 li {
     float: left;
+     margin-top: 1.0em;
+    margin-bottom: 1.0em;
     border-right:1px solid #bbb;
 }
 
 li:last-child {
-    border-right: none;
+   margin-top: 1.0em;
+    margin-bottom: 1.0em;
+    border-left: 1px solid #bbb;
 }
 
 li a {
-    display: block;
+    display: inline-block;
     color: white;
     text-align: center;
     padding: 14px 16px;
@@ -175,13 +249,14 @@ li a:hover:not(.active) {
 
 .active {
     background-color: #870505;
+    
 }
 img {  
   
     background: url('ulm_logo.png');
     background-repeat:repeat-x;
     background-position:top;
-    margin-top:90px;
+    margin-top:0px;
 }
 
 
@@ -190,43 +265,75 @@ img {
  
 </style>
 
-</head>
+<style type="text/css" media="print">
+   .no-print { display: none; }
+</style>
 
+</head>
+<div class="no-print">
 
 <body>
 
 
 
 <ul>
+ 
+  <a class="navbar-brand" rel="home" href="#" title="University of Louisiana at Monroe">      
   
-<a class="navbar-brand" rel="home" href="#" title="University of Louisiana at Monroe">
-        <img style="max-width:140px; margin-top: 7px;"
-             src="ulm_logo.png" class="img-circle" align="middle" >
+  <h4 align="center" style="color: #ffffff"> <?php 
+  echo "Welcome ". $_SESSION['username']." ";
+  ?> 
+  </h4>
+   
     </a>
  
+ 
 
-  
 
   <li><a href="#home">Home</a></li>
   <li><a href="#news">News</a></li>
- 
+  
+  
+  
 
   <li style="float:right"><a href="logout.php">Logout</a></li>
-  <li style="float:right"><a href="admin_page.php">My Admin Page</a></li>
+  <li style="float:right">
+
+  <?php
+  echo "".$display;
+ ?>
+
+  </li>
+  
+
+
+  
 </ul> 
 
- <h2 style="color:#AA1F01";>Nursing Calendar</h2>
+ <img style="max-width:500px; margin-top: 7px;"
+             src="nursing101.png" class="img-circle" align="middle" >
  
- <?php
-  echo "<br/>".$display;
- ?>
+ 
  <br/>
  <br/>
-
+ <br/>
+ <br/>
+</div> 
  <div id='calendar'></div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
+<div class="no-print">
 
+  <div id="footer" >
+  <p>Made by TeamGamma2018</p>
+  </div>
 
+</div>
 
 
 </body>

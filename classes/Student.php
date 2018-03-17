@@ -11,20 +11,24 @@
 		public function getJSON()
 		{
 			$data = array();
-			$databaseQuery = "SELECT course.Course_ID as id, Number, Title as title 
-			FROM course, registered, person WHERE 
-			course.Course_ID = registered.Course_ID AND registered.CWID = person.CWID AND person.email = '$this->email'";
+			$databaseQuery = "SELECT DISTINCT occupied_ID, occupied.Course_ID as id, Number, Title as title
+			FROM course, person, occupied, registered 
+			WHERE registered.Course_ID = course.Course_ID AND person.CWID = registered.CWID AND occupied.Course_ID = course.Course_ID AND person.email = '$this->email'";
 			$result = mysqli_query($this->con, $databaseQuery);
 			while($row = mysqli_fetch_assoc($result))
 			{
 				$Course_ID = $row['id'];
+				$occupied_ID = $row['occupied_ID'];
+				$dates = mysqli_query($this->con, "SELECT MIN(start_date) as start_date, MAX(end_date) as end_date FROM occupied, week
+				 WHERE occupied.Week_ID = week.ID AND occupied.Course_ID = '$Course_ID' AND occupied_ID = '$occupied_ID'");
+				$dateRow = mysqli_fetch_assoc($dates);
 				// query to get the days and class time for a class
-				$courseDay = mysqli_query($this->con, "SELECT M, T, W, R, F, Start_time, End_time FROM course WHERE Course_ID = '$Course_ID'");
+				$courseDay = mysqli_query($this->con, "SELECT O.M, O.T, O.W, O.R, O.F, Start_time, End_time FROM course, occupied as O 
+					WHERE O.Course_ID = course.Course_ID AND O.Course_ID = '$Course_ID' AND O.occupied_ID = '$occupied_ID'");
 				$days = mysqli_fetch_assoc($courseDay);
 				$dow = $this->getDaysOfWeek($days);
-				$dates = mysqli_query($this->con, "SELECT start_date, end_date FROM semester, course WHERE semester.ID = course.Semester_ID AND course.Course_ID = '$Course_ID'");
-				$dateRow = mysqli_fetch_assoc($dates);
-				$row['title'] .= $this->getRoomNames($Course_ID);
+				$row['title'] .= $this->getRoomNames($Course_ID, $occupied_ID);
+				$row['title'] = $Course_ID." ".$row['title'];
 				$row['dow'] = $dow;
 				$row['dowstart'] = date('Y-m-d', strtotime($dateRow['start_date']));
 				$row['dowend'] = date('Y-m-d', strtotime($dateRow['end_date']));

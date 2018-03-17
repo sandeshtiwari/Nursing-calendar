@@ -59,6 +59,18 @@
 			//print_r($occupied);
 			return $occupiedDays;
 		}
+        // method to get an array with the weeks as per the given start-date and end-date for a given semester
+		public function getWeeksArray($start_date, $end_date,$semester)
+		{
+			$string = "SELECT ID as week_id FROM week WHERE start_date >= '$start_date' AND end_date <= '$end_date' AND semester_ID = '$semester'";
+			$query = mysqli_query($this->con, $string);
+			$weeks = array();
+			while($id = mysqli_fetch_assoc($query))
+			{
+				$weeks[] = $id['week_id'];
+			}
+			return $weeks;
+		}
         // method to get the days of week for which a course is assigned for a given semester
 		public function getDaysOfWeek($course_id,$semester_id)
 		{

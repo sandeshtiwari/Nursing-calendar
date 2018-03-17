@@ -438,6 +438,18 @@
 			$row = mysqli_fetch_assoc($query);
 			return $row['Coll_ID'];
 		}
+        // method to get a unique occupied id which is not already in the table
+		private function getUniqueOccupiedID()
+		{
+			$string = "SELECT MAX(occupied_ID) as occupied_id FROM occupied";
+			$query = mysqli_query($this->con, $string);
+			$row = mysqli_fetch_assoc($query);
+			if(empty($row))
+			{
+				return 1;
+			}
+			return $row['occupied_id']+1;
+		}
 		// function to cancle registration for a course
 		public function cancelRegistration($course_id, $room_id)
 		{

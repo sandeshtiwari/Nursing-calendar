@@ -1,29 +1,42 @@
 <?php
 	require "config/config.php";
 	require "classes/Room.php";
+	require "classes/Teacher.php";
 	$room = new Room($con);
-	if($_GET['collide'] == 'no')
+	$teacher = new Teacher($con, $_SESSION['email']);
+	$semester_id = $teacher->getLatestSem();
+	if(isset($_POST['request']))
 	{
-		if($room->reserveRoom($_GET['room_id'],$_GET['course_id']))
+		echo "requesting";
+		if(!isset($_POST['requestDays']))
 		{
-			header('Location: register.php?registered=yes');
+			echo "days not selected";
 		}
 		else
 		{
-			header('Location: register.php?registered=no');
+			echo "days selected";
 		}
-
 	}
-	// if there is a collision
-	else if($_GET['collide'] == 'yes')
+	else if(isset($_POST['book']))
 	{
-		$room->addCollision($_GET['course_id'], $_GET['room_id']);
-		header("Location: register.php?requested");	
+		//echo "booking ";
+		if(!isset($_POST['bookDays']))
+		{
+			header("Location: register.php?days");
+		}
+		else
+		{
+			//echo "days selected ";
+			//print_r($_POST['bookDays']);
+			//print_r($_POST['weeks']);
+			//echo $_POST['room_id']. " ";
+			//echo $_POST['course_id'];
+			$room->reserveRoom($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['bookDays']);
+			header("Location: register.php?registered=yes");
+		}
 	}
-	// if the teacher cancles the registration
-	if(isset($_GET['remove']) && isset($_GET['course_id']) && isset($_GET['room_id']))
+	else
 	{
-		$room->cancelRegistration($_GET['course_id'], $_GET['room_id']);
-		header("Location: register.php?cancled");
+		header("Location: calendar.php");
 	}
 ?>

@@ -145,5 +145,34 @@
 			$query = mysqli_query($this->con, $string);
 			$this->fillWeeks($id,$start_date,$end_date);
 		}
+        // to fill the weeks week and semester
+		private function fillWeeks($Semester_ID, $sem_start_date, $sem_end_date)
+		{
+			$startWeek=date("W",strtotime($sem_start_date));
+			$year=date("Y",strtotime($sem_start_date));
+			$endWeek = date("W",strtotime($sem_end_date));
+			while($startWeek > $endWeek)
+			{
+			    $result = $this->getWeekDates($startWeek,$year);
+			    $week_start_date = $result['start'];
+			    $week_end_date = $result['end'];
+			    $string = "INSERT INTO week(ID, semester_ID, start_date, end_date) VALUES('$startWeek', '$Semester_ID', '$week_start_date', '$week_end_date')";
+			    $query = mysqli_query($this->con, $string);
+			    $startWeek++;
+			    if($startWeek > 52)
+			    {
+			        $startWeek = 1;
+			        $year += 1;
+			    }
+			}
+			for($i=$startWeek;$i<=$endWeek;$i++) {
+			    $result=$this->getWeekDates($i,$year);
+			    $week_start_date = $result['start'];
+			    $week_end_date = $result['end'];
+			    $string = "INSERT INTO week(ID, semester_ID, start_date, end_date) VALUES('$i', '$Semester_ID', '$week_start_date', '$week_end_date')";
+			    $query = mysqli_query($this->con, $string);
+			}
+
+		}
 }
 ?>

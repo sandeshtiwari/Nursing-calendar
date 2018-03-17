@@ -242,6 +242,22 @@
 			}
 			return $this->sortWeek($days);
 		}
+        // method to sort a given array with weekdays in ascending order
+		private function sortWeek($days)
+		{
+			$sortedWeek = array('M','T','W','R','F');
+			$finalWeekArray = array();
+			//A simple loop that traverses all elements of the template...
+			foreach($sortedWeek as $day)
+			{
+			    //If the value in the template exists as a key in the actual array.. (condition)
+			    if(array_key_exists($day,$days))
+			    {
+			        $finalWeekArray[$day]=$days[$day]; //The value is assigned to the new array and the key of the actual array is assigned as a value to the new array
+			    }
+			}
+			return $finalWeekArray;
+		}
 		private function getStartTime($course_id)
 		{
 			$string = "SELECT Start_time FROM course WHERE Course_id = '$course_id' LIMIT 1";

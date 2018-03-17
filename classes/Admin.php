@@ -135,5 +135,15 @@
 			return $teachers;
 
 		}
+        public function setSemesterDates($id,$name, $start_date, $end_date)
+		{
+			if($end_date < $start_date)
+			{
+				return false;
+			}
+			$string = "INSERT INTO semester(ID, semester, start_date, end_date) VALUES('$id','$name','$start_date','$end_date')";
+			$query = mysqli_query($this->con, $string);
+			$this->fillWeeks($id,$start_date,$end_date);
+		}
 }
 ?>

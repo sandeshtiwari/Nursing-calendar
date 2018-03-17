@@ -9,38 +9,55 @@
 			$this->con = $con;
 		}
 		// method to get all the occupied rooms IDs for a given course
-		public function getOccupiedRooms($course_id)
+		public function getOccupiedRoomAndDays($course_id,$semester_id,$weeks)
 		{
+			$startTime = $this->getStartTime($course_id,$semester_id);
+			$endTime = $this->getEndTime($course_id,$semester_id);
+			$daysOfWeek = $this->getDaysOfWeek($course_id, $semester_id);
 			//echo 'here';
-			$startTime = $this->getStartTime($course_id);
-			$endTime = $this->getEndTime($course_id);
-			$daysOfWeek = $this->getDaysOfWeek($course_id);
-			//echo strtotime($startTime);
-			$vacant = array();
-			$occupied = array();
-			$string = "SELECT Room_ID, Course_ID FROM occupied WHERE Course_ID != '$course_id'";
-			$query = mysqli_query($this->con,$string);
-			while( $id = mysqli_fetch_assoc($query))
+			//print_r($daysOfWeek);
+			$occupiedDays = array();
+			foreach($weeks as $week)
 			{
-				//print_r($id['Room_ID']);
-				//echo $id['Room_ID']." ".$id['Course_ID'];
-				if($daysOfWeek == ($this->getDaysOfWeek($id['Course_ID'])))
+				//echo "SELECT Room_ID, Course_ID FROM occupied WHERE Semester_ID = '$semester_id' AND Week_ID='$week'";
+				$string = "SELECT Room_ID, Course_ID FROM occupied WHERE Semester_ID = '$semester_id' AND Week_ID='$week'";
+				$query = mysqli_query($this->con,$string);
+				//$id = mysqli_fetch_assoc($query);
+				//print_r($id);
+				while( $id = mysqli_fetch_assoc($query))
 				{
-					//echo 'here';
-					$cStartTime = $this->getStartTime($id['Course_ID']);
-					$cEndTime = $this->getEndTime($id['Course_ID']);
-					if(($cStartTime >= $startTime && $cStartTime <= $endTime) || ($cEndTime >= $startTime && $cEndTime <= $endTime))
+					// getting the days which are occupied for a week, i.e. for $week
+					$daysOccupied = $this->getDaysOccupiedOfWeek($id['Course_ID'], $semester_id, $week);
+					// getting the days that are conflicting for the given course for a certain week for a seleted room
+					$conflictingDays = $this->getAllCommonOccupiedDays($daysOfWeek,$daysOccupied);
+					//print_r($conflictingDays);
+					// if there are days that are conflicting
+					if(!empty($conflictingDays))
 					{
-						$occupied[] = $id['Room_ID'];
-						//echo 'here';
+						$cStartTime = $this->getStartTime($id['Course_ID'], $semester_id);
+						$cEndTime = $this->getEndTime($id['Course_ID'], $semester_id);
+						// if the time is also conflicting then store the value as the conflicting day and key as the room
+						if(($cStartTime >= $startTime && $cStartTime <= $endTime) || ($cEndTime >= $startTime && $cEndTime <= $endTime))
+						{
+							// if some days are already conflicting for a room using temp to append to the existing one
+							if(isset($occupiedDays[$id['Room_ID']]))
+							{
+								$temp = $occupiedDays[$id['Room_ID']];
+							}
+							else
+							{
+								$temp = array();
+							}
+							// storing the key as the room which is conflicting and value as the days that are conflicting
+							$occupiedDays[$id['Room_ID']] = array_merge($temp, $conflictingDays);
+							// once a conflict is found for a room for a given week, break the loop and search for other weeks' conflicts 
+							break;
+						}
 					}
 				}
 			}
 			//print_r($occupied);
-			return $occupied;
-			//$vacant = $this->giveFreeRooms($occupied);
-			//print_r($vacant);
-			//return $this->getAllRooms($vacant, $occupied);
+			return $occupiedDays;
 		}
 		// method to get all the properties of the rooms from the nursing building
 		public function getRoomProperties()

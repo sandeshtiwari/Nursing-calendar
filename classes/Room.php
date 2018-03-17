@@ -172,18 +172,22 @@
 			return $id;
 		}
 		// method to get all the vacant rooms with by using all the occupied rooms
-		public function getVacantRooms($occupied)
+		public function getVacantRooms($occupied, $semester_id)
 		{
 			$vacant = array();
 			$string = "SELECT ID FROM room";
 			$query = mysqli_query($this->con, $string);
+			$vacantRooms = array();
 			while($roomID = mysqli_fetch_assoc($query))
 			{
 				//echo $roomID['ID'];
 				if(!in_array($roomID['ID'], $occupied))
 				{
-					$vacant[] = $roomID['ID'];
+					$days = $this->getOccupiedDaysForRoom($roomID['ID'], $semester_id);
+					//echo $roomID['ID'] . " ";
+					$vacant[$roomID['ID']] = $days;
 				}
+				$vacantRooms[] = $vacant;
 			}
 			return $vacant;
 		}

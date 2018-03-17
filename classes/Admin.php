@@ -36,16 +36,13 @@
 			}
 			return json_encode($data);
 		}
-		private function getRoomNames($Course_ID)
+		private function getRoomNames($Course_ID, $occupied_ID)
 		{
-			$roomString = "SELECT room.Name as roomName FROM room, occupied WHERE room.ID = occupied.Room_ID AND Course_ID = '$Course_ID'";
+			$roomString = "SELECT room.Name as roomName FROM room, occupied WHERE room.ID = occupied.Room_ID AND Course_ID = '$Course_ID' AND occupied_ID = '$occupied_ID' LIMIT 1";
 			$roomQuery = mysqli_query($this->con, $roomString);
-			$rooms = "";
-			while($room = mysqli_fetch_assoc($roomQuery))
-			{
-				$rooms .= "\n".$room['roomName'];
-			}
-			return $rooms;
+			$room = mysqli_fetch_assoc($roomQuery);
+			//echo $room['roomName'];
+			return "\n".$room['roomName'];
 		}
 		private function getDaysOfWeek($days)
 		{

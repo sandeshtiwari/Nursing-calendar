@@ -191,6 +191,57 @@
 			}
 			return $vacant;
 		}
+        // method to get all the occupied days for a room in a given semester
+		private function getOccupiedDaysForRoom($room_id, $semester_id)
+		{
+			$string = "SELECT Room_ID, M, T, W, R, F FROM occupied WHERE Room_ID = '$room_id' AND Semester_ID = '$semester_id'";
+			$query = mysqli_query($this->con, $string);
+			$days = array();
+			while($row = mysqli_fetch_assoc($query))
+			{
+				if($row['M'] == 'yes' && !in_array('M', $days))
+				{
+					$days['M'] = 'yes';
+				}
+				if($row['T'] == 'yes' && !in_array('T', $days))
+				{
+					$days['T'] = 'yes';
+				}
+				if($row['W'] == 'yes' && !in_array('W', $days))
+				{
+					$days['W'] = 'yes';
+				}
+				if($row['R'] == 'yes' && !in_array('R', $days))
+				{
+					$days['R'] = 'yes';
+				}
+				if($row['F'] == 'yes' && !in_array('F', $days))
+				{
+					$days['F'] = 'yes';
+				}
+			}
+			if(!isset($days['M']))
+			{
+				$days['M'] = 'no';
+			}
+			if(!isset($days['T']))
+			{
+				$days['T'] = 'no';
+			}
+			if(!isset($days['W']))
+			{
+				$days['W'] = 'no';
+			}
+			if(!isset($days['R']))
+			{
+				$days['R'] = 'no';
+			}
+			if(!isset($days['F']))
+			{
+				$days['F'] = 'no';
+			}
+			return $this->sortWeek($days);
+		}
 		private function getStartTime($course_id)
 		{
 			$string = "SELECT Start_time FROM course WHERE Course_id = '$course_id' LIMIT 1";

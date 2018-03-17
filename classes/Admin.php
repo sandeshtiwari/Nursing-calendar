@@ -174,5 +174,11 @@
 			}
 
 		}
+        private function getWeekDates($week, $year) {
+		  $dto = new DateTime();
+		  $result['start'] = $dto->setISODate($year, $week, 0)->format('Y-m-d');
+		  $result['end'] = $dto->setISODate($year, $week, 6)->format('Y-m-d');
+		  return $result;
+		}
 }
 ?>

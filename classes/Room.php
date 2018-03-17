@@ -342,13 +342,14 @@
 			$row = mysqli_fetch_assoc($query);
 			return $row['End_time'];
 		}
-		private function getDaysOfWeek($course_id)
+		// method to get the occupied days for a course in the given week for a given semester
+		private function getDaysOccupiedOfWeek($course_id, $semester_id, $week)
 		{
-			$string = "SELECT M, T, W, R, F FROM course WHERE Course_id = '$course_id'";
+			$string = "SELECT M, T, W, R, F FROM occupied WHERE Course_ID = '$course_id' AND Semester_ID = '$semester_id' AND Week_ID = '$week'";
 			$query = mysqli_query($this->con, $string);
-			$row = mysqli_fetch_assoc($query);
+			$days = mysqli_fetch_assoc($query);
 			//print_r($row);
-			return $row;
+			return $days;
 		}
 		// method to book a room for a course
 		public function reserveRoom($room_id, $course_id)

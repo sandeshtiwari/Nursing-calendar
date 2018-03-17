@@ -59,6 +59,15 @@
 			//print_r($occupied);
 			return $occupiedDays;
 		}
+        // method to get the days of week for which a course is assigned for a given semester
+		public function getDaysOfWeek($course_id,$semester_id)
+		{
+			$string = "SELECT M, T, W, R, F FROM course WHERE Course_ID = '$course_id' AND Semester_ID='$semester_id' LIMIT 1";
+			$query = mysqli_query($this->con, $string);
+			$rows = array();
+			$row = mysqli_fetch_assoc($query);
+			return $row;
+		}
 		// method to get all the properties of the rooms from the nursing building
 		public function getRoomProperties()
 		{

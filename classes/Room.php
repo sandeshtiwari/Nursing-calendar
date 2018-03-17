@@ -59,6 +59,17 @@
 			//print_r($occupied);
 			return $occupiedDays;
 		}
+        // method to get the intersection days between weeks
+		private function getAllCommonOccupiedDays($week1, $week2)
+		{
+			$intersection = array_intersect_assoc($week1, $week2);
+			foreach($intersection as $day=>$value)
+			{
+				if($value == 'no')
+					unset($intersection[$day]);
+			}
+			return $intersection;
+		}
         public function getRoomFromKeys($array)
 		{
 			$rooms = array();

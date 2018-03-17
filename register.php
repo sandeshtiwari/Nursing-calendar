@@ -26,6 +26,7 @@
         $classes = $teacher->myClasses();
         if(isset($classes))
         {
+          //print_r($classes);
           echo "<h2>Register a room for your classes.</h2>";
           // display message if registered or not
           if(isset($_GET['registered']) && $_GET['registered'] == 'yes')
@@ -55,16 +56,46 @@
                     Successfully cancled registration.
                   </div>";
           }
-          echo "<ul class='list-group'>";
+          if(isset($_GET['date']))
+          {
+            echo "<div class='alert alert-danger' role='alert'>
+                    Please enter a valid date range.
+                  </div>";
+          }
+          echo "<table class='table'>";
           $hassedEmail = password_hash($_SESSION['email'], PASSWORD_DEFAULT);
+          $latestSem = $teacher->getLatestSem();
+          $weekDates = $teacher->getWeekDates($latestSem);
+          //print_r($weekDates);
           //print_r($classes);
           foreach($classes as $class)
           {
             $parts = explode(" ",$class);
-            echo "<li class='list-group-item list-group-item-light'>".$class."
-            <a href='bookRoom.php?email=".$hassedEmail."&courseID=".$parts[0]."' class='btn btn-primary'>Register</a></li>";
+            echo "<tr>";
+            echo "<td class='list-group-item list-group-item-light'>".$class."</td>";
+            echo "<form method='POST' action='bookRoom.php'>";
+            echo "<input type= 'hidden' name = 'email' id='email' value=".$hassedEmail.">";
+            echo "<input type= 'hidden' name = 'courseID' id='courseID' value=".$parts[0].">";
+            echo "<td><select class='form-control' name = 'start_date'>";
+            echo "<option>Select Start-date</option>";
+            for($i = 0; $i<sizeof($weekDates); $i++)
+            {
+              echo "<option>".$weekDates[$i]['start_date']."</option>";
+            }
+            echo "</select>";
+            echo "<td>";
+            echo "<td><select class='form-control' name = 'end_date'>";
+            echo "<option>Select End-date</option>";
+            for($i = 0; $i<sizeof($weekDates); $i++)
+            {
+              echo "<option>".$weekDates[$i]['end_date']."</option>";
+            }
+            echo "</select>";
+            echo "<td>";
+            echo "<td><input type = 'submit' value ='Register' class='btn btn-primary value ='Register'></td>";
+            echo "</form></tr>";
           }
-          echo "</ul>";
+          echo "</table>";
         }
         else
         {

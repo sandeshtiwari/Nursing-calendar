@@ -288,6 +288,44 @@
 			}
 			return $this->sortWeek($filledWeeks);
 		}
+        public function checkVacancy($occupiedDays, $course_id, $semester_id)
+		{
+			//echo $semester_id."          ".$course_id;
+			$courseDays = $this->getDaysOfWeek($course_id, $semester_id);
+			//print_r($courseDays);
+			$days['M'] = 'no';
+			$days['T'] = 'no';
+			$days['W'] = 'no';
+			$days['R'] = 'no';
+			$days['F'] = 'no';
+			
+			if(isset($occupiedDays['M']))
+			{
+				$days['M'] = 'yes';
+			}
+			if(isset($occupiedDays['T']))
+			{
+				$days['T'] = 'yes';
+			}
+			if(isset($occupiedDays['W']))
+			{
+				$days['W'] = 'yes';
+			}
+			if(isset($occupiedDays['R']))
+			{
+				$days['R'] = 'yes';
+			}
+			if(isset($occupiedDays['F']))
+			{
+				$days['F'] = 'yes';
+			}
+			//print_r($days);
+			if($days == $courseDays)
+			{
+				return false;
+			}
+			return true;
+		}
 		private function getStartTime($course_id)
 		{
 			$string = "SELECT Start_time FROM course WHERE Course_id = '$course_id' LIMIT 1";

@@ -59,6 +59,51 @@
 			//print_r($occupied);
 			return $occupiedDays;
 		}
+        // method to give the days booked for a certain week for a ceratin room
+		private function getDaysOfWeekRoom($room_id, $week)
+		{
+			$string = "SELECT M, T, W, R, F FROM occupied WHERE Room_ID = '$room_id' AND Week_ID = '$week'";
+			$query = mysqli_query($this->con, $string);
+			$daysBooked = array();
+			$daysBooked['M'] = 'no';
+			$daysBooked['T'] = 'no';
+			$daysBooked['W'] = 'no';
+			$daysBooked['R'] = 'no';
+			$daysBooked['F'] = 'no';
+			//echo "here";
+			//print_r($daysBooked);			
+			while($classBookedDays = mysqli_fetch_assoc($query))
+			{
+				//print_r($classBookedDays);
+				if($classBookedDays['M'] == 'yes' && $daysBooked['M'] == 'no')
+				{
+					$daysBooked['M'] = 'yes';
+					//echo $daysBooked['M'];
+				}
+				if($classBookedDays['T'] == 'yes' && $daysBooked['T'] == 'no')
+				{
+					$daysBooked['T'] = 'yes';
+					//echo $daysBooked['T'];
+				}
+				if($classBookedDays['W'] == 'yes' && $daysBooked['W'] == 'no')
+				{
+					$daysBooked['W'] = 'yes';
+					//echo $daysBooked['W'];
+				}
+				if($classBookedDays['R'] == 'yes' && $daysBooked['R'] == 'no')
+				{
+					$daysBooked['R'] = 'yes';
+					//echo $daysBooked['R'];
+				}
+				if($classBookedDays['F'] == 'yes' && $daysBooked['F'] == 'no')
+				{
+					$daysBooked['F'] = 'yes';
+					//echo $daysBooked['M'];
+				}
+			}
+			//print_r($daysBooked);
+			return $this->sortWeek($daysBooked);
+		}
         // method to get an array with the weeks as per the given start-date and end-date for a given semester
 		public function getWeeksArray($start_date, $end_date,$semester)
 		{

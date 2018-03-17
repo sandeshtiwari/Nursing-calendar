@@ -258,6 +258,36 @@
 			}
 			return $finalWeekArray;
 		}
+        // method to get the rooms that are not occupied after setting the values to 'no' if needed for displaying preoccupied rooms
+		public function fillArrayWithDays($weeks)
+		{
+			$filledWeeks['M'] = 'no';
+			$filledWeeks['T'] = 'no';
+			$filledWeeks['W'] = 'no';
+			$filledWeeks['R'] = 'no';
+			$filledWeeks['F'] = 'no';
+			if(isset($weeks['M']))
+			{
+				$filledWeeks['M'] = 'yes';
+			}
+			if(isset($weeks['T']))
+			{
+				$filledWeeks['T'] = 'yes';
+			}
+			if(isset($weeks['W']))
+			{
+				$filledWeeks['W'] = 'yes';
+			}
+			if(isset($weeks['R']))
+			{
+				$filledWeeks['R'] = 'yes';
+			}
+			if(isset($weeks['F']))
+			{
+				$filledWeeks['F'] = 'yes';
+			}
+			return $this->sortWeek($filledWeeks);
+		}
 		private function getStartTime($course_id)
 		{
 			$string = "SELECT Start_time FROM course WHERE Course_id = '$course_id' LIMIT 1";

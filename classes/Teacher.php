@@ -104,9 +104,5 @@
 			}
 			return $returnDates;
 		}
-		public function createEvent()
-		{
-			
-		}
 	}
 ?>

@@ -376,13 +376,6 @@
 				$query = mysqli_query($this->con, $string);
 			}
 		}
-		private function getLatestSem()
-		{
-			$string = "SELECT ID, MAX(end_date) FROM semester LIMIT 1";
-			$query = mysqli_query($this->con, $string);
-			$sem = mysqli_fetch_assoc($query);
-			return $sem['ID'];
-		}
 		// function to check if already booked for a course
 		public function checkBookStatus($course_id, $room_id)
 		{

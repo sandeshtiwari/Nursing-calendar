@@ -59,6 +59,15 @@
 			//print_r($occupied);
 			return $occupiedDays;
 		}
+        public function getRoomFromKeys($array)
+		{
+			$rooms = array();
+			foreach($array as $room => $day)
+			{
+				$rooms[] = $room;
+			}
+			return $rooms;
+		}
         // method to give the days booked for a certain week for a ceratin room
 		private function getDaysOfWeekRoom($room_id, $week)
 		{

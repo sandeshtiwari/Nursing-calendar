@@ -468,5 +468,12 @@
 			return false;
 
 		}
+        public function getRoomName($room_id)
+		{
+			$string = "SELECT Name FROM room WHERE ID = '$room_id' LIMIT 1";
+			$query = mysqli_query($this->con,$string);
+			$row = mysqli_fetch_assoc($query);
+			return $row['Name'];
+		}
 	}
 ?>

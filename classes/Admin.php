@@ -26,7 +26,7 @@
 				$days = mysqli_fetch_assoc($courseDay);
 				$dow = $this->getDaysOfWeek($days);
 				$row['title'] .= $this->getRoomNames($Course_ID,$occupied_ID);
-				$row['title'] = $Course_ID." ".$row['title'];
+				$row['title'] = $Course_ID."\n".$row['title'];
 				$row['dow'] = $dow;
 				$row['dowstart'] = date('Y-m-d', strtotime($dateRow['start_date']));
 				$row['dowend'] = date('Y-m-d', strtotime($dateRow['end_date']));

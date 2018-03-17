@@ -49,7 +49,7 @@
 				//$dates = mysqli_query($this->con, "SELECT start_date, end_date FROM semester, course WHERE semester.ID = course.Semester_ID AND course.Course_ID = '$Course_ID'");
 				//$dateRow = mysqli_fetch_assoc($dates);
 				$row['title'] .= $this->getRoomNames($Course_ID,$occupied_ID);
-				$row['title'] = $Course_ID." ".$row['title'];
+				$row['title'] = $Course_ID."\n".$row['title'];
 				$row['dow'] = $dow;
 				$row['dowstart'] = date('Y-m-d', strtotime($dateRow['start_date']));
 				$row['dowend'] = date('Y-m-d', strtotime($dateRow['end_date']));

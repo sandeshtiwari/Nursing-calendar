@@ -311,7 +311,7 @@ img {
 </ul> 
 
  <img style="max-width:500px; margin-top: 7px;"
-             src="nursing101.png" class="img-circle" align="middle" >
+             src="Nursing101.png" class="img-circle" align="middle" >
  
  
  <br/>

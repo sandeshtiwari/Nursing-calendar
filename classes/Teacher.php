@@ -93,6 +93,17 @@
 			$sem = mysqli_fetch_assoc($query);
 			return $sem['ID'];
 		}
+        public function getWeekDates($semester_id)
+		{
+			$string = "SELECT start_date, end_date FROM week WHERE semester_ID = '$semester_id'";
+			$query = mysqli_query($this->con, $string);
+			$returnDates = array();
+			while($dates = mysqli_fetch_assoc($query))
+			{
+				$returnDates[] = $dates;
+			}
+			return $returnDates;
+		}
 		public function createEvent()
 		{
 			

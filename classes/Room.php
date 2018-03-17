@@ -351,13 +351,30 @@
 			//print_r($row);
 			return $days;
 		}
-		// method to book a room for a course
-		public function reserveRoom($room_id, $course_id)
+		// method to book a room for a course on particular days of a week
+		public function reserveRoom($room_id, $course_id, $semester_id, $weeks, $daysOfWeek)
 		{
-			$latestSem = $this->getLatestSem();
-			$string = "INSERT INTO occupied(Course_ID, Room_ID, Semester_ID) VALUES('$course_id', '$room_id', '$latestSem')";
-			$query = mysqli_query($this->con, $string);
-			return $query;
+			//echo "here";
+			$occupied_id = $this->getUniqueOccupiedID();
+			$days['M'] = "no";
+			$days['T'] = "no";
+			$days['W'] = "no";
+			$days['R'] = "no";
+			$days['F'] = "no";
+			foreach($daysOfWeek as $day)
+			{
+				$days[$day] = 'yes';
+			}
+			echo $occupied_id;
+			print_r($days);
+			echo $room_id." ";
+			echo $course_id." ";
+			foreach($weeks as $week_id)
+			{
+				$string = "INSERT INTO occupied(Course_ID, Room_ID, Semester_ID,M, T, W, R, F, Week_ID, occupied_ID)
+				VALUES('$course_id', '$room_id', '$semester_id', '".$days['M']."', '".$days['T']."', '".$days['W']."', '".$days['R']."', '".$days['F']."', '$week_id', '$occupied_id')";
+				$query = mysqli_query($this->con, $string);
+			}
 		}
 		private function getLatestSem()
 		{

@@ -17,6 +17,7 @@
 			//echo 'here';
 			//print_r($daysOfWeek);
 			$occupiedDays = array();
+			$occupiedWeeks = array();
 			foreach($weeks as $week)
 			{
 				//echo "SELECT Room_ID, Course_ID FROM occupied WHERE Semester_ID = '$semester_id' AND Week_ID='$week'";
@@ -24,6 +25,7 @@
 				$query = mysqli_query($this->con,$string);
 				//$id = mysqli_fetch_assoc($query);
 				//print_r($id);
+				$weeksOccupied = array();
 				while( $id = mysqli_fetch_assoc($query))
 				{
 					// getting the days which are occupied for a week, i.e. for $week
@@ -50,13 +52,17 @@
 							}
 							// storing the key as the room which is conflicting and value as the days that are conflicting
 							$occupiedDays[$id['Room_ID']] = array_merge($temp, $conflictingDays);
-							// once a conflict is found for a room for a given week, break the loop and search for other weeks' conflicts 
-							break;
+							// 
+							if($id['Course_ID'] != $course_id)
+                            {
+                                $weeksOccupied[$id['Course_ID']] = $id['Room_ID'];    
+                            }
 						}
 					}
 				}
+				$occupiedWeeks[$week] = $weeksOccupied;
 			}
-			//print_r($occupied);
+			print_r($occupiedWeeks);
 			return $occupiedDays;
 		}
         // method to get the intersection days between weeks

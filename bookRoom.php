@@ -266,6 +266,7 @@
       echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
       inputWeeks($weeksToBook);
       echo "<input type= 'hidden' name = 'room_id' value=".$occupiedRoom.">";
+      echo $occupiedRoom;
       echo "<input type= 'hidden' name = 'course_id' value=".$course_id.">";
       echo "<input type= 'hidden' name = 'request' value='true'>";
       echo "<input type='submit' class='btn btn-info' value = 'Confirm Request'>";

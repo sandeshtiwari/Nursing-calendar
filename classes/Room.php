@@ -17,7 +17,6 @@
 			//echo 'here';
 			//print_r($daysOfWeek);
 			$occupiedDays = array();
-			$occupiedWeeks = array();
 			foreach($weeks as $week)
 			{
 				//echo "SELECT Room_ID, Course_ID FROM occupied WHERE Semester_ID = '$semester_id' AND Week_ID='$week'";
@@ -25,7 +24,6 @@
 				$query = mysqli_query($this->con,$string);
 				//$id = mysqli_fetch_assoc($query);
 				//print_r($id);
-				$weeksOccupied = array();
 				while( $id = mysqli_fetch_assoc($query))
 				{
 					// getting the days which are occupied for a week, i.e. for $week
@@ -52,17 +50,11 @@
 							}
 							// storing the key as the room which is conflicting and value as the days that are conflicting
 							$occupiedDays[$id['Room_ID']] = array_merge($temp, $conflictingDays);
-							// 
-							if($id['Course_ID'] != $course_id)
-                            {
-                                $weeksOccupied[$id['Course_ID']] = $id['Room_ID'];    
-                            }
+							break;
 						}
 					}
 				}
-				$occupiedWeeks[$week] = $weeksOccupied;
 			}
-			print_r($occupiedWeeks);
 			return $occupiedDays;
 		}
         // method to get the intersection days between weeks
@@ -396,42 +388,9 @@
 			return false;
 		}
 		// function to add collision
-		public function addCollision($course_id, $room_id)
+		public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays)
 		{
-			$startTime = $this->getStartTime($course_id);
-			$endTime = $this->getEndTime($course_id);
-			$daysOfWeek = $this->getDaysOfWeek($course_id);
-			//echo strtotime($startTime);
-			$vacant = array();
-			$collidingCourses = array();
-			$string = "SELECT Course_ID, end_date FROM occupied,semester WHERE Course_ID != '$course_id' AND Room_ID = '$room_id'
-			AND end_date = (SELECT MAX(end_date) FROM semester)";
-			$query = mysqli_query($this->con,$string);
-			while( $id = mysqli_fetch_assoc($query))
-			{
-				//print_r($id['Room_ID']);
-				//echo $id['Room_ID']." ".$id['Course_ID'];
-				if($daysOfWeek == ($this->getDaysOfWeek($id['Course_ID'])))
-				{
-					//echo 'here';
-					$cStartTime = $this->getStartTime($id['Course_ID']);
-					$cEndTime = $this->getEndTime($id['Course_ID']);
-					if(($cStartTime >= $startTime && $cStartTime <= $endTime) || ($cEndTime >= $startTime && $cEndTime <= $endTime))
-					{
-						$collidingCourses[] = $id['Course_ID'];
-						//echo 'here';
-					}
-				}
-			}
-			print_r($collidingCourses);
-			$Coll_ID = $this->getUniqueCollID();
-			$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID) VALUES('$course_id','$Coll_ID', '$room_id')";
-				mysqli_query($this->con, $string);
- 			foreach($collidingCourses as $col_courses)
-			{
-				$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID) VALUES('$col_courses','$Coll_ID', '$room_id')";
-				mysqli_query($this->con, $string);
-			}
+			
 			//return $occupied;
 		}
 		// function to get a unique collision id which is not already in the table

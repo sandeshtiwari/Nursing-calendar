@@ -2,6 +2,9 @@
   require "config/config.php";
   require "classes/Room.php";
   require "classes/Teacher.php";
+  require "header.php";
+
+
   error_reporting(0);
   // authenticating the teacher or the person logged in
   if(isset($_POST['courseID']) && isset($_POST['email']) && isset($_SESSION['email']) && $_SESSION['privilege'] != 'student')
@@ -377,3 +380,9 @@
   </body>
 </html>
   
+
+
+
+  <?php
+  require "footer.php";
+  ?>

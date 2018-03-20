@@ -2,6 +2,9 @@
 	require "config/config.php";
 	require "classes/Room.php";
 	require "classes/Teacher.php";
+	require "header.php";
+
+
 	$room = new Room($con);
 	$teacher = new Teacher($con, $_SESSION['email']);
 	$semester_id = $teacher->getLatestSem();
@@ -48,4 +51,10 @@
 	{
 		header("Location: calendar.php");
 	}
+?>
+
+<?php
+
+require "footer.php";
+
 ?>

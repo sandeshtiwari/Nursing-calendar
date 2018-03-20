@@ -311,7 +311,7 @@ img {
 </ul> 
 
  <img style="max-width:500px; margin-top: 7px;"
-             src="Nursing101.png" class="img-circle" align="middle" >
+             src="styles/images/Nursing101.png" class="img-circle" align="middle" >
  
  
  <br/>
@@ -325,19 +325,14 @@ img {
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
-
-<div class="no-print">
-
-  <div id="footer" >
-  <p>Made by TeamGamma2018</p>
-  </div>
-
-</div>
-
 
 </body>
 
 
 </html>
+
+<?php
+
+require "footer.php";
+
+?>

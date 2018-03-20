@@ -35,31 +35,31 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
           <a class="nav-link" href="admin_page.php">
-            <i class="fa fa-fw fa-table"></i>
+            <i class="fa fa-fw fa-th"></i>
             <span class="nav-link-text">Rooms</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
           <a class="nav-link" href="calendar.php">
-            <i class="fa fa-fw fa-dashboard"></i>
+            <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Master Calendar</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Collision">
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
           <a class="nav-link" href="show_students.php">
             <i class="fa fa-fw fa-graduation-cap"></i>
             <span class="nav-link-text">Students</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
           <a class="nav-link" href="show_teachers.php">
             <i class="fa fa-fw fa-leanpub"></i>
             <span class="nav-link-text">Teachers</span>
@@ -170,6 +170,13 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
             </div>
           </form>
         </li>  -->
+
+        <li class="nav-item">
+          <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
+            <i class="fa fa-fw fa-arrow-circle-left"></i>Back</a>
+        </li>
+
+
         <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
@@ -198,7 +205,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
-          <small>Nursing Calendar</small>
+          <small> © TeamGamma<?php echo @date("Y"); ?></small>
         </div>
       </div>
     </footer>

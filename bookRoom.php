@@ -247,8 +247,10 @@
       //print_r($days);
       foreach($allDays as $day => $check)
       {
-        // if the room is not occupied the store the name to display
-        if($check == 'yes')
+        // if the room is not occupied and is not occupied by the course trying to register the store the name to display for registration
+        $sameClass = $room->checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day);
+        // if the room is not occupied and is not the same class which booked the room for a certain day, then display the days
+        if($check == 'yes' && !$sameClass)
         {
           $name = "";
           if($day == 'M')

@@ -67,6 +67,25 @@
 			}
 			return $occupiedDays;
 		}
+		// method to check if a course has already booked a day for a room. This will be used to display only the days that are requestable
+		public function checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day)
+        {
+            //print_r($weeksToBook);
+            foreach($weeksToBook as $week)
+            {
+                //echo $week." ";
+                // echo 'here';
+                //echo "SELECT Room_ID FROM occupied WHERE Course_ID = '$course_id' AND Semester_ID = '$semester_id' AND Week_ID = '$week' AND `$day` = 'yes'";
+                $string = "SELECT Room_ID FROM occupied WHERE Course_ID = '$course_id' AND Semester_ID = '$semester_id' AND Week_ID = '$week' AND $day = 'yes'";
+                $query = mysqli_query($this->con, $string);
+                $row = mysqli_fetch_assoc($query);
+                if(!empty($row))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 		// method to check if all the rooms are occupied by the class that is trying to book a room
         public function checkSelfOccupied($course_id)
         {

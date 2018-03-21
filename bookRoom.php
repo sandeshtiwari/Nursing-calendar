@@ -3,8 +3,6 @@
   require "classes/Room.php";
   require "classes/Teacher.php";
   require "header.php";
-
-
   error_reporting(0);
   // authenticating the teacher or the person logged in
   if(isset($_POST['courseID']) && isset($_POST['email']) && isset($_SESSION['email']) && $_SESSION['privilege'] != 'student')
@@ -63,7 +61,7 @@
       echo "</tr>";
     }
   }
-  function displayOccupiedRooms($roomList,$con, $occupiedRoomsAndDays, $course_id, $semester_id, $weeks)
+  function displayOccupiedRooms($roomList,$con, $occupiedRoomsAndDays, $course_id, $semester_id,$weeks)
   {
     //echo "here";
     //print_r($roomList);
@@ -93,7 +91,7 @@
       // Display the message only if occupied by the same class for all the days
       if($roomObj->checkSelfOccupied($course_id))
       {
-          echo "<td>Booked by the same class</td>";
+          echo "<td>All days booked for this class</td>";
       }
       // else display to request if all the days are not occupied by the same class trying to book
       else
@@ -276,12 +274,15 @@
           echo $name."  <input type='checkbox' name = 'requestDays[]' value = ".$day.">  ";
         }
       }
+      //$room->getOccupiedRoomAndDays($course_id, $semester_id,$weeksToBook);
+      //print_r($room->getOccupiedWeekClassRoom());
       echo "<div class='modal-footer'>";
       echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
-      inputWeeks($weeksToBook);
+      //inputWeeks($room->getOccupiedWeekClassRoom());
       echo "<input type= 'hidden' name = 'room_id' value=".$occupiedRoom.">";
-      echo $occupiedRoom;
+      //echo $occupiedRoom;
       echo "<input type= 'hidden' name = 'course_id' value=".$course_id.">";
+      inputWeeks($weeksToBook);
       echo "<input type= 'hidden' name = 'request' value='true'>";
       echo "<input type='submit' class='btn btn-info' value = 'Confirm Request'>";
       echo "</div>";
@@ -390,10 +391,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>
-  
+<?php
 
-
-
-  <?php
-  require "footer.php";
-  ?>
+require "footer.php";
+?>

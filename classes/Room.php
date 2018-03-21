@@ -31,7 +31,10 @@
 					// getting the days which are occupied for a week, i.e. for $week
 					$daysOccupied = $this->getDaysOccupiedOfWeek($id['Course_ID'], $semester_id, $week);
 					// getting the days that are conflicting for the given course for a certain week for a seleted room
+					//echo $id["Room_ID"]." ".$week." ";
+					//print_r($daysOccupied);
 					$conflictingDays = $this->getAllCommonOccupiedDays($daysOfWeek,$daysOccupied);
+					//print_r($conflictingDays);
 					//print_r($conflictingDays);
 					// if there are days that are conflicting
 					if(!empty($conflictingDays))
@@ -52,6 +55,8 @@
 							}
 							// storing the key as the room which is conflicting and value as the days that are conflicting
 							$occupiedDays[$id['Room_ID']] = array_merge($temp, $conflictingDays);
+							//echo $id['Room_ID'];
+							//print_r($occupiedDays);
 							if(isset($weeksOccupied[$id['Course_ID']]))
                             {
                                 $weeksOccupied[$id['Course_ID']][] = $id['Room_ID'];
@@ -68,7 +73,7 @@
 			return $occupiedDays;
 		}
 		// method to check if a course has already booked a day for a room. This will be used to display only the days that are requestable
-		public function checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day)
+		public function checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day,$occupiedRoom)
         {
             //print_r($weeksToBook);
             foreach($weeksToBook as $week)
@@ -76,9 +81,10 @@
                 //echo $week." ";
                 // echo 'here';
                 //echo "SELECT Room_ID FROM occupied WHERE Course_ID = '$course_id' AND Semester_ID = '$semester_id' AND Week_ID = '$week' AND `$day` = 'yes'";
-                $string = "SELECT Room_ID FROM occupied WHERE Course_ID = '$course_id' AND Semester_ID = '$semester_id' AND Week_ID = '$week' AND $day = 'yes'";
+                $string = "SELECT Room_ID FROM occupied WHERE Course_ID = '$course_id' AND Semester_ID = '$semester_id' AND Week_ID = '$week' AND $day = 'yes' AND Room_ID='$occupiedRoom'";
                 $query = mysqli_query($this->con, $string);
                 $row = mysqli_fetch_assoc($query);
+                //print_r($row);
                 if(!empty($row))
                 {
                     return true;
@@ -87,7 +93,7 @@
             return false;
         }
 		// method to check if all the rooms are occupied by the class that is trying to book a room
-        public function checkSelfOccupied($course_id)
+        public function checkSelfOccupied($course_id, $room)
         {
             $weeks = $this->getOccupiedWeekClassRoom();
             $countTrues = 0;
@@ -98,14 +104,19 @@
                 //print_r($week);
                 if(!empty($week))
                 {
-                    foreach($week as $course => $classes)
+                    foreach($week as $course => $rooms)
                     {
-                        $countCourses++;
-                        //echo $course;
-                        if($course == $course_id)
-                        {
-                            $countTrues++;
-                        }
+                    	//echo "here";
+                    	if(in_array($room, $rooms))
+                    	{
+                    		//echo $course." ";
+	                        $countCourses++;
+	                        //echo $course;
+	                        if($course == $course_id)
+	                        {
+	                            $countTrues++;
+	                        }
+                    	}
                     }
                 }
             }
@@ -407,9 +418,26 @@
 		{
 			$string = "SELECT M, T, W, R, F FROM occupied WHERE Course_ID = '$course_id' AND Semester_ID = '$semester_id' AND Week_ID = '$week'";
 			$query = mysqli_query($this->con, $string);
-			$days = mysqli_fetch_assoc($query);
-			//print_r($row);
-			return $days;
+			$occupiedDays = array();
+			$occupiedDays['M'] = 'no';
+			$occupiedDays['T'] = 'no';
+			$occupiedDays['W'] = 'no';
+			$occupiedDays['R'] = 'no';
+			$occupiedDays['F'] = 'no';
+			while($week = mysqli_fetch_assoc($query))
+			{
+				//print_r($week);
+				foreach($week as $day => $occupiedOrNot)
+				{
+					if($occupiedOrNot == 'yes')
+					{
+						$occupiedDays[$day] = 'yes';
+					}
+				}
+			}
+			
+			//print_r($occupiedDays);
+			return $occupiedDays;
 		}
 		// method to book a room for a course on particular days of a week
 		public function reserveRoom($room_id, $course_id, $semester_id, $weeks, $daysOfWeek)

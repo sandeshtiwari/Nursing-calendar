@@ -81,6 +81,8 @@
       $showBookButton= $roomObj->checkVacancy($occupiedRoomsAndDays[$room['ID']], $course_id, $semester_id);
       if($showBookButton)
       {
+        
+        //print_r($occupiedRoomsAndDays[$room['ID']]);
         echo "<td><button type = 'button' data-toggle = 'modal' data-target = #".$room['ID']." class='btn btn-outline-primary'>Book room</button></td>";
       }
       else
@@ -89,7 +91,8 @@
       }
       $roomObj->getOccupiedRoomAndDays($course_id,$semester_id,$weeks);
       // Display the message only if occupied by the same class for all the days
-      if($roomObj->checkSelfOccupied($course_id))
+      //echo $room['ID'];
+      if($roomObj->checkSelfOccupied($course_id, $room['ID']))
       {
           echo "<td>All days booked for this class</td>";
       }
@@ -246,9 +249,9 @@
       foreach($allDays as $day => $check)
       {
         // if the room is not occupied and is not occupied by the course trying to register the store the name to display for registration
-        $sameClass = $room->checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day);
+        $sameClass = $room->checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day,$occupiedRoom);
         // if the room is not occupied and is not the same class which booked the room for a certain day, then display the days
-        if($check == 'yes' && !$sameClass)
+        if($check == 'yes'&& !$sameClass)
         {
           $name = "";
           if($day == 'M')

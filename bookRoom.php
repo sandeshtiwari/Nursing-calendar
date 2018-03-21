@@ -90,10 +90,12 @@
         echo "<td>All days booked</td>";
       }
       $roomObj->getOccupiedRoomAndDays($course_id,$semester_id,$weeks);
+      // Display the message only if occupied by the same class for all the days
       if($roomObj->checkSelfOccupied($course_id))
       {
           echo "<td>Booked by the same class</td>";
       }
+      // else display to request if all the days are not occupied by the same class trying to book
       else
       {
           echo "<td><button type = 'button' data-toggle = 'modal' data-target = #request".$room['ID']." class='btn btn-outline-info'>Request room</button></td>";

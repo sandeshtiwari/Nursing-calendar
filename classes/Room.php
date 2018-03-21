@@ -67,10 +67,12 @@
 			}
 			return $occupiedDays;
 		}
-		// method to check if the rooms are occupied by the class that is trying to book a room
+		// method to check if all the rooms are occupied by the class that is trying to book a room
         public function checkSelfOccupied($course_id)
         {
             $weeks = $this->getOccupiedWeekClassRoom();
+            $countTrues = 0;
+            $countCourses = 0;
             //echo $course_id;
             foreach($weeks as $week)
             {
@@ -79,14 +81,17 @@
                 {
                     foreach($week as $course => $classes)
                     {
+                        $countCourses++;
                         //echo $course;
                         if($course == $course_id)
                         {
-                            return true;
+                            $countTrues++;
                         }
                     }
                 }
             }
+            if($countTrues == $countCourses)
+                return true;
             return false;
         }
         // method to get the occupied weeks with all the classes and the rooms they've occupied

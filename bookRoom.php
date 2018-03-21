@@ -277,8 +277,27 @@
           echo $name."  <input type='checkbox' name = 'requestDays[]' value = ".$day.">  ";
         }
       }
-      //$room->getOccupiedRoomAndDays($course_id, $semester_id,$weeksToBook);
-      //print_r($room->getOccupiedWeekClassRoom());
+      $room->getOccupiedRoomAndDays($course_id, $semester_id,$weeksToBook);
+      $weeks = $room->getOccupiedWeekClassRoom();
+      foreach($weeks as $week => $courses)
+      {
+        foreach($courses as $course => $bookedRooms)
+        {
+          if($course != $course_id)
+          {
+            foreach($bookedRooms as $bookedRoom)
+            {
+              if($bookedRoom == $occupiedRoom)
+              {
+                  echo $week." ".$course." ".$bookedRoom." ";
+                  echo "<input type= 'hidden' name = 'conflictingWeeks[]' value=".$week.">";
+                  echo "<input type= 'hidden' name = 'conflictingCourses[]' value=".$course.">";
+              }
+            }
+          }
+        }
+
+      }
       echo "<div class='modal-footer'>";
       echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
       //inputWeeks($room->getOccupiedWeekClassRoom());

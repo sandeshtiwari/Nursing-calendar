@@ -13,7 +13,7 @@
 	//print_r($_POST['requestDays']);
 	if(isset($_POST['request']))
 	{
-		//echo "requesting";
+		echo "requesting";
 		if(!isset($_POST['requestDays']))
 		{
 			echo "days not selected";
@@ -21,12 +21,13 @@
 		}
 		else
 		{
-			//echo "days selected";
-			//print_r($_POST['requestDays']);
-			//echo $_POST['course_id'];
-			//echo $_POST['room_id'];
-			//print_r($_POST['weeks']);
-			$room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['requestDays']);
+			echo "days selected";
+			print_r($_POST['conflictingCourses']);
+			print_r($_POST['conflictingWeeks']);
+			echo " ".$_POST['course_id']." ";
+			echo " ".$_POST['room_id']." ";
+			print_r($_POST['weeks']);
+			//$room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['requestDays']);
 		}
 	}
 	else if(isset($_POST['book']))

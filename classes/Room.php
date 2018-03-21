@@ -3,10 +3,12 @@
 	{
 		//private $id;
 		private $con;
+		private $occupiedWeeks;
 		public function __construct($con)
 		{
 			//$this->id = $id;
 			$this->con = $con;
+			$this->occupiedWeeks = array();
 		}
 		// method to get all the occupied rooms IDs for a given course
 		public function getOccupiedRoomAndDays($course_id,$semester_id,$weeks)
@@ -16,7 +18,6 @@
 			$daysOfWeek = $this->getDaysOfWeek($course_id, $semester_id);
 			//echo 'here';
 			//print_r($daysOfWeek);
-			$occupiedDays = array();
 			foreach($weeks as $week)
 			{
 				//echo "SELECT Room_ID, Course_ID FROM occupied WHERE Semester_ID = '$semester_id' AND Week_ID='$week'";
@@ -24,6 +25,7 @@
 				$query = mysqli_query($this->con,$string);
 				//$id = mysqli_fetch_assoc($query);
 				//print_r($id);
+				$weeksOccupied = array();
 				while( $id = mysqli_fetch_assoc($query))
 				{
 					// getting the days which are occupied for a week, i.e. for $week
@@ -50,10 +52,18 @@
 							}
 							// storing the key as the room which is conflicting and value as the days that are conflicting
 							$occupiedDays[$id['Room_ID']] = array_merge($temp, $conflictingDays);
-							break;
+							if(isset($weeksOccupied[$id['Course_ID']]))
+                            {
+                                $weeksOccupied[$id['Course_ID']][] = $id['Room_ID'];
+                            }
+                            else
+                            {
+                                $weeksOccupied[$id['Course_ID']] = array($id['Room_ID']);   
+                            }    
 						}
 					}
 				}
+				$this->occupiedWeeks[$week] = $weeksOccupied;
 			}
 			return $occupiedDays;
 		}
@@ -79,6 +89,12 @@
             }
             return false;
         }
+        // method to get the occupied weeks with all the classes and the rooms they've occupied
+        public function getOccupiedWeekClassRoom()
+		{
+			//print_r($this->occupiedWeeks);
+			return $this->occupiedWeeks;
+		}
         // method to get the intersection days between weeks
 		private function getAllCommonOccupiedDays($week1, $week2)
 		{

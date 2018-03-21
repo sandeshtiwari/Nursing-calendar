@@ -63,7 +63,7 @@
       echo "</tr>";
     }
   }
-  function displayOccupiedRooms($roomList,$con, $occupiedRoomsAndDays, $course_id, $semester_id)
+  function displayOccupiedRooms($roomList,$con, $occupiedRoomsAndDays, $course_id, $semester_id, $weeks)
   {
     //echo "here";
     //print_r($roomList);
@@ -89,8 +89,15 @@
       {
         echo "<td>All days booked</td>";
       }
-      
-      echo "<td><button type = 'button' data-toggle = 'modal' data-target = #request".$room['ID']." class='btn btn-outline-info'>Request room</button></td>";
+      $roomObj->getOccupiedRoomAndDays($course_id,$semester_id,$weeks);
+      if($roomObj->checkSelfOccupied($course_id))
+      {
+          echo "<td>Booked by the same class</td>";
+      }
+      else
+      {
+          echo "<td><button type = 'button' data-toggle = 'modal' data-target = #request".$room['ID']." class='btn btn-outline-info'>Request room</button></td>";
+      }
       echo "</tr>";
     }
   }
@@ -335,7 +342,7 @@
         // display all the preoccuped rooms
         $occupiedRoomProperties = $rooms->getFullRow($occupiedRooms);
         preOccupedRoomModal($occupiedRoomsAndDays, $con,$semester_id, $_POST['courseID'], $weeks);
-        displayOccupiedRooms($occupiedRoomProperties,$con, $occupiedRoomsAndDays, $_POST['courseID'], $semester_id);
+        displayOccupiedRooms($occupiedRoomProperties,$con, $occupiedRoomsAndDays, $_POST['courseID'], $semester_id,$weeks);
       ?>
             
           </tbody>

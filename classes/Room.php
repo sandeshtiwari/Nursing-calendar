@@ -57,6 +57,28 @@
 			}
 			return $occupiedDays;
 		}
+		// method to check if the rooms are occupied by the class that is trying to book a room
+        public function checkSelfOccupied($course_id)
+        {
+            $weeks = $this->getOccupiedWeekClassRoom();
+            //echo $course_id;
+            foreach($weeks as $week)
+            {
+                //print_r($week);
+                if(!empty($week))
+                {
+                    foreach($week as $course => $classes)
+                    {
+                        //echo $course;
+                        if($course == $course_id)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         // method to get the intersection days between weeks
 		private function getAllCommonOccupiedDays($week1, $week2)
 		{
@@ -388,11 +410,11 @@
 			return false;
 		}
 		// function to add collision
-		public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays)
-		{
-			
-			//return $occupied;
-		}
+        public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays)
+        {
+	        
+	        //return $occupied;
+        }
 		// function to get a unique collision id which is not already in the table
 		private function getUniqueCollID()
 		{

@@ -72,6 +72,11 @@
 			}
 			return $occupiedDays;
 		}
+		// function to add collision
+        public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays, $conflictingCourses, $conflictingWeeks)
+        {
+	        
+        }
 		// method to check if a course has already booked a day for a room. This will be used to display only the days that are requestable
 		public function checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day,$occupiedRoom)
         {
@@ -477,12 +482,6 @@
 			}
 			return false;
 		}
-		// function to add collision
-        public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays)
-        {
-	        
-	        //return $occupied;
-        }
 		// function to get a unique collision id which is not already in the table
 		private function getUniqueCollID()
 		{

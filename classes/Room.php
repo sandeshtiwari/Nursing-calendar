@@ -75,7 +75,31 @@
 		// function to add collision
         public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays, $conflictingCourses, $conflictingWeeks)
         {
-	        
+	        $collision_id = $this->getUniqueCollID();
+	        $requestedDays = $this->getAllDaysFromRequestedDays($requestedDays);
+	        //print_r($weeks);
+	        foreach($weeks as $week)
+	        {
+	        	echo $week." ";
+	        	$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID,M,T,W,R,F,Week_ID,Semester_ID,booked)
+	        	VALUES('$course_id','$collision_id','$room_id','".$requestedDays['M']."','".$requestedDays['T']."','".$requestedDays['W']."','".$requestedDays['R']."','".$requestedDays['F']."','$week','$semester_id','no')";
+	        	$query = mysqli_query($this->con,$string);
+	        }
+	        //$string = "INSERT INTO collision(Course_ID ,Coll_ID, Room_ID, M, T, W, R, F)"
+        }
+        private function getAllDaysFromRequestedDays($requestedDays)
+        {
+        	$allDays = array();
+        	$allDays['M'] = 'no';
+        	$allDays['T'] = 'no';
+        	$allDays['W'] = 'no';
+        	$allDays['R'] = 'no';
+        	$allDays['F'] = 'no';
+        	foreach($requestedDays as $requestedDay)
+        	{
+        		$allDays[$requestedDay] = 'yes';
+        	}
+        	return $allDays;
         }
 		// method to check if a course has already booked a day for a room. This will be used to display only the days that are requestable
 		public function checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day,$occupiedRoom)
@@ -486,10 +510,17 @@
 		private function getUniqueCollID()
 		{
 			$string = "SELECT FLOOR(RAND() * 99999) AS Coll_ID 
-			FROM occupied 
+			FROM collision 
 			WHERE 'Coll_ID' NOT IN (SELECT Coll_ID FROM collision) LIMIT 1";
 			$query = mysqli_query($this->con, $string);
 			$row = mysqli_fetch_assoc($query);
+			$string = "SELECT Coll_ID FROM collision";
+			$query = mysqli_query($this->con, $string);
+			$collision_id = mysqli_fetch_assoc($query);
+			if(empty($collision_id))
+			{
+				return 1;
+			}
 			return $row['Coll_ID'];
 		}
         // method to get a unique occupied id which is not already in the table

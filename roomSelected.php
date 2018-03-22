@@ -22,12 +22,12 @@
 		else
 		{
 			//echo "days selected";
-			print_r($_POST['conflictingCourses']);
-			print_r($_POST['conflictingWeeks']);
-			echo " ".$_POST['course_id']." ";
-			echo " ".$_POST['room_id']." ";
-			print_r($_POST['weeks']);
-			print_r($_POST['requestDays']);
+			//print_r($_POST['conflictingCourses']);
+			//print_r($_POST['conflictingWeeks']);
+			//echo " ".$_POST['course_id']." ";
+			//echo " ".$_POST['room_id']." ";
+			//print_r($_POST['weeks']);
+			//print_r($_POST['requestDays']);
 			$room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['requestDays'],$_POST['conflictingCourses'], $_POST['conflictingWeeks']);
 		}
 	}

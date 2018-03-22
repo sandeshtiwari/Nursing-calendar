@@ -72,6 +72,11 @@
 			}
 			return $occupiedDays;
 		}
+		// method to check if a room is already requested for a course
+		public function checkRequested($course_id, $room_id, $semester_id, $weeks)
+		{
+			
+		}
 		// function to add collision
         public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays, $conflictingCourses, $conflictingWeeks)
         {
@@ -537,18 +542,6 @@
 		{
 			$string = "DELETE FROM occupied WHERE Course_ID = '$course_id' AND Room_ID='$room_id'";
 			mysqli_query($this->con, $string);
-		}
-		// method to check if a room is already requested for a course
-		public function checkRequested($course_id, $room_id)
-		{
-			$string = "SELECT Course_ID FROM collision WHERE Course_ID = '$course_id' AND Room_ID = '$room_id'";
-			$query = mysqli_query($this->con, $string);
-			if(mysqli_num_rows($query) > 0)
-			{
-				return true;
-			}
-			return false;
-
 		}
         public function getRoomName($room_id)
 		{

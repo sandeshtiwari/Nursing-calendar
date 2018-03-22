@@ -78,14 +78,23 @@
 	        $collision_id = $this->getUniqueCollID();
 	        $requestedDays = $this->getAllDaysFromRequestedDays($requestedDays);
 	        //print_r($weeks);
+	        //print_r($conflictingWeeks);
+	        //print_r($conflictingCourses);
 	        foreach($weeks as $week)
 	        {
-	        	echo $week." ";
+	        	//echo $week." ";
 	        	$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID,M,T,W,R,F,Week_ID,Semester_ID,booked)
 	        	VALUES('$course_id','$collision_id','$room_id','".$requestedDays['M']."','".$requestedDays['T']."','".$requestedDays['W']."','".$requestedDays['R']."','".$requestedDays['F']."','$week','$semester_id','no')";
 	        	$query = mysqli_query($this->con,$string);
 	        }
-	        //$string = "INSERT INTO collision(Course_ID ,Coll_ID, Room_ID, M, T, W, R, F)"
+	        for($i = 0; $i<sizeof($conflictingCourses); $i++)
+	        {
+	        	$days = $this->getDaysOccupiedOfWeek($conflictingCourses[$i], $semester_id, $conflictingWeeks[$i]);
+	        	//echo $conflictingWeeks[$i]." ".$semester_id." ".$conflictingCourses[$i];
+	        	$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID,M,T,W,R,F,Week_ID,Semester_ID,booked)
+	        	VALUES('".$conflictingCourses[$i]."','$collision_id','$room_id','".$days['M']."','".$days['T']."','".$days['W']."','".$days['R']."','".$days['F']."','".$conflictingWeeks[$i]."','$semester_id','yes')";
+	        	$query = mysqli_query($this->con, $string);
+	        }
         }
         private function getAllDaysFromRequestedDays($requestedDays)
         {

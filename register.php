@@ -47,7 +47,7 @@
           // display message if request was successfull
           if(isset($_GET['requested']))
           {
-            echo "<div class='alert alert-success' role='alert'>
+            echo "<div class='alert alert-info' role='alert'>
                     Request placed successfully
                   </div>";
           }

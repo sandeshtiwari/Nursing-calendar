@@ -289,7 +289,7 @@
             {
               if($bookedRoom == $occupiedRoom)
               {
-                  echo $week." ".$course." ".$bookedRoom." ";
+                  //echo $week." ".$course." ".$bookedRoom." ";
                   echo "<input type= 'hidden' name = 'conflictingWeeks[]' value=".$week.">";
                   echo "<input type= 'hidden' name = 'conflictingCourses[]' value=".$course.">";
               }

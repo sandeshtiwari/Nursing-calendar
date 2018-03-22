@@ -96,6 +96,7 @@
 	        	$query = mysqli_query($this->con, $string);
 	        }
         }
+        // method to get all the days from a set of requested days
         private function getAllDaysFromRequestedDays($requestedDays)
         {
         	$allDays = array();
@@ -501,19 +502,6 @@
 				VALUES('$course_id', '$room_id', '$semester_id', '".$days['M']."', '".$days['T']."', '".$days['W']."', '".$days['R']."', '".$days['F']."', '$week_id', '$occupied_id')";
 				$query = mysqli_query($this->con, $string);
 			}
-		}
-		// function to check if already booked for a course
-		public function checkBookStatus($course_id, $room_id)
-		{
-			//echo $course_id." ".$room_id;
-			$string = "SELECT * FROM occupied WHERE Course_ID='$course_id' AND Room_ID = '$room_id'";
-			$query = mysqli_query($this->con, $string);
-			//$rows = mysqli_fetch_assoc($query);
-			if(mysqli_num_rows($query) > 0)
-			{
-				return true;
-			}
-			return false;
 		}
 		// function to get a unique collision id which is not already in the table
 		private function getUniqueCollID()

@@ -73,13 +73,18 @@
 
  $(document).ready(function() {
 
-
-
-
   $('#calendar').fullCalendar({
-        
-      
-
+        // when the event is clicked show the day of the event and change the view  to day
+        eventClick: function(calEvent, jsEvent, view){
+            jsEvent.preventDefault();
+            // Go to and show day view for start date of clicked event
+            $('#calendar').fullCalendar('gotoDate', calEvent.start);
+            $('#calendar').fullCalendar('changeView', "agendaDay");
+        },
+        // when the day is clicked show the day clicked by changing the view to day
+        dayClick: function(date, jsEvent, view){
+            $('#calendar').fullCalendar('changeView', 'agendaDay', date);
+        }, 
         eventRender: function(event, element, view) {
 
         var theDate = event.start

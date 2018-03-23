@@ -246,13 +246,19 @@
       echo "<div class='modal-body'>";
       echo "<form class='form-group' action='roomSelected.php' method='POST'>";
       //print_r($days);
+      // variable to check if the requested weeks are partially booked by the same class or not
+      $partiallyBooked = "yes";
       foreach($allDays as $day => $check)
       {
+        //echo "here";
         // if the room is not occupied and is not occupied by the course trying to register the store the name to display for registration
         $sameClass = $room->checkBookedBySameClass($course_id, $semester_id, $weeksToBook, $day,$occupiedRoom);
+        //echo $check;
         // if the room is not occupied and is not the same class which booked the room for a certain day, then display the days
         if($check == 'yes'&& !$sameClass)
         {
+          // if the day can be requested and is not partially occupied by the class that is requesting room
+          $partiallyBooked = "no";
           $name = "";
           if($day == 'M')
           {
@@ -298,6 +304,11 @@
         }
 
       }
+      if($partiallyBooked == 'yes')
+      {
+        //echo "true";
+        echo "<h6>The range you have selected has some weeks already occupied by the class you selected.</h6>";
+      }
       echo "<div class='modal-footer'>";
       echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
       //inputWeeks($room->getOccupiedWeekClassRoom());
@@ -306,7 +317,10 @@
       echo "<input type= 'hidden' name = 'course_id' value=".$course_id.">";
       inputWeeks($weeksToBook);
       echo "<input type= 'hidden' name = 'request' value='true'>";
-      echo "<input type='submit' class='btn btn-info' value = 'Confirm Request'>";
+      if($partiallyBooked == 'no')
+      {
+        echo "<input type='submit' class='btn btn-info' value = 'Confirm Request'>";  
+      }
       echo "</div>";
       echo "</form>";
       echo "</div>";

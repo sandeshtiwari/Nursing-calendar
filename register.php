@@ -44,6 +44,12 @@
                     Failed to register
                   </div>";
           }
+          if(isset($_GET['days']))
+          {
+             echo "<div class='alert alert-danger' role='alert'>
+                    Please enter days to request or register a class
+                  </div>";
+          }
           // display message if request was successfull
           if(isset($_GET['requested']))
           {

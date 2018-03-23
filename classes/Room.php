@@ -73,9 +73,45 @@
 			return $occupiedDays;
 		}
 		// method to check if a room is already requested for a course
-		public function checkRequested($course_id, $room_id, $semester_id, $weeks)
+		public function checkRequested($course_id, $room_id, $semester_id, $weeks, $requestedDays)
 		{
-			
+			//echo "here";
+			$requestedDays = $this->getAllDaysFromRequestedDays($requestedDays);
+			//print_r($weeks);
+			//print_r($requestedDays);
+			foreach($weeks as $week)
+			{
+				echo $week." ";
+				$string = "SELECT M, T, W, R, F FROM collision 
+				WHERE Course_ID = '$course_id' AND Room_ID = '$room_id' AND Semester_ID = '$semester_id' AND Week_ID = '$week'";
+				$query = mysqli_query($this->con, $string);
+				while($previouslyRequesteDays = mysqli_fetch_assoc($query))
+				{
+					print_r($previouslyRequesteDays);
+					if($previouslyRequesteDays['M'] == 'yes' && $requestedDays['M'] == 'yes')
+					{
+						echo "here";
+						return true;
+					}
+					else if($previouslyRequesteDays['T'] == 'yes' && $requestedDays['T'] == 'yes')
+					{
+						return true;
+					}
+					if($previouslyRequesteDays['W'] == 'yes' && $requestedDays['W'] == 'yes')
+					{
+						return true;
+					}
+					if($previouslyRequesteDays['R'] == 'yes' && $requestedDays['R'] == 'yes')
+					{
+						return true;
+					}
+					if($previouslyRequesteDays['F'] == 'yes' && $requestedDays['F'] == 'yes')
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 		// function to add collision
         public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays, $conflictingCourses, $conflictingWeeks)

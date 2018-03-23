@@ -50,6 +50,12 @@
                     Please enter days to request or register a class
                   </div>";
           }
+          if(isset($_GET['requestFailed']))
+          {
+             echo "<div class='alert alert-danger' role='alert'>
+                    Request failed because you have an overlapping request. Please cancel the previous request to make this request.
+                  </div>";
+          }
           // display message if request was successfull
           if(isset($_GET['requested']))
           {

@@ -21,8 +21,19 @@
 		}
 		else
 		{
-			$room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['requestDays'],$_POST['conflictingCourses'], $_POST['conflictingWeeks']);
-			header("Location: register.php?requested");
+			//echo true;
+			//echo $room->checkRequested($_POST['course_id'], $_POST['room_id'], $semester_id, $_POST['weeks'], $_POST['requestDays']);
+			if($room->checkRequested($_POST['course_id'], $_POST['room_id'], $semester_id, $_POST['weeks'], $_POST['requestDays']))
+			{
+				echo "previously requested";
+				header("Location: register.php?requestFailed");
+			}
+			else
+			{
+				//echo "request successful";
+				$room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['requestDays'],$_POST['conflictingCourses'], $_POST['conflictingWeeks']);
+				header("Location: register.php?requested");
+			}
 		}
 	}
 	else if(isset($_POST['book']))

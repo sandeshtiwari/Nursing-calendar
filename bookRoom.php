@@ -362,7 +362,6 @@
         $weeks = $rooms->getWeeksArray($_POST['start_date'],$_POST['end_date'], $semester_id);
         // get the rooms that are not available to register as keys with array with days as value
         $occupiedRoomsAndDays = $rooms->getOccupiedRoomAndDays($_POST['courseID'], $semester_id,$weeks);
-        
         //print_r($occupiedRoomsAndDays);
         // getting an array with the rooms that are not available to register to get the vacant rooms 
         $occupiedRooms = $rooms->getRoomFromKeys($occupiedRoomsAndDays);

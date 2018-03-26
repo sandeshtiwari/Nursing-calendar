@@ -57,7 +57,7 @@
 							$occupiedDays[$id['Room_ID']] = array_merge($temp, $conflictingDays);
 							//echo $id['Room_ID'];
 							//print_r($occupiedDays);
-							if(isset($weeksOccupied[$id['Course_ID']]))
+							if(isset($weeksOccupied[$id['Course_ID']]) && !(in_array($id['Room_ID'], $weeksOccupied[$id['Course_ID']])))
                             {
                                 $weeksOccupied[$id['Course_ID']][] = $id['Room_ID'];
                             }

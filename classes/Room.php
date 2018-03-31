@@ -114,7 +114,7 @@
 			return false;
 		}
 		// function to add collision
-        public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays, $conflictingCourses, $conflictingWeeks)
+        public function addCollision($room_id, $course_id, $semester_id, $weeks, $requestedDays)
         {
 	        $collision_id = $this->getUniqueCollID();
 	        $requestedDays = $this->getAllDaysFromRequestedDays($requestedDays);
@@ -124,18 +124,18 @@
 	        foreach($weeks as $week)
 	        {
 	        	//echo $week." ";
-	        	$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID,M,T,W,R,F,Week_ID,Semester_ID,booked)
-	        	VALUES('$course_id','$collision_id','$room_id','".$requestedDays['M']."','".$requestedDays['T']."','".$requestedDays['W']."','".$requestedDays['R']."','".$requestedDays['F']."','$week','$semester_id','no')";
+	        	$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID,M,T,W,R,F,Week_ID,Semester_ID)
+	        	VALUES('$course_id','$collision_id','$room_id','".$requestedDays['M']."','".$requestedDays['T']."','".$requestedDays['W']."','".$requestedDays['R']."','".$requestedDays['F']."','$week','$semester_id')";
 	        	$query = mysqli_query($this->con,$string);
 	        }
-	        for($i = 0; $i<sizeof($conflictingCourses); $i++)
+	        /*for($i = 0; $i<sizeof($conflictingCourses); $i++)
 	        {
 	        	$days = $this->getDaysOccupiedOfWeek($conflictingCourses[$i], $semester_id, $conflictingWeeks[$i]);
 	        	//echo $conflictingWeeks[$i]." ".$semester_id." ".$conflictingCourses[$i];
 	        	$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID,M,T,W,R,F,Week_ID,Semester_ID,booked)
 	        	VALUES('".$conflictingCourses[$i]."','$collision_id','$room_id','".$days['M']."','".$days['T']."','".$days['W']."','".$days['R']."','".$days['F']."','".$conflictingWeeks[$i]."','$semester_id','yes')";
 	        	$query = mysqli_query($this->con, $string);
-	        }
+	        }*/
         }
         // method to get all the days from a set of requested days
         private function getAllDaysFromRequestedDays($requestedDays)

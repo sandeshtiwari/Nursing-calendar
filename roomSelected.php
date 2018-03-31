@@ -31,7 +31,7 @@
 			else
 			{
 				//echo "request successful";
-				$room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['requestDays'],$_POST['conflictingCourses'], $_POST['conflictingWeeks']);
+				$room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['requestDays']);
 				header("Location: register.php?requested");
 			}
 		}

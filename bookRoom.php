@@ -285,7 +285,7 @@
       }
       $room->getOccupiedRoomAndDays($course_id, $semester_id,$weeksToBook);
       $weeks = $room->getOccupiedWeekClassRoom();
-      foreach($weeks as $week => $courses)
+      /*foreach($weeks as $week => $courses)
       {
         foreach($courses as $course => $bookedRooms)
         {
@@ -303,7 +303,7 @@
           }
         }
 
-      }
+      }*/
       if($partiallyBooked == 'yes')
       {
         //echo "true";

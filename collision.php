@@ -38,6 +38,7 @@ function displayClasses($con, $requesting_course, $day, $room_id)
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+  
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -230,12 +231,42 @@ function displayClasses($con, $requesting_course, $day, $room_id)
                 echo "<div class='card-header' id='headingOne'>";
                 echo "<h3 class='mb-0'>";
                 echo "<button class='btn btn-link' data-toggle='collapse' data-target='#".$week."' aria-expanded='false' aria-controls='collapse".$week."'>";
-                echo "Week - ".$weekDates['start_date']." / ".$weekDates['end_date']."";
+                echo "Week - ".$weekDates['start_date']." / ".$weekDates['end_date']." &#9662;&#9652;";
                 echo "</button>";
                 echo "</h3></div>";
                 echo "<div id='".$week."' class='collapse' aria-labelledby='".$week."' data-parent='#accordion'>
                 <div class='card-body'>";
-                print_r($request);
+                //print_r($request);
+                foreach($request as $requestDetails)
+                {
+                  echo "<div class= 'row'>";
+                  echo "<div class='col-12'>";
+                  echo "<div class='card mb-2'>";
+                  //print_r($requestDetails);
+                  if($requestDetails['M'] == 'yes')
+                  {
+                    displayClasses($con, $requestDetails['Course_ID'], "Monday", $requestDetails['Room_ID']);
+                  }
+                  if($requestDetails['T'] == 'yes')
+                  {
+                    displayClasses($con, $requestDetails['Course_ID'], "Tuesday",$requestDetails['Room_ID']);
+                  }
+                  if($requestDetails['W'] == 'yes')
+                  {
+                    displayClasses($con, $requestDetails['Course_ID'], "Wednesday",$requestDetails['Room_ID']);
+                  }
+                  if($requestDetails['R'] == 'yes')
+                  {
+                    displayClasses($con, $requestDetails['Course_ID'], "Thursday",$requestDetails['Room_ID']);
+                  }
+                  if($requestDetails['F'] == 'yes')
+                  {
+                    displayClasses($con, $requestDetails['Course_ID'], "Friday",$requestDetails['Room_ID']);
+                  }
+                  echo "</div>";
+                  echo "</div>";
+                  echo "</div>";
+                }
                 echo "</div></div>";
               }
               echo "</div>";

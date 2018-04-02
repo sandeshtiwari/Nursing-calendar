@@ -106,7 +106,7 @@
             }
             echo "</select>";
             echo "<td>";
-            echo "<td><input type = 'submit' value ='Register' class='btn btn-primary value ='Register'></td>";
+            echo "<td><input type = 'submit' value ='See Rooms' class='btn btn-primary value ='Register'></td>";
             echo "</form></tr>";
           }
           echo "</table>";

@@ -2,9 +2,9 @@
 require 'config/config.php';
 require "classes/Admin.php";
 require "classes/Room.php";
-if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
+if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 {
-  header("locaton: index.php");
+  header("Location: index.php");
 }
 
 

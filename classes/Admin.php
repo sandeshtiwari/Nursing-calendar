@@ -62,7 +62,7 @@
 		// method to return all the requesting classes
 		public function giveRequestingClasses()
 		{
-			$string = "SELECT DISTINCT Week_ID FROM collision ORDER BY Week_ID";
+			$string = "SELECT Week_ID FROM collision GROUP BY Week_ID ORDER BY COUNT(Week_ID) DESC";
 			$query = mysqli_query($this->con,$string);
 			$weekCourses = array();
 			while($week = mysqli_fetch_assoc($query))

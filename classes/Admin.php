@@ -84,6 +84,14 @@
 			$dates = mysqli_fetch_assoc($query);
 			return $dates;
 		}
+        // method to get the latest semester
+        public function getLatestSem()
+		{
+			$string = "SELECT ID, MAX(end_date) FROM semester LIMIT 1";
+			$query = mysqli_query($this->con, $string);
+			$sem = mysqli_fetch_assoc($query);
+			return $sem['ID'];
+		}
 		// method to give the name of a room given a room id
 		public function giveRoomName($room_id)
 		{

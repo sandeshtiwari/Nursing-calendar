@@ -6,7 +6,19 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 {
   header("Location: index.php");
 }
-
+function displayClasses($con, $requesting_course, $day, $room_id)
+{
+  $admin = new Admin($con, $_SESSION['email']);
+  echo "<table class='table table-hover'>";
+  echo "<thead><tr><th colspan=3>Requests on ".$day."</th></tr></thead>";
+  echo "<tbody>";
+  echo "<tr>";
+  echo "<td>".$requesting_course." ".$admin->giveCourseName($requesting_course)." requested ". $admin->giveRoomName($room_id)."</td>";
+  echo "<td><a href='#' class='btn btn-secondary'>Give Access</a></td>";
+  echo "</tr>";
+  echo "</tbody>";
+  echo "</table>";
+}
 
 ?>
 

@@ -36,6 +36,15 @@
 			}
 			return json_encode($data);
 		}
+        // method to give the name of the course from a given course id
+        public function giveCourseName($course_id)
+		{
+			$string = "SELECT Prefix, Number, Title FROM course WHERE Course_ID = $course_id";
+			$query = mysqli_query($this->con, $string);
+			$course = mysqli_fetch_assoc($query);
+			$courseDetails = $course['Prefix']." ".$course['Number']." ".$course['Title'];
+			return $courseDetails;
+		}
 		private function getRoomNames($Course_ID, $occupied_ID)
 		{
 			$roomString = "SELECT room.Name as roomName FROM room, occupied WHERE room.ID = occupied.Room_ID AND Course_ID = '$Course_ID' AND occupied_ID = '$occupied_ID' LIMIT 1";

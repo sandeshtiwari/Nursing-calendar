@@ -76,6 +76,14 @@
 			}
 			return $weekCourses;
 		}
+        // method to give the start and end date of a week given a week id
+		public function giveWeekStartEnd($week_id, $semester_id)
+		{
+			$string = "SELECT start_date, end_date FROM week WHERE ID = '$week_id' AND semester_id = '$semester_id'";
+			$query = mysqli_query($this->con, $string);
+			$dates = mysqli_fetch_assoc($query);
+			return $dates;
+		}
 		// method to give the name of a room given a room id
 		public function giveRoomName($room_id)
 		{

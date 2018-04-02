@@ -59,33 +59,22 @@
 				$dow[] = 5;
 			return $dow;
 		}
-		// method to  return an array with the rooms with collisions and collisions
-		public function giveCollisions()
+		// method to return all the requesting classes
+		public function giveRequestingClasses()
 		{
-			$string = "SELECT DISTINCT Coll_ID, Room_ID FROM collision";
+			$string = "SELECT DISTINCT Week_ID FROM collision ORDER BY Week_ID";
 			$query = mysqli_query($this->con,$string);
-			$allCols = array();
-			// going over each collisions
-			while($collisions = mysqli_fetch_assoc($query))
+			$weekCourses = array();
+			while($week = mysqli_fetch_assoc($query))
 			{
-				$coll_id = $collisions['Coll_ID'];
-				// selecting courses with a particular collision id
-				$string = "SELECT course.Course_ID as Course_ID, Prefix, Number, Title FROM collision,course WHERE collision.Course_ID = course.Course_ID AND Coll_ID = '$coll_id'";
+				$string = "SELECT Course_ID, Room_ID, M, T, W, R, F FROM collision WHERE Week_ID =".$week['Week_ID']."";
 				$courseQuery = mysqli_query($this->con, $string);
-				$courses = array();
-				// going over courses which are colliding
-				while($course = mysqli_fetch_assoc($courseQuery))
+				while($row = mysqli_fetch_assoc($courseQuery))
 				{
-					$collDetails = array();
-					$collDetails['Course_ID'] = $course['Course_ID'];
-					$collDetails['Prefix'] = $course['Prefix'];
-					$collDetails['Number'] = $course['Number'];
-					$collDetails['Title'] = $course['Title'];
-					$courses[] = $collDetails;
+					$weekCourses[$week['Week_ID']] [] = $row;
 				}
-				$allCols[$collisions['Room_ID']] = $courses;
 			}
-			return $allCols;
+			return $weekCourses;
 		}
 		// method to give the name of a room given a room id
 		public function giveRoomName($room_id)

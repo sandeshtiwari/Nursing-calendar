@@ -204,26 +204,30 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
           <div class='card mb-3'>
           <?php 
             $admin = new Admin($con, $_SESSION['email']);
+            $requests = $admin->giveRequestingClasses();
+            $semsester_id = $admin->getLatestSem();
             // get rooms with collisions as key and details of the class as value
-            $rooms = $admin->giveCollisions();
-            //print_r($rooms);
-            if(!empty($rooms))
+            if(!empty($requests))
             {
               // displaying collisions
-              foreach($rooms as $room => $details)
+              echo "<div id='accordion'>";
+              echo "<div class='card'>";
+              foreach($requests as $week=>$request)
               {
-                // getting the name of a room using room name
-                $roomName = $admin->giveRoomName($room);
-                // displaying room name
-                echo "<div class='card-header'> A collision in ".$roomName."</div>";
-                echo "<div class='card-body'>";
-                // displaying classes which are colliding
-                foreach($details as $detail)
-                {
-                  echo $detail['Course_ID']." ".$detail['Prefix']." ".$detail['Number']. " ".$detail['Title']."<br>";
-                }
-                echo "</div>";
+                $weekDates = $admin->giveWeekStartEnd($week, $semsester_id);
+                echo "<div class='card-header' id='headingOne'>";
+                echo "<h3 class='mb-0'>";
+                echo "<button class='btn btn-link' data-toggle='collapse' data-target='#".$week."' aria-expanded='false' aria-controls='collapse".$week."'>";
+                echo "Week - ".$weekDates['start_date']." / ".$weekDates['end_date']."";
+                echo "</button>";
+                echo "</h3></div>";
+                echo "<div id='".$week."' class='collapse' aria-labelledby='".$week."' data-parent='#accordion'>
+                <div class='card-body'>";
+                print_r($request);
+                echo "</div></div>";
               }
+              echo "</div>";
+              echo "</div>";
             }
             else
             {

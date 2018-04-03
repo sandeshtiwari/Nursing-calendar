@@ -6,7 +6,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 {
   header("Location: index.php");
 }
-function displayClasses($con, $requesting_course, $day, $room_id)
+function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $semsester_id)
 {
   $admin = new Admin($con, $_SESSION['email']);
   echo "<table class='table table-hover'>";
@@ -15,6 +15,18 @@ function displayClasses($con, $requesting_course, $day, $room_id)
   echo "<tr>";
   echo "<td>".$requesting_course." ".$admin->giveCourseName($requesting_course)." requested ". $admin->giveRoomName($room_id)."</td>";
   echo "<td><a href='#' class='btn btn-secondary'>Give Access</a></td>";
+  echo "</tr>";
+  echo "<tr>";
+  $collidingCourse = $admin->giveCollidingCourse($room_id, $week_id, $day, $semsester_id);
+  if(!empty($collidingCourse))
+  {
+    echo "<td>".$collidingCourse." ".$admin->giveCourseName($collidingCourse)." has booked ". $admin->giveRoomName($room_id)."</td>";  
+    echo "<td><a href='#' class='btn btn-secondary'>Move class </a></td>";
+  }
+  else
+  {
+    echo "<td>The course is not colliding with any courses for this day but is has a range of weeks that is requested</td>";
+  }
   echo "</tr>";
   echo "</tbody>";
   echo "</table>";
@@ -245,23 +257,23 @@ function displayClasses($con, $requesting_course, $day, $room_id)
                   //print_r($requestDetails);
                   if($requestDetails['M'] == 'yes')
                   {
-                    displayClasses($con, $requestDetails['Course_ID'], "Monday", $requestDetails['Room_ID']);
+                    displayClasses($con, $requestDetails['Course_ID'], "Monday", $requestDetails['Room_ID'], $week,$semsester_id);
                   }
                   if($requestDetails['T'] == 'yes')
                   {
-                    displayClasses($con, $requestDetails['Course_ID'], "Tuesday",$requestDetails['Room_ID']);
+                    displayClasses($con, $requestDetails['Course_ID'], "Tuesday",$requestDetails['Room_ID'], $week,$semsester_id);
                   }
                   if($requestDetails['W'] == 'yes')
                   {
-                    displayClasses($con, $requestDetails['Course_ID'], "Wednesday",$requestDetails['Room_ID']);
+                    displayClasses($con, $requestDetails['Course_ID'], "Wednesday",$requestDetails['Room_ID'], $week,$semsester_id);
                   }
                   if($requestDetails['R'] == 'yes')
                   {
-                    displayClasses($con, $requestDetails['Course_ID'], "Thursday",$requestDetails['Room_ID']);
+                    displayClasses($con, $requestDetails['Course_ID'], "Thursday",$requestDetails['Room_ID'], $week,$semsester_id);
                   }
                   if($requestDetails['F'] == 'yes')
                   {
-                    displayClasses($con, $requestDetails['Course_ID'], "Friday",$requestDetails['Room_ID']);
+                    displayClasses($con, $requestDetails['Course_ID'], "Friday",$requestDetails['Room_ID'], $week,$semsester_id);
                   }
                   echo "</div>";
                   echo "</div>";

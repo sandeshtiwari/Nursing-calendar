@@ -36,6 +36,16 @@
 			}
 			return json_encode($data);
 		}
+        // method to give the colliding course name
+		public function giveCollidingCourse($room_id, $week_id, $day, $semester_id)
+		{
+			$day = substr($day, 0, 1);
+			$string = "SELECT Course_ID FROM occupied
+			 WHERE Room_ID = $room_id AND Week_ID = $week_id AND Semester_ID = $semester_id AND $day = 'yes'";
+			 $query = mysqli_query($this->con, $string);
+			 $course = mysqli_fetch_assoc($query);
+			 return $course['Course_ID'];
+		}
         // method to give the name of the course from a given course id
         public function giveCourseName($course_id)
 		{

@@ -10,7 +10,9 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 {
   $admin = new Admin($con, $_SESSION['email']);
   echo "<table class='table table-hover'>";
-  echo "<thead><tr><th colspan=3>Requests on ".$day."</th></tr></thead>";
+  echo "<thead><tr><th>Requests on ".$day."</th>";
+  echo "<td><a href='#' class='btn btn-outline-secondary'>Delete Request</a></td>";
+  echo "</tr></thead>";
   echo "<tbody>";
   echo "<tr>";
   echo "<td>".$requesting_course." ".$admin->giveCourseName($requesting_course)." <strong>requested</strong> ". $admin->giveRoomName($room_id)."</td>";
@@ -31,7 +33,6 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   echo "</tbody>";
   echo "</table>";
 }
-
 ?>
 
 <!DOCTYPE html>

@@ -36,6 +36,12 @@
 			}
 			return json_encode($data);
 		}
+        // method to delete any unwanted rows from a given table
+        private function sanitize($tableName)
+		{
+			$string = "DELETE FROM $tableName WHERE M = 'no' AND T = 'no' AND W = 'no' AND R = 'no' AND F = 'no'";
+			$query = mysqli_query($this->con, $string);
+		}
         // method to get a unique occupied id which is not already in the table
 		private function getUniqueOccupiedID()
 		{

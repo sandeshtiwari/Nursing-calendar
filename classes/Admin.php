@@ -36,6 +36,17 @@
 			}
 			return json_encode($data);
 		}
+        // method to give days
+        private function giveDays($day)
+		{
+			$days['M'] = 'no';
+			$days['T'] = 'no';
+			$days['W'] = 'no';
+			$days['R'] = 'no';
+			$days['F'] = 'no';
+			$days[$day] = 'yes';
+			return $days;
+		}
         // method to give the colliding course name
 		public function giveCollidingCourse($room_id, $week_id, $day, $semester_id)
 		{

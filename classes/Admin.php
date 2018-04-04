@@ -36,6 +36,21 @@
 			}
 			return json_encode($data);
 		}
+        // method to give access to a requesting course_id
+        public function giveAccess($collidingCoures,$course_id,$room_id,$week_id,$day,$semester_id)
+		{
+			$day = substr($day, 0, 1);
+			$days = $this->giveDays($day);
+			$occupied_id = $this->getUniqueOccupiedID();
+			$string = "INSERT INTO occupied(Course_ID, Room_ID, Semester_ID,M, T, W, R, F, Week_ID, occupied_ID)
+			 VALUES('$course_id', '$room_id', '$semester_id', '".$days['M']."', '".$days['T']."', '".$days['W']."', '".$days['R']."', '".$days['F']."',$week_id, $occupied_id)";
+			$query = mysqli_query($this->con, $string);
+			$string = "UPDATE occupied SET $day ='no' 
+			WHERE Room_ID = $room_id AND Week_ID = $week_id AND Course_ID = $collidingCoures AND Semester_ID = $semester_id";
+			$query = mysqli_query($this->con, $string);
+			$this->sanitize("occupied");
+			$this->updateCollision($course_id, $room_id, $week_id, $day, $semester_id);
+		}
         // method to update the collision table after the collision is resolved
         private function updateCollision($course_id, $room_id, $week_id, $day, $semester_id)
 		{

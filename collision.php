@@ -13,14 +13,14 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   echo "<thead><tr><th colspan=3>Requests on ".$day."</th></tr></thead>";
   echo "<tbody>";
   echo "<tr>";
-  echo "<td>".$requesting_course." ".$admin->giveCourseName($requesting_course)." requested ". $admin->giveRoomName($room_id)."</td>";
+  echo "<td>".$requesting_course." ".$admin->giveCourseName($requesting_course)." <strong>requested</strong> ". $admin->giveRoomName($room_id)."</td>";
   echo "<td><a href='#' class='btn btn-secondary'>Give Access</a></td>";
   echo "</tr>";
   echo "<tr>";
   $collidingCourse = $admin->giveCollidingCourse($room_id, $week_id, $day, $semsester_id);
   if(!empty($collidingCourse))
   {
-    echo "<td>".$collidingCourse." ".$admin->giveCourseName($collidingCourse)." has booked ". $admin->giveRoomName($room_id)."</td>";  
+    echo "<td>".$collidingCourse." ".$admin->giveCourseName($collidingCourse)." has <strong>booked</strong> ". $admin->giveRoomName($room_id)."</td>";  
     echo "<td><a href='#' class='btn btn-secondary'>Move class </a></td>";
   }
   else

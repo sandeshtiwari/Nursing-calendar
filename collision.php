@@ -6,24 +6,24 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 {
   header("Location: index.php");
 }
-function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $semsester_id)
+function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $semester_id)
 {
   $admin = new Admin($con, $_SESSION['email']);
+  $collidingCourse = $admin->giveCollidingCourse($room_id, $week_id, $day, $semester_id);
   echo "<table class='table table-hover'>";
   echo "<thead><tr><th>Requests on ".$day."</th>";
-  echo "<td><a href='#' class='btn btn-outline-secondary'>Delete Request</a></td>";
+  echo "<td><a href='resolveCollision.php' class='btn btn-outline-secondary'>Delete Request</a></td>";
   echo "</tr></thead>";
   echo "<tbody>";
   echo "<tr>";
   echo "<td>".$requesting_course." ".$admin->giveCourseName($requesting_course)." <strong>requested</strong> ". $admin->giveRoomName($room_id)."</td>";
-  echo "<td><a href='#' class='btn btn-secondary'>Give Access</a></td>";
+  echo "<td><a href='resolveCollision.php?override=true&collidingCourse=".$collidingCourse."&course_id=".$requesting_course."&room_id=".$room_id."&week_id=".$week_id."&day=".$day."&semester_id=".$semester_id."' class='btn btn-secondary'>Give Access</a></td>";
   echo "</tr>";
   echo "<tr>";
-  $collidingCourse = $admin->giveCollidingCourse($room_id, $week_id, $day, $semsester_id);
   if(!empty($collidingCourse))
   {
     echo "<td>".$collidingCourse." ".$admin->giveCourseName($collidingCourse)." has <strong>booked</strong> ". $admin->giveRoomName($room_id)."</td>";  
-    echo "<td><a href='#' class='btn btn-secondary'>Move class </a></td>";
+    echo "<td><a href='resolveCollision.php' class='btn btn-secondary'>Move class </a></td>";
   }
   else
   {
@@ -33,6 +33,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   echo "</tbody>";
   echo "</table>";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -225,10 +226,16 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
           <a href="collision.php"><h3>Collisions</h3></a>
         </li>
       </ol>
+      <?php
+        if(isset($_GET['accessGranted']))
+            {
+              echo "<div class='alert alert-success'>Classroom access given successfully!</div>";
+            } 
+      ?>
       <div class="row">
         <div class="col-12">
           <div class='card mb-3'>
-          <?php 
+          <?php
             $admin = new Admin($con, $_SESSION['email']);
             $requests = $admin->giveRequestingClasses();
             $semsester_id = $admin->getLatestSem();

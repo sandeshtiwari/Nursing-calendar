@@ -36,6 +36,15 @@
 			}
 			return json_encode($data);
 		}
+        // method to delete request
+        public function deleteRequest($course_id, $room_id, $week_id, $day, $semester_id)
+		{
+			$day = substr($day, 0, 1);
+			$string = "UPDATE collision SET $day = 'no'
+			WHERE Course_ID = $course_id AND Room_ID = $room_id AND Week_ID = $week_id AND Semester_ID = $semester_id";
+			$query = mysqli_query($this->con, $string);
+			$this->sanitize("collision");
+		}
         // method to give access to a requesting course_id
         public function giveAccess($collidingCoures,$course_id,$room_id,$week_id,$day,$semester_id)
 		{

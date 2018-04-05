@@ -12,7 +12,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   $collidingCourse = $admin->giveCollidingCourse($room_id, $week_id, $day, $semester_id);
   echo "<table class='table table-hover'>";
   echo "<thead><tr><th>Requests on ".$day."</th>";
-  echo "<td><a href='resolveCollision.php' class='btn btn-outline-secondary'>Delete Request</a></td>";
+  echo "<td><a href='resolveCollision.php?delete=true&course_id=".$requesting_course."&room_id=".$room_id."&week_id=".$week_id."&day=".$day."&semester_id=".$semester_id."' class='btn btn-outline-secondary'>Delete Request</a></td>";
   echo "</tr></thead>";
   echo "<tbody>";
   echo "<tr>";
@@ -231,6 +231,10 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
             {
               echo "<div class='alert alert-success'>Classroom access given successfully!</div>";
             } 
+        else if(isset($_GET['deleted']))
+        {
+          echo "<div class='alert alert-success'>Request successfully deleted!</div>";
+        } 
       ?>
       <div class="row">
         <div class="col-12">
@@ -295,7 +299,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
             else
             {
               // display message if no collision exists
-              echo "<div class='card-header'>No collisins at the time.</div>";
+              echo "<div class='card-header'>No collisions to display.</div>";
             }
           ?>
           </div>

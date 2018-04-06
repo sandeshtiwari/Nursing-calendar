@@ -1,45 +1,94 @@
 <?php
-require 'config/config.php';
-require "classes/Admin.php";
-require "classes/Room.php";
-if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
-{
-  header("Location: index.php");
-}
-function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $semester_id)
-{
-  $admin = new Admin($con, $_SESSION['email']);
-  $collidingCourse = $admin->giveCollidingCourse($room_id, $week_id, $day, $semester_id);
-  echo "<table class='table table-hover'>";
-  echo "<thead><tr><th>Requests on ".$day."</th>";
-  echo "<td><a href='resolveCollision.php?delete=true&course_id=".$requesting_course."&room_id=".$room_id."&week_id=".$week_id."&day=".$day."&semester_id=".$semester_id."' class='btn btn-outline-secondary'>Delete Request</a></td>";
-  echo "</tr></thead>";
-  echo "<tbody>";
-  echo "<tr>";
-  echo "<td>".$requesting_course." ".$admin->giveCourseName($requesting_course)." <strong>requested</strong> ". $admin->giveRoomName($room_id)."</td>";
-  echo "<td><a href='resolveCollision.php?override=true&collidingCourse=".$collidingCourse."&course_id=".$requesting_course."&room_id=".$room_id."&week_id=".$week_id."&day=".$day."&semester_id=".$semester_id."' class='btn btn-secondary'>Give Access</a></td>";
-  echo "</tr>";
-  echo "<tr>";
-  if(!empty($collidingCourse))
+
+  require 'check_privilege.php';
+  require 'classes/Admin.php';
+  if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
   {
-    echo "<td>".$collidingCourse." ".$admin->giveCourseName($collidingCourse)." has <strong>booked</strong> ". $admin->giveRoomName($room_id)."</td>";  
-    echo "<td><a href='resolveCollision.php' class='btn btn-secondary'>Move class </a></td>";
+    header("locaton: index.php");
+  }
+
+  if($_SESSION['privilege'] == 'admin')
+  {
+    $person = new Admin($con, $_SESSION['email']);
+  }
+  else if($_SESSION['privilege'] == 'teacher')
+  {
+    $person = new Teacher($con, $_SESSION['email']);
   }
   else
   {
-    echo "<td>The course is not colliding with any courses for this day but is has a range of weeks that is requested</td>";
+    $person = new Student($con, $_SESSION['email']);
   }
-  echo "</tr>";
-  echo "</tbody>";
-  echo "</table>";
-}
-
+  $json = $person->getJSON();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 
 <head>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+<script>
+ $(document).ready(function() {
+  $('#nurcalendar').fullCalendar({ 
+        eventRender: function(event, element, view) {
+        var theDate = event.start
+        var endDate = event.dowend;
+        var startDate = event.dowstart;
+        
+        if (theDate >= endDate) {
+                return false;
+        }
+
+        if (theDate <= startDate) {
+          return false;
+        }
+        
+        },
+
+        defaultView: 'month',
+        nowIndicator: true,
+        header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+        },
+        //defaultDate: '2016-01-15T16:00:00',
+        events: giveEvents()
+  });
+  function giveEvents()
+  {
+    var data = <?php echo $json;?>;
+    console.log(data[0]);
+    for(i = 0; i < data.length; i++)
+    {
+      data[i]['dowstart'] = new Date(data[i]['dowstart']);
+      data[i]['dowend'] = new Date(data[i]['dowend']);
+    }
+    return data;
+  }
+});
+</script>
+<style>
+
+ body {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+  }
+
+ #nurcalendar {
+  width: 650px;
+  margin: 0 auto;
+  }
+</style>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -52,7 +101,6 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
-  
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -200,46 +248,44 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
           </form>
         </li>  -->
 
-<!-- this is for the registation button -->
-  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link">
-            <?php
-           
+        <!-- this is for the registation button -->
+  <li class="nav-item">
+    <a class = "nav-link" data-toggle="tooltip" data-placement="right" title="Registration Status">
+        <?php
+       
 
-$setting;
-$open = "yes";
-$close = "no";
+          $setting;
+          $open = "yes";
+          $close = "no";
 
-$sql = "SELECT register_permission FROM semester WHERE ID = 1";
+          $sql = "SELECT register_permission FROM semester WHERE ID = 1";
 
-$result = mysqli_query($con, $sql);
+          $result = mysqli_query($con, $sql);
 
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $setting = $row['register_permission'];
 
-          $setting = $row['register_permission'];
 
+          if($setting == $open){
 
-if($setting == $open){
+            echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
+          }
 
-  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
-}
+          elseif($setting == $close){
 
-elseif($setting == $close){
-
-  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
-}    
-
-?>
-          </a>
-        </li>
-<!-- this is for the registation button -->
+            echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
+          }    
+        ?>
+    </a>
+  </li>
 
         <li class="nav-item">
           <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
             <i class="fa fa-fw fa-arrow-circle-left"></i>Back</a>
         </li>
 
-         <li class="nav-item">
+
+        <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
         </li>
@@ -248,6 +294,17 @@ elseif($setting == $close){
   </nav>
   <div class="content-wrapper">
     <div class="container-fluid">
+
+
+      
+      <div id='nurcalendar'></div>
+        <div class="row">
+          <div class="col-12">
+            
+            <embed  height = "550%" width = "100%" scrolling = "no" src="styles/caltest.php">
+          </div>
+        </div>      
+
       <!-- Breadcrumbs
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -255,146 +312,7 @@ elseif($setting == $close){
         </li>
         <li class="breadcrumb-item active">Blank Page</li>
       </ol>-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="collision.php"><h3>Collisions</h3></a>
-        </li>
-      </ol>
-      <?php
-        if(isset($_GET['accessGranted']))
-            {
-              echo "<div class='alert alert-success'>Classroom access given successfully!</div>";
-            } 
-        else if(isset($_GET['deleted']))
-        {
-          echo "<div class='alert alert-success'>Request successfully deleted!</div>";
-        } 
-      ?>
-      <div class="row">
-        <div class="col-12">
-          <div class='card mb-3'>
-          <?php
-            $admin = new Admin($con, $_SESSION['email']);
-            $requests = $admin->giveRequestingClasses();
-            $semsester_id = $admin->getLatestSem();
-            // get rooms with collisions as key and details of the class as value
-            if(!empty($requests))
-            {
-              // displaying collisions
-              echo "<div id='accordion'>";
-              echo "<div class='card'>";
-              foreach($requests as $week=>$request)
-              {
-                $weekDates = $admin->giveWeekStartEnd($week, $semsester_id);
-                echo "<div class='card-header' id='headingOne'>";
-                echo "<h3 class='mb-0'>";
-                echo "<button class='btn btn-link' data-toggle='collapse' data-target='#".$week."' aria-expanded='false' aria-controls='collapse".$week."'>";
-                echo "Week - ".$weekDates['start_date']." / ".$weekDates['end_date']." &#9662;&#9652;";
-                echo "</button>";
-                echo "</h3></div>";
-                echo "<div id='".$week."' class='collapse' aria-labelledby='".$week."' data-parent='#accordion'>
-                <div class='card-body'>";
-                //print_r($request);
-                foreach($request as $requestDetails)
-                {
-                  echo "<div class= 'row'>";
-                  echo "<div class='col-12'>";
-                  echo "<div class='card mb-2'>";
-                  //print_r($requestDetails);
-                  if($requestDetails['M'] == 'yes')
-                  {
-                    displayClasses($con, $requestDetails['Course_ID'], "Monday", $requestDetails['Room_ID'], $week,$semsester_id);
-                  }
-                  if($requestDetails['T'] == 'yes')
-                  {
-                    displayClasses($con, $requestDetails['Course_ID'], "Tuesday",$requestDetails['Room_ID'], $week,$semsester_id);
-                  }
-                  if($requestDetails['W'] == 'yes')
-                  {
-                    displayClasses($con, $requestDetails['Course_ID'], "Wednesday",$requestDetails['Room_ID'], $week,$semsester_id);
-                  }
-                  if($requestDetails['R'] == 'yes')
-                  {
-                    displayClasses($con, $requestDetails['Course_ID'], "Thursday",$requestDetails['Room_ID'], $week,$semsester_id);
-                  }
-                  if($requestDetails['F'] == 'yes')
-                  {
-                    displayClasses($con, $requestDetails['Course_ID'], "Friday",$requestDetails['Room_ID'], $week,$semsester_id);
-                  }
-                  echo "</div>";
-                  echo "</div>";
-                  echo "</div>";
-                }
-                echo "</div></div>";
-              }
-              echo "</div>";
-              echo "</div>";
-            }
-            else
-            {
-              // display message if no collision exists
-              echo "<div class='card-header'>No collisions to display.</div>";
-            }
-          ?>
-          </div>
-
-
-
-<!-- this is for the registation button -->
-<div class="modal fade" id = "myModal">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to save changes?</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          To confirm your choise, please, press Save Changes. <br>
-                          Press Close to exit.
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" onclick="switchReg()">Save changes</button>
-                        </div>
-                      </div>
-                    </div>
-              
-            </div>             
-
-         
-           
-            <div class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p>One fine body&hellip;</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-<!-- this is for the registation button -->
-
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-
-
-
-
-
-        </div>
-      </div>
-    </div>
+      
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
@@ -433,8 +351,6 @@ elseif($setting == $close){
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
-    <!-- this is for the registation button -->
-    <script src="js/admin_js.js"></script>
   </div>
 </body>
 

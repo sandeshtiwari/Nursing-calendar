@@ -1,11 +1,11 @@
 <?php
-  require 'check_privilege.php';
-  require 'classes/Teacher.php';
-  require 'classes/Student.php';
-  require 'classes/Admin.php';
+  require '../check_privilege.php';
+  require '../classes/Teacher.php';
+  require '../classes/Student.php';
+  require '../classes/Admin.php';
   if(!isset($_SESSION['username']))
   {
-    header("Location: index.php");
+    header("Location: ../index.php");
   }
   $_SESSION['privilege'] = 'admin';
   if(check_student($con))
@@ -19,36 +19,13 @@
   $display = "";
   if($_SESSION['privilege'] == 'admin')
   {
-    header("location:admin_calendar.php");
+    $display = "<a href='../admin_page.php'>Admin Page</a>";
+    $person = new Admin($con, $_SESSION['email']);
   }
   else if($_SESSION['privilege'] == 'teacher')
   {
-   //test to see if registration is open or closed 
-  $setting;
-  $open = "yes";
-  $close = "no";
-
-  $sql = "SELECT register_permission FROM semester WHERE ID = 1";
-
-  $result = mysqli_query($con, $sql);
-
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-          $setting = $row['register_permission'];
-
-    //if open allow teachers to get to the register.php
-    if($setting == $open){
-
-      $display = "<a href='register.php'>Register Classroom</a>";
-      $person = new Teacher($con, $_SESSION['email']);
-    }
-    //if not then say registration closed and have link to calender.php
-    elseif($setting == $close){
-
-      $display = "<a href='calendar.php'>Registration Closed</a>";
-      $person = new Teacher($con, $_SESSION['email']);
-
-    }    
+    $display = "<a href='../register.php'>Register Classroom</a>";
+    $person = new Teacher($con, $_SESSION['email']);
   }
   else
   {
@@ -78,11 +55,11 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
 
-<link rel="stylesheet" href="jquery-ui/jquery-ui.css" />
+<link rel="stylesheet" href="../jquery-ui/jquery-ui.css" />
 
-<link rel="stylesheet" href="jquery-ui/jquery-ui.css" />
+<link rel="stylesheet" href="../jquery-ui/jquery-ui.css" />
 
-<link rel="stylesheet" href="jquery-ui/jquery-ui.theme.css" />
+<link rel="stylesheet" href="../jquery-ui/jquery-ui.theme.css" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -281,7 +258,7 @@ li a:hover:not(.active) {
 }
 img {  
   
-    background: url('ulm_logo.png');
+    
     background-repeat:repeat-x;
     background-position:top;
     margin-top:0px;
@@ -295,78 +272,21 @@ img {
 
 <style type="text/css" media="print">
    .no-print { display: none; }
-
-   .inactiveLink {
-   pointer-events: none;
-   cursor: default;
-}
 </style>
 
 </head>
-
-
-  <body>
-
 <div class="no-print">
 
-      <ul>
-       
-        <a class="navbar-brand" rel="home" href="#" title="University of Louisiana at Monroe">      
-        
-          <h4 align="center" style="color: #ffffff"> 
-            <?php 
-              echo "Welcome ". $_SESSION['username']." ";
-            ?> 
-          </h4>
-         
-        </a>
-       
-        <li><a href="#home">Home</a></li>
-        <li><a href="#news">News</a></li>
-        
-        <li style="float:right"><a href="logout.php">Logout</a></li>
-        <li style="float:right">
-
-        <?php
-        echo "".$display;
-        ?>
-
-        </li>
-    </ul> 
-
-    <img style="max-width:500px; margin-top: 7px;" src="styles/images/Nursing101.png" class="img-circle" align="middle" >
-       
-       
-     <br/>
-     <br/>
-     <br/>
-
-     <br/>
-  </div> 
-    <div id='calendar'></div>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-
-
-
-
-    <div class = "no-print">
-
-        <?php
-
-        require "footer.php";
-
-        ?>
-
-    </div>
-
+<body>
+</div> 
+<br>
+<div id='calendar'></div>
+<br/>
+<br/>
+<br/>
+<br/>
 
 </body>
 
 
 </html>
-
-
-

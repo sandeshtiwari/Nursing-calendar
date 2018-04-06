@@ -42,7 +42,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
-          <a class="nav-link" href="calendar.php">
+          <a class="nav-link" href="admin_calendar.php">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Master Calendar</span>
           </a>
@@ -175,37 +175,35 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 
 
 <!-- this is for the registation button -->
-  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link">
-            <?php
-           
+  <li class="nav-item">
+    <a class = "nav-link" data-toggle="tooltip" data-placement="right" title="Registration Status">
+        <?php
+       
 
-$setting;
-$open = "yes";
-$close = "no";
+          $setting;
+          $open = "yes";
+          $close = "no";
 
-$sql = "SELECT register_permission FROM semester WHERE ID = 1";
+          $sql = "SELECT register_permission FROM semester WHERE ID = 1";
 
-$result = mysqli_query($con, $sql);
+          $result = mysqli_query($con, $sql);
 
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $setting = $row['register_permission'];
 
-          $setting = $row['register_permission'];
 
+          if($setting == $open){
 
-if($setting == $open){
+            echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
+          }
 
-  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
-}
+          elseif($setting == $close){
 
-elseif($setting == $close){
-
-  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
-}    
-
-?>
-          </a>
-        </li>
+            echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
+          }    
+        ?>
+    </a>
+  </li>
 
 <!-- this is for the registation button -->
 

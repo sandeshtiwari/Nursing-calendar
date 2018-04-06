@@ -76,7 +76,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
-          <a class="nav-link" href="calendar.php">
+          <a class="nav-link" href="admin_calendar.php">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Master Calendar</span>
           </a>

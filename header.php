@@ -5,9 +5,9 @@
  
   <a class="navbar-brand" rel="home" href="#" title="University of Louisiana at Monroe">      
   
-  <h4 align = "center" style = "color: #ffffff"> <?php 
+  <h4 class= "usrname" align = "center" style = "color: #ffffff"> <?php 
   echo "Welcome ". $_SESSION['username']." ";
-  ?> 
+  ?>
   </h4>
    
     </a>
@@ -17,14 +17,13 @@
 
   <li><a href = "http://www.ulm.edu/">News</a></li>
   <li><a href = "https://moodle.ulm.edu/" title="Moodle">Moodle@ULM</a></li>
-  <li><a href = "calendar.php">Calendar</a></li>
+  
     
   
-
   <li style = "float:right"><a href = "logout.php">Logout</a></li>
-  <li style = "float:right">
-
-  </li>
+  <li style = "float:right"><a href = "calendar.php">  Calendar  </a></li>
+  <li style = "float:right"></li>
+  
   
 
 
@@ -59,13 +58,12 @@ html{
 
   
 
-  h4 { 
+  .usrname { 
     display: block;
     font-size: 1em;
     margin-top: 1.0em;
     margin-bottom: 1.0em;
-    margin-left: 4.0em;
-    margin-right: 0;
+    text-align: center;
     font-weight: bold;
   }
 
@@ -79,7 +77,7 @@ html{
 
   li {
     float: left;
-     margin-top: 1.0em;
+    margin-top: 1.0em;
     margin-bottom: 1.0em;
     border-right:1px solid #bbb;
   }

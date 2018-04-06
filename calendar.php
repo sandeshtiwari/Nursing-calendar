@@ -24,8 +24,32 @@
   }
   else if($_SESSION['privilege'] == 'teacher')
   {
-    $display = "<a href='register.php'>Register Classroom</a>";
-    $person = new Teacher($con, $_SESSION['email']);
+   //test to see if registration is open or closed 
+  $setting;
+  $open = "yes";
+  $close = "no";
+
+  $sql = "SELECT register_permission FROM semester WHERE ID = 1";
+
+  $result = mysqli_query($con, $sql);
+
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+          $setting = $row['register_permission'];
+
+    //if open allow teachers to get to the register.php
+    if($setting == $open){
+
+      $display = "<a href='register.php'>Register Classroom</a>";
+      $person = new Teacher($con, $_SESSION['email']);
+    }
+    //if not then say registration closed and have link to calender.php
+    elseif($setting == $close){
+
+      $display = "<a href='calendar.php'>Registration Closed</a>";
+      $person = new Teacher($con, $_SESSION['email']);
+
+    }    
   }
   else
   {
@@ -272,6 +296,11 @@ img {
 
 <style type="text/css" media="print">
    .no-print { display: none; }
+
+   .inactiveLink {
+   pointer-events: none;
+   cursor: default;
+}
 </style>
 
 </head>

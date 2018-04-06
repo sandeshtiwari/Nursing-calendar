@@ -100,6 +100,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
           </a>
         </li>
 
+   
         <!--
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="nav-link" href="tables.html">
@@ -204,7 +205,42 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
             </div>
           </form>
         </li>  -->
-        
+
+
+<!-- this is for the registation button -->        
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link">
+            <?php
+           
+
+$setting;
+$open = "yes";
+$close = "no";
+
+$sql = "SELECT register_permission FROM semester WHERE ID = 1";
+
+$result = mysqli_query($con, $sql);
+
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+          $setting = $row['register_permission'];
+
+
+if($setting == $open){
+
+  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
+}
+
+elseif($setting == $close){
+
+  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
+}    
+
+?>
+          </a>
+        </li>
+<!-- this is for the registation button -->
+
         <li class="nav-item">
           <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
             <i class="fa fa-fw fa-arrow-circle-left"></i>Back</a>
@@ -248,6 +284,59 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
             }
             echo "</table>";
           ?>
+
+
+
+<!-- this is for the registation button -->
+
+<div class="modal fade" id = "myModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to save changes?</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          To confirm your choise, please, press Save Changes. <br>
+                          Press Close to exit.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" onclick="switchReg()">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+              
+            </div>             
+
+         
+           
+            <div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- this is for the registation button -->
+
+
+
+
         </div>
       </div>
     </div>
@@ -311,6 +400,8 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
+    <script src="js/admin_js.js"></script>
+
   </div>
 </body>
 

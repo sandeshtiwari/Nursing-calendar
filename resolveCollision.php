@@ -24,7 +24,8 @@
 			$course_id = $_GET['course_id'];
 			$day = $_GET['day'];
 			$week_id = $_GET['week_id'];
-			header("Location: bookRoom.php?course_id=$course_id&day=$day&week_id=$week_id");
+            $room_id = $_GET['room_id'];
+			header("Location: bookRoom.php?course_id=$course_id&day=$day&week_id=$week_id&room_id=$room_id");
 		}
 	}
 	else

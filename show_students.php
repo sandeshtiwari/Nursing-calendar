@@ -279,7 +279,7 @@ elseif($setting == $close){
             {
               echo "<tr>";
               $email = $admin->getEmail($student['CWID'], "student");
-              echo "<td><a href ='calendar.php?email=".$email."&student=".$student['Fname']." ".$student['Lname']."'>".$student['CWID']."</a></td><td>".$student['Fname']."</td><td>".$student['Lname']."</td><td>".$student['email']."</td>";
+              echo "<td><a href ='styles/calview.php?email=".$email."&student=".$student['Fname']." ".$student['Lname']."'>".$student['CWID']."</a></td><td>".$student['Fname']."</td><td>".$student['Lname']."</td><td>".$student['email']."</td>";
               echo "</tr>";
             }
             echo "</table>";

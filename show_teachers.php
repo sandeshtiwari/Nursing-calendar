@@ -278,7 +278,7 @@ elseif($setting == $close){
             {
               echo "<tr>";
               $email = $admin->getEmail($teacher['CWID'], "teacher");
-              echo "<td><a href ='calendar.php?email=".$email."&teacher=".$teacher['Fname']." ".$teacher['Lname']."'>".$teacher['CWID']."</a></td><td>".$teacher['Fname']."</td><td>".$teacher['Lname']."</td><td>".$teacher['email']."</td>";
+              echo "<td><a href ='styles/calview.php?email=".$email."&teacher=".$teacher['Fname']." ".$teacher['Lname']."'>".$teacher['CWID']."</a></td><td>".$teacher['Fname']."</td><td>".$teacher['Lname']."</td><td>".$teacher['email']."</td>";
               echo "</tr>";
             }
             echo "</table>";

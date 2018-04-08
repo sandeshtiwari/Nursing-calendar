@@ -23,7 +23,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   if(!empty($collidingCourse))
   {
     echo "<td>".$collidingCourse." ".$admin->giveCourseName($collidingCourse)." has <strong>booked</strong> ". $admin->giveRoomName($room_id)."</td>";  
-    echo "<td><a href='resolveCollision.php' class='btn btn-secondary'>Move class </a></td>";
+    echo "<td><a href='resolveCollision.php?move=true&course_id=$collidingCourse&day=$day&week_id=$week_id&semester_id=$semester_id' class='btn btn-secondary'>Move class </a></td>";
   }
   else
   {

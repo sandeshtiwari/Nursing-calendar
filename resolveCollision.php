@@ -18,6 +18,14 @@
 			$admin->deleteRequest($_GET['course_id'],$_GET['room_id'],$_GET['week_id'],$_GET['day'],$_GET['semester_id']);
 			header("Location: collision.php?deleted");
 		}
+		else if(isset($_GET['move']))
+		{
+			//print_r($_GET);
+			$course_id = $_GET['course_id'];
+			$day = $_GET['day'];
+			$week_id = $_GET['week_id'];
+			header("Location: bookRoom.php?course_id=$course_id&day=$day&week_id=$week_id");
+		}
 	}
 	else
 	{

@@ -81,13 +81,28 @@
       $showBookButton= $roomObj->checkVacancy($occupiedRoomsAndDays[$room['ID']], $course_id, $semester_id);
       if($showBookButton)
       {
-        
+        if($adminCheck == "yes" && $roomObj->checkSelfOccupied($course_id, $room['ID']))
+          {
+            echo "<td>Needs to be moved from this class</td>"; 
+          }
+          else
+          {
+            echo "<td><button type = 'button' data-toggle = 'modal' data-target = #".$room['ID']." class='btn btn-outline-primary'>Book room</button></td>";
+          }
         //print_r($occupiedRoomsAndDays[$room['ID']]);
-        echo "<td><button type = 'button' data-toggle = 'modal' data-target = #".$room['ID']." class='btn btn-outline-primary'>Book room</button></td>";
+        
       }
       else
       {
-        echo "<td>All days booked</td>";
+        if($adminCheck == "yes" && $roomObj->checkSelfOccupied($course_id, $room['ID']))
+          {
+            echo "<td>Needs to be moved from this class</td>"; 
+          }
+          else
+          {
+            echo "<td>All days booked</td>";
+          }
+        
       }
       if($adminCheck == "yes")
       {

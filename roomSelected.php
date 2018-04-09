@@ -2,6 +2,7 @@
 	require "config/config.php";
 	require "classes/Room.php";
 	require "classes/Teacher.php";
+	require "classes/Admin.php";
 	require "header.php";
 
 
@@ -11,7 +12,15 @@
 	//echo $_POST['course_id'];
 	//echo $_POST['room_id'];
 	//print_r($_POST['requestDays']);
-	if(isset($_POST['request']))
+	if(isset($_POST['request']) && isset($_POST['move']))
+	{
+		//header("Location: collision.php");
+		//print_r($_POST);
+		$admin = new Admin($con, $_SESSION['email']);
+		$admin->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['week'],$_POST['day'], $_POST['roomToDelete']);
+		header("Location: collision.php?moved");
+	}
+	if(isset($_POST['request']) && !isset($_POST['move']))
 	{
 		//echo "requesting";
 		if(!isset($_POST['requestDays']))
@@ -54,7 +63,7 @@
 			header("Location: register.php?registered=yes");
 		}
 	}
-	else
+	else if(!isset($_POST['request']) && !isset($_POST['book']))
 	{
 		header("Location: calendar.php");
 	}

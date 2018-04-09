@@ -136,7 +136,7 @@
       echo "</tr>";
     }
   }
-  function vacantRoomModal($vacantRooms, $con, $semester_id, $course_id, $weeksToBook, $adminCheck, $day)
+  function vacantRoomModal($vacantRooms, $con, $semester_id, $course_id, $weeksToBook, $adminCheck, $day, $roomInfo)
   {
     //print_r($occupiedRoomAndDays);
     
@@ -150,6 +150,8 @@
       echo "<div class='modal-header'>Register ".$room->getRoomName($vacantRoom)."</div>";
       echo "<div class='modal-body'>";
       echo "<form class='form-group' action='roomSelected.php' method='POST'>";
+      $week = $weeksToBook[0];
+      $checkBookedForADay = $room->checkVacancyForSingleDay(substr($day, 0, 1), $week, $semester_id, $occupiedRoom);
       if($adminCheck == 'no')
       {
         $days = $room->getDaysOfWeek($course_id, $semester_id);
@@ -185,16 +187,35 @@
       }
       else
       {
-        echo $day."  <input type='checkbox' name = 'bookDays[]' value = ".substr($day,0,1).">  ";
+        if($checkBookedForADay == "book")
+        {
+          echo $day."  <input type='checkbox' name = 'bookDays[]' value = ".substr($day,0,1).">  ";  
+        }
+        else
+        {
+          echo "Booked by another class.";
+        }
+        
       }
       echo "<div class='modal-footer'>";
       echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
       //echo "<input type= 'hidden' name = ".$semester_id." id='book' value='true'>";
       echo "<input type= 'hidden' name = 'room_id' value=".$vacantRoom.">";
       echo "<input type= 'hidden' name = 'course_id' value=".$course_id.">";
+      if($adminCheck == 'yes')
+          {
+            echo "<input type= 'hidden' name = 'move' value=".$roomInfo['move'].">";
+            //echo "<input type= 'hidden' name = 'week' value=".$roomInfo['week_id'].">";
+            //echo "<input type= 'hidden' name = 'room_id' value=".$roomInfo['room_id'].">";
+            echo "<input type= 'hidden' name = 'roomToDelete' value=".$roomInfo['room_id'].">";
+            echo "<input type= 'hidden' name = 'day' value=".$roomInfo['day'].">";
+          }
       inputWeeks($weeksToBook);
       echo "<input type= 'hidden' name = 'book' value='true'>";
-      echo "<input type='submit' class='btn btn-primary' value = 'Confirm'>";
+      if($checkBookedForADay == "book")
+      {
+        echo "<input type='submit' class='btn btn-primary' value = 'Confirm'>";
+      }
       echo "</div>";
       echo "</form>";
       echo "</div>";
@@ -211,7 +232,7 @@
       echo "<input type= 'hidden' name = 'weeks[]' value=".$week.">";
     }
   }
-  function preOccupedRoomModal($occupiedRoomsAndDays, $con,$semester_id, $course_id, $weeksToBook, $adminCheck, $day)
+  function preOccupedRoomModal($occupiedRoomsAndDays, $con,$semester_id, $course_id, $weeksToBook, $adminCheck, $day, $roomInfo)
   {
     foreach($occupiedRoomsAndDays as $occupiedRoom => $days)
     {
@@ -273,7 +294,7 @@
         $checkBookedForADay = $room->checkVacancyForSingleDay(substr($day, 0, 1), $week, $semester_id, $occupiedRoom);
         if($checkBookedForADay == "book")
         {
-          echo $day."  <input type='checkbox' name = 'bookDays[]' value = ".substr($day,0,1).">  ";  
+          echo $day."  <input type='checkbox' name = 'bookDays[]' value = ".substr($day,0,1).">  ";
         }
         else
         {
@@ -287,6 +308,14 @@
       echo "<input type= 'hidden' name = 'room_id' value=".$occupiedRoom.">";
       echo "<input type= 'hidden' name = 'book' id='book' value='true'>";
       echo "<input type= 'hidden' name = 'course_id' value=".$course_id.">";
+      if($adminCheck == 'yes')
+          {
+            echo "<input type= 'hidden' name = 'move' value=".$roomInfo['move'].">";
+            echo "<input type= 'hidden' name = 'week' value=".$roomInfo['week_id'].">";
+            //echo "<input type= 'hidden' name = 'room_id' value=".$roomInfo['room_id'].">";
+            echo "<input type= 'hidden' name = 'roomToDelete' value=".$roomInfo['room_id'].">";
+            echo "<input type= 'hidden' name = 'day' value=".$roomInfo['day'].">";
+          }
       $week = $weeksToBook[0];
       $checkBookedForADay = $room->checkVacancyForSingleDay(substr($day, 0, 1), $week, $semester_id, $occupiedRoom);
       if($checkBookedForADay == "book")
@@ -352,7 +381,7 @@
       {
         if($checkBookedForADay == "request")
         {
-          echo $day."  <input type='checkbox' name = 'bookDays[]' value = ".substr($day,0,1).">  ";  
+          echo $day."  <input type='checkbox' name = 'bookDays[]' value = ".substr($day,0,1).">  ";
         }
         else
         {
@@ -393,13 +422,25 @@
       echo "<input type= 'hidden' name = 'room_id' value=".$occupiedRoom.">";
       //echo $occupiedRoom;
       echo "<input type= 'hidden' name = 'course_id' value=".$course_id.">";
+      if($adminCheck == 'yes')
+          {
+            echo "<input type= 'hidden' name = 'move' value=".$roomInfo['move'].">";
+            echo "<input type= 'hidden' name = 'week' value=".$roomInfo['week_id'].">";
+            //echo "<input type= 'hidden' name = 'room_id' value=".$roomInfo['room_id'].">";
+            echo "<input type= 'hidden' name = 'roomToDelete' value=".$roomInfo['room_id'].">";
+            echo "<input type= 'hidden' name = 'day' value=".$roomInfo['day'].">";
+          }
       inputWeeks($weeksToBook);
       echo "<input type= 'hidden' name = 'request' value='true'>";
       $week = $weeksToBook[0];
       $checkBookedForADay = $room->checkVacancyForSingleDay(substr($day, 0, 1), $week, $semester_id, $occupiedRoom);
-      if($partiallyBooked == 'no')
+      if($adminCheck == 'yes' && $checkBookedForADay == "request")
       {
         echo "<input type='submit' class='btn btn-info' value = 'Confirm'>";  
+      }
+      if($partiallyBooked == 'no' && $adminCheck == 'no')
+      {
+        echo "<input type='submit' class='btn btn-info' value = 'Confirm'>"; 
       }
       echo "</div>";
       echo "</form>";
@@ -470,12 +511,12 @@
         // getting the properties for the vacant rooms
         $vacantRoomProperties = $rooms->getFullRow($vacantRooms);
         // getting the modal ready for input for vacant rooms
-        vacantRoomModal($vacantRooms,$con, $semester_id, $courseID, $weeks, $adminCheck, $day);
+        vacantRoomModal($vacantRooms,$con, $semester_id, $courseID, $weeks, $adminCheck, $day, $_GET);
         displayVacantRooms($vacantRoomProperties);
         
         // display all the preoccuped rooms
         $occupiedRoomProperties = $rooms->getFullRow($occupiedRooms);
-        preOccupedRoomModal($occupiedRoomsAndDays, $con,$semester_id, $courseID, $weeks, $adminCheck, $day);
+        preOccupedRoomModal($occupiedRoomsAndDays, $con,$semester_id, $courseID, $weeks, $adminCheck, $day, $_GET);
         displayOccupiedRooms($occupiedRoomProperties,$con, $occupiedRoomsAndDays, $courseID, $semester_id,$weeks, $room_id, $adminCheck);
       ?>
             

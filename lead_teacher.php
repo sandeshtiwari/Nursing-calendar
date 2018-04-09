@@ -1,0 +1,268 @@
+<?php
+require 'config/config.php';
+require "classes/admin.php";
+
+if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
+{
+  header("locaton: index.php");
+}
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Leader</title>
+  <!-- Bootstrap core CSS-->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/bootstrap-select.css">
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="index.html">Nursing Admin</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="admin_page.php">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Rooms</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="calendar.php">
+            <i class="fa fa-fw fa-dashboard"></i>
+            <span class="nav-link-text">Master Calendar</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+          <a class="nav-link" href="collision.php">
+            <i class="fa fa-minus-circle"></i>
+            <span class="nav-link-text">Collision</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="show_students.php">
+            <i class="fa fa-fw fa-graduation-cap"></i>
+            <span class="nav-link-text">Students</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="show_teachers.php">
+            <i class="fa fa-fw fa-leanpub"></i>
+            <span class="nav-link-text">Teachers</span>
+          </a>
+        </li>        
+      </ul>
+
+
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        
+      
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      
+      <div class="row">
+        <div class="col-12">
+
+<h5 style="text-align: center;">The Lead Techers at this moment:</h5>
+<!--Table-->
+
+
+
+   <?php
+
+
+$admin = new Admin($con, $_SESSION['email']);
+//Getting an array of classes taught for this semester. Class has prefix and number
+
+
+//Retriving current leaders for each course:
+$leaders = $admin->displayLeaders();
+
+$rowID = 1;
+
+if(!empty($leaders)){
+
+  echo "<table class='table table-bordered'>
+
+    <!--Table head-->
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Course</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+    </thead>
+    <!--Table head-->
+
+    
+
+<tbody>";
+
+   foreach($leaders as $lead => $details){
+    $Prefix = $details['Prefix'];
+    $Number = $details['Number'];
+    $Fname = $details['Fname'];
+    $Lname = $details['Lname'];
+
+    echo " <tr>
+            <th scope='row'>$rowID</th>
+            <td>$Prefix $Number</td>
+            <td>$Fname</td>
+            <td>$Lname</td>
+        </tr>";
+
+        $rowID++;
+    }
+
+    echo " </tbody>
+        </table>";
+}   
+
+
+
+
+
+
+
+$classes = $admin->giveClasses();
+//Printing a form for the class
+ if(!empty($classes)){
+
+  
+
+   foreach($classes as $class => $details){
+    $Prefix = $details['Prefix'];
+    $Number = $details['Number'];
+    $String = $Prefix.$Number;
+
+
+
+
+    echo "<form class='form-group ' >";
+      echo "<div class='form-group'>";
+      echo " <label css = 'text-align:center' > <b>".$Prefix." ".$Number."</b></label>";      
+      echo "<div class='form-controle'>";
+      echo "<select id= '".$Prefix.$Number."' class='form-control' data-live-search='true' >";
+      
+      $teachers = $admin->generateOptions($Prefix, $Number);
+      if(!empty($teachers)){
+
+        foreach($teachers as $teacher => $details){
+        $name = $details['Fname']." ".$details['Lname'];  
+        echo "<option value = '$name' >".$details['Fname']." ".$details['Lname']."</option>";
+        }
+    }
+      
+   
+      echo "</select>";          
+      echo "<input type='submit' name = '$String' onclick='myFunction(this.name)' class = 'btn btn-primary' data-toggle = 'modal' data-target = '#myModal' value = 'Assign as Leader' />";
+      echo "</div>";
+      echo"</div>  
+      </form>"; 
+    
+    }
+
+ }
+
+
+ 
+
+
+  ?>
+ 
+
+          
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Nursing Calendar</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="logout.php">Logout</a>
+          </div>
+        </div>
+      </div>
+
+
+
+      
+
+      
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+     
+    
+    <script src="js/teacher_role_js.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/leader_setting.js"></script>
+  </div>
+
+
+
+
+</body>
+
+</html>

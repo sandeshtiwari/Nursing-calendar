@@ -36,7 +36,7 @@
 			}
 			return json_encode($data);
 		}
-        // method to add collision
+		// method to add collision
 		public function addCollision($room_id, $course_id, $semester_id, $week, $day, $roomToDelete)
 		{
 			$day = substr($day, 0, 1);
@@ -50,18 +50,19 @@
 			$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID, M, T, W, R, F, Week_ID, Semester_ID) 
 			VALUES($course_id, $collision_id, $room_id, '".$days['M']."', '".$days['T']."','".$days['W']."','".$days['R']."','".$days['F']."', $week, $semester_id)";
 			$query = mysqli_query($this->con, $string);
-			 return $this->updateOccupied($course_id, $roomToDelete, $week, $day, $semester_id);
+			 //return $this->updateOccupied($course_id, $roomToDelete, $week, $day, $semester_id);
 		}
-        // method to update the collision table after the collision is resolved
-        private function updateOccupied($course_id, $room_id, $week_id, $day, $semester_id)
+		// method to update the collision table after the collision is resolved
+        public function updateOccupied($course_id, $room_id, $week_id, $day, $semester_id)
 		{
+			$day = substr($day, 0, 1);
 			$string = "UPDATE occupied SET $day = 'no'
 			WHERE Course_ID = '$course_id' AND Room_ID='$room_id' AND Week_ID = $week_id AND Semester_ID = $semester_id";
 			$query = mysqli_query($this->con, $string);
 			$this->sanitize("occupied");
 			return $string;
 		}
-        // function to get a unique collision id which is not already in the table
+		// function to get a unique collision id which is not already in the table
 		private function getUniqueCollID()
 		{
 			$string = "SELECT FLOOR(RAND() * 99999) AS Coll_ID 

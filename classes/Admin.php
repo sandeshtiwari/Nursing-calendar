@@ -36,6 +36,22 @@
 			}
 			return json_encode($data);
 		}
+        // method to add collision
+		public function addCollision($room_id, $course_id, $semester_id, $week, $day, $roomToDelete)
+		{
+			$day = substr($day, 0, 1);
+			$days['M'] = 'no';
+			$days['T'] = 'no';
+			$days['W'] = 'no';
+			$days['R'] = 'no';
+			$days['F'] = 'no';
+			$days[$day] = 'yes';
+			$collision_id = $this->getUniqueCollID();
+			$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID, M, T, W, R, F, Week_ID, Semester_ID) 
+			VALUES($course_id, $collision_id, $room_id, '".$days['M']."', '".$days['T']."','".$days['W']."','".$days['R']."','".$days['F']."', $week, $semester_id)";
+			$query = mysqli_query($this->con, $string);
+			 return $this->updateOccupied($course_id, $roomToDelete, $week, $day, $semester_id);
+		}
         // method to delete request
         public function deleteRequest($course_id, $room_id, $week_id, $day, $semester_id)
 		{

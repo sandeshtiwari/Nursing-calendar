@@ -205,7 +205,7 @@
       if($adminCheck == 'yes')
           {
             echo "<input type= 'hidden' name = 'move' value=".$roomInfo['move'].">";
-            //echo "<input type= 'hidden' name = 'week' value=".$roomInfo['week_id'].">";
+            echo "<input type= 'hidden' name = 'week' value=".$roomInfo['week_id'].">";
             //echo "<input type= 'hidden' name = 'room_id' value=".$roomInfo['room_id'].">";
             echo "<input type= 'hidden' name = 'roomToDelete' value=".$roomInfo['room_id'].">";
             echo "<input type= 'hidden' name = 'day' value=".$roomInfo['day'].">";

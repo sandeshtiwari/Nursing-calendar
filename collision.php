@@ -268,7 +268,15 @@ elseif($setting == $close){
         else if(isset($_GET['deleted']))
         {
           echo "<div class='alert alert-success'>Request successfully deleted!</div>";
-        } 
+        }
+        else if(isset($_GET['moved']))
+        {
+          echo "<div class='alert alert-success'>Moved successfully!</div>";
+        }
+        else if(isset($_GET['registered']))
+        {
+          echo "<div class='alert alert-success'>Booked successfully!</div>";
+        }
       ?>
       <div class="row">
         <div class="col-12">

@@ -61,6 +61,23 @@
 			$this->sanitize("occupied");
 			return $string;
 		}
+        // function to get a unique collision id which is not already in the table
+		private function getUniqueCollID()
+		{
+			$string = "SELECT FLOOR(RAND() * 99999) AS Coll_ID 
+			FROM collision 
+			WHERE 'Coll_ID' NOT IN (SELECT Coll_ID FROM collision) LIMIT 1";
+			$query = mysqli_query($this->con, $string);
+			$row = mysqli_fetch_assoc($query);
+			$string = "SELECT Coll_ID FROM collision";
+			$query = mysqli_query($this->con, $string);
+			$collision_id = mysqli_fetch_assoc($query);
+			if(empty($collision_id))
+			{
+				return 1;
+			}
+			return $row['Coll_ID'];
+		}
         // method to delete request
         public function deleteRequest($course_id, $room_id, $week_id, $day, $semester_id)
 		{

@@ -52,6 +52,15 @@
 			$query = mysqli_query($this->con, $string);
 			 return $this->updateOccupied($course_id, $roomToDelete, $week, $day, $semester_id);
 		}
+        // method to update the collision table after the collision is resolved
+        private function updateOccupied($course_id, $room_id, $week_id, $day, $semester_id)
+		{
+			$string = "UPDATE occupied SET $day = 'no'
+			WHERE Course_ID = '$course_id' AND Room_ID='$room_id' AND Week_ID = $week_id AND Semester_ID = $semester_id";
+			$query = mysqli_query($this->con, $string);
+			$this->sanitize("occupied");
+			return $string;
+		}
         // method to delete request
         public function deleteRequest($course_id, $room_id, $week_id, $day, $semester_id)
 		{

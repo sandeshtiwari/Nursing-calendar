@@ -220,7 +220,7 @@ if(!empty($classes)){
           <div id='$divName' class='collapse show' aria-labelledby='$divName' data-parent='#accordion'>
             <div class='card-body'> ";
 
-              echo "<h6 >Reserverd rooms:</h6>";
+              echo "<h5 style='text-align: center' >Reserverd rooms:</h5>";
               
 
               $booked = $teacher -> giveBooked($CRN);
@@ -268,7 +268,7 @@ if(!empty($classes)){
                         <td>$M, $T, $W, $R, $F</td>
                        
 
-                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='process($CRN, $room_id, $week_id)'>Cancel</button></td>
+                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='process($CRN, $room_id, $week_id)'>Button</button></td>
                         
                      </tr>";
                      $row++;
@@ -288,10 +288,74 @@ if(!empty($classes)){
 
 
 
-           echo " </div> </div>
-            </div>";
+         
+           echo " </div> </div>";
 
-        $divID++;
+           $pending = $teacher -> givePending($CRN);
+
+           echo " <h5 style='text-align: center'>Pending Requests :</h5>";
+
+           if(!empty($pending)){
+
+              echo "<table class='table table-striped table-responsive-md btn-table'>";
+
+              echo "<!--Table head-->
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Room</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Days</th>
+                        <th>Button</th>
+                    </tr>
+                </thead>
+                <!--Table head-->
+
+                 <!--Table body-->
+                    <tbody>";
+
+              $row = 1;
+                foreach($pending as $booking => $details){
+
+              $Room = $details['Name'];
+              $room_id = $details['Room_ID'];
+              $start_date = $details['start_date'];
+              $end_date = $details['end_date'];
+              $week_id = $details['week_id'];
+
+              $M = $details['M'];
+              $T = $details['T'];
+              $W = $details['W'];
+              $R = $details['R'];
+              $F = $details['F'];
+
+              echo "<tr>
+                        <th scope='row'>$row</th>
+                        <td>$Room</td>
+                        <td>$start_date</td>
+                        <td>$end_date</td>
+                        <td>$M, $T, $W, $R, $F</td>
+                       
+
+                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='collision($CRN, $room_id, $week_id)'>Button</button></td>
+                        
+                     </tr>";
+                     $row++;
+
+              
+
+            }
+
+          echo "</table>";  
+
+              }
+
+              else{
+                echo " No pending requests";
+              }
+
+            echo "</div>";
 
           //echo "The info is: Prefix: $Prefix, Number: $Number, and CRN: $CRN  .. <br/>";
 

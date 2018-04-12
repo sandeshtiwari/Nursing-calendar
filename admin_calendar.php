@@ -103,6 +103,32 @@
   <link href="css/sb-admin.css" rel="stylesheet">
 </head>
 
+<style>
+  .btn-primary {
+      background: #6f0029;
+      color: #ffffff;
+  }
+  .btn-danger{
+  padding: 0;
+}
+
+.btn-success{
+  padding: 0;
+}
+
+.bg-dark{
+  background: #6f0029 !important;
+}
+
+.navbar-sidenav{
+  background: #6f0029 !important;
+}
+.navbar-sidenav-third-level{
+  background: #6f0029 !important;
+}
+
+</style>
+
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -250,7 +276,7 @@
 
         <!-- this is for the registation button -->
   <li class="nav-item">
-    <a class = "nav-link" data-toggle="tooltip" data-placement="right" title="Registration Status">
+    <a class = "nav-link" data-toggle="tooltip" data-placement="right">
         <?php
        
 

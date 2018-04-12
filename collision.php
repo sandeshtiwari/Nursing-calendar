@@ -79,9 +79,14 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 }
 #logo{
     height: 33px;
-
-   
 }
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #e9ecef;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #e9ecef;
+}
+
 
 
 </style>

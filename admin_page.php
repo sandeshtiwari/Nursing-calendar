@@ -53,6 +53,13 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
     height: 35px;
    
 }
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #e9ecef;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #e9ecef;
+}
+
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">

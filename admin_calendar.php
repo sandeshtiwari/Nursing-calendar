@@ -123,7 +123,7 @@
 .navbar-sidenav{
   background: #6f0029 !important;
 }
-.navbar-sidenav-third-level{
+#sidenavToggler{
   background: #6f0029 !important;
 }
 

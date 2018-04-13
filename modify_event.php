@@ -212,7 +212,7 @@ if(!empty($classes)){
                         <td>$end_date</td>
                         <td>$M, $T, $W, $R, $F</td>
                        
-                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='process($CRN, $room_id, $week_id)'>Button</button></td>
+                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='process($CRN, $room_id, $week_id);history.go(0)'>Cancel Request</button></td>
                         
                      </tr>";
                      $row++;
@@ -263,7 +263,7 @@ if(!empty($classes)){
                         <td>$end_date</td>
                         <td>$M, $T, $W, $R, $F</td>
                        
-                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='collision($CRN, $room_id, $week_id)'>Button</button></td>
+                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='collision($CRN, $room_id, $week_id);history.go(0)'>Cancel Request</button></td>
                         
                      </tr>";
                      $row++;

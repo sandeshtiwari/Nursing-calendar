@@ -1,13 +1,10 @@
 <?php
 require 'config/config.php';
 require "classes/admin.php";
-
 if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 {
   header("locaton: index.php");
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +27,25 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
   <link rel="stylesheet" href="css/bootstrap-select.css">
 </head>
 
+<style>
+.btn-primary {
+    background: #6f0029;
+    color: #ffffff;
+}
+.bg-dark{
+  background-color: #6f0029 !important;
+}
+
+.bg-dark{
+  background: #6f0029 !important;
+}
+
+.navbar-sidenav{
+  background: #6f0029 !important;
+}
+
+</style>
+
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -39,31 +55,37 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="admin_page.php">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
+          <a class="nav-link" href="admin_calendar.php">
             <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Rooms</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="calendar.php">
-            <i class="fa fa-fw fa-dashboard"></i>
             <span class="nav-link-text">Master Calendar</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
+          <a class="nav-link" href="admin_page.php">
+            <i class="fa fa-fw fa-th"></i>
+            <span class="nav-link-text">Rooms</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
+          <a class="nav-link" href="lead_teacher.php">
+            <i class="fa fa-fw fa-th"></i>
+            <span class="nav-link-text">Assign Lead Teacher</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Collision">
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
           <a class="nav-link" href="show_students.php">
             <i class="fa fa-fw fa-graduation-cap"></i>
             <span class="nav-link-text">Students</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
           <a class="nav-link" href="show_teachers.php">
             <i class="fa fa-fw fa-leanpub"></i>
             <span class="nav-link-text">Teachers</span>
@@ -80,7 +102,42 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        
+         <li class="nav-item" data-toggle="tooltip" data-placement="right">
+          <a class="nav-link">
+            <?php
+           
+
+$setting;
+$open = "yes";
+$close = "no";
+
+$sql = "SELECT register_permission FROM semester WHERE ID = 1";
+
+$result = mysqli_query($con, $sql);
+
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+          $setting = $row['register_permission'];
+
+
+if($setting == $open){
+
+  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
+}
+
+elseif($setting == $close){
+
+  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
+}    
+
+?>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
+            <i class="fa fa-fw fa-arrow-circle-left"></i>Back</a>
+        </li>
       
         <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
@@ -89,33 +146,32 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
       </ul>
     </div>
   </nav>
-  <div class="content-wrapper">
+
+
+<div class="content-wrapper">
     <div class="container-fluid">
-      
+      <!-- Breadcrumbs
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Blank Page</li>
+      </ol>-->
       <div class="row">
         <div class="col-12">
-
-<h5 style="text-align: center;">The Lead Techers at this moment:</h5>
+          <h5 style="text-align: center;">The Lead Techers at this moment:</h5>
 <!--Table-->
 
 
 
    <?php
-
-
 $admin = new Admin($con, $_SESSION['email']);
 //Getting an array of classes taught for this semester. Class has prefix and number
-
-
 //Retriving current leaders for each course:
 $leaders = $admin->displayLeaders();
-
 $rowID = 1;
-
 if(!empty($leaders)){
-
   echo "<table class='table table-bordered'>
-
     <!--Table head-->
     <thead>
         <tr>
@@ -126,51 +182,32 @@ if(!empty($leaders)){
         </tr>
     </thead>
     <!--Table head-->
-
     
-
 <tbody>";
-
    foreach($leaders as $lead => $details){
     $Prefix = $details['Prefix'];
     $Number = $details['Number'];
     $Fname = $details['Fname'];
     $Lname = $details['Lname'];
-
     echo " <tr>
             <th scope='row'>$rowID</th>
             <td>$Prefix $Number</td>
             <td>$Fname</td>
             <td>$Lname</td>
         </tr>";
-
         $rowID++;
     }
-
     echo " </tbody>
         </table>";
 }   
-
-
-
-
-
-
-
 $classes = $admin->giveClasses();
 //Printing a form for the class
  if(!empty($classes)){
-
   
-
    foreach($classes as $class => $details){
     $Prefix = $details['Prefix'];
     $Number = $details['Number'];
     $String = $Prefix.$Number;
-
-
-
-
     echo "<form class='form-group ' >";
       echo "<div class='form-group'>";
       echo " <label css = 'text-align:center' > <b>".$Prefix." ".$Number."</b></label>";      
@@ -179,7 +216,6 @@ $classes = $admin->giveClasses();
       
       $teachers = $admin->generateOptions($Prefix, $Number);
       if(!empty($teachers)){
-
         foreach($teachers as $teacher => $details){
         $name = $details['Fname']." ".$details['Lname'];  
         echo "<option value = '$name' >".$details['Fname']." ".$details['Lname']."</option>";
@@ -194,17 +230,62 @@ $classes = $admin->giveClasses();
       </form>"; 
     
     }
-
  }
-
-
  
-
-
   ?>
  
 
-          
+        
+<!-- this is for the registation button -->
+
+ <div class="modal fade" id = "myModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to save changes?</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          To confirm your choise, please, press Save Changes. <br>
+                          Press Close to exit.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" onclick="switchReg()">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+              
+            </div>             
+
+         
+           
+            <div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- this is for the registation button -->
+
+
+
         </div>
       </div>
     </div>
@@ -213,7 +294,7 @@ $classes = $admin->giveClasses();
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
-          <small>Nursing Calendar</small>
+          <small> © TeamGamma<?php echo @date("Y"); ?></small>
         </div>
       </div>
     </footer>
@@ -238,29 +319,18 @@ $classes = $admin->giveClasses();
           </div>
         </div>
       </div>
-
-
-
-      
-
-      
     </div>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
-     
-    
-    <script src="js/teacher_role_js.js"></script>
-    <script src="js/bootstrap-select.js"></script>
+    <script src="js/admin_js.js"></script>
     <script src="js/leader_setting.js"></script>
   </div>
-
-
+    </div>
 
 
 </body>

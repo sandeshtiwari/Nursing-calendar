@@ -261,7 +261,6 @@
 				$teachers[] = $oneTeacher; 
 			}
 			return $teachers;
-
 		}
         public function setSemesterDates($id,$name, $start_date, $end_date)
 		{
@@ -300,13 +299,66 @@
 			    $string = "INSERT INTO week(ID, semester_ID, start_date, end_date) VALUES('$i', '$Semester_ID', '$week_start_date', '$week_end_date')";
 			    $query = mysqli_query($this->con, $string);
 			}
-
 		}
         private function getWeekDates($week, $year) {
 		  $dto = new DateTime();
 		  $result['start'] = $dto->setISODate($year, $week, 0)->format('Y-m-d');
 		  $result['end'] = $dto->setISODate($year, $week, 6)->format('Y-m-d');
 		  return $result;
+		}
+
+		public function giveClasses()
+		{
+			$clases = array();	
+			$sql = "SELECT DISTINCT Prefix, Number FROM course WHERE Semester_ID = 1;";
+			$res = mysqli_query($this->con, $sql);
+
+				while($class = mysqli_fetch_assoc($res)){
+					$oneClass = array();
+					$oneClass['Prefix'] = $class['Prefix'];
+					$oneClass['Number'] = $class['Number'];
+					$clases[] = $oneClass;
+				}
+			return $clases;
+		}
+
+		public function generateOptions($prefix, $number)
+		{
+			$teachers = array();
+			$sql = "SELECT Fname, Lname FROM course c join person p on p.CWID = c.Teacher_CWID where Prefix = '$prefix' and Number = '$number'";
+			$res = mysqli_query($this->con, $sql);
+
+			while ($teacher = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+
+				$oneTeacher = array();	
+				
+     			$oneTeacher['Fname'] = $teacher['Fname'];
+     			$oneTeacher['Lname'] = $teacher['Lname'];
+     			
+     			$teachers[] = $oneTeacher;
+    		}
+    		return $teachers;
+		}
+
+		public function displayLeaders()
+		{
+			$leaders = array();
+			$sql = "SELECT DISTINCT c.Prefix, c.Number, p.Fname, p.Lname, p.CWID from person as p join course as c on p.CWID = c.Lead_teacher where c.Semester_ID = 1;";
+			$res = mysqli_query($this->con, $sql);
+
+			while($lead = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+
+				$oneLeader = array();
+
+				$oneLeader['Prefix'] = $lead ['Prefix'];
+				$oneLeader['Number'] = $lead ['Number'];
+				$oneLeader['Fname'] = $lead ['Fname'];
+				$oneLeader['Lname'] = $lead ['Lname'];
+				$oneLeader['CWID'] = $lead ['CWID'];
+
+				$leaders[] = $oneLeader;
+			}
+			return $leaders;
 		}
 }
 ?>

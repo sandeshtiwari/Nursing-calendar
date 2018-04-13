@@ -1,12 +1,12 @@
 <?php
-require 'config/config.php';
+
+require 'check_privilege.php';
 require "classes/Teacher.php";
 require "classes/Room.php";
-if($_SESSION['privilege'] != 'teacher' || !isset($_SESSION['email']))
+if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
 {
   header("Location: index.php");
 }
-
 function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $semester_id)
 {
   $admin = new Admin($con, $_SESSION['email']);
@@ -34,8 +34,24 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   echo "</tbody>";
   echo "</table>";
 }
-
 ?>
+
+<style>
+.btn-primary {
+    background: #6f0029;
+    color: #ffffff;
+}
+
+.bg-dark{
+  background: #6f0029 !important;
+}
+
+.navbar-sidenav{
+  background: #6f0029 !important;
+  color: white;
+}
+
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,40 +75,35 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php">Nursing Admin</a>
+    <a class="navbar-brand" href="admin_page.php"><?php echo "Welcome, ". $_SESSION['username'] ?></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
-          <a class="nav-link" href="admin_page.php">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Requests">
+          <a class="nav-link" href="lead_register.php">
             <i class="fa fa-fw fa-th"></i>
-            <span class="nav-link-text">Rooms</span>
+            <span class="nav-link-text">Reserve Classroom</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Modify Requests">
+          <a class="nav-link" href="modify_event.php">
+            <i class="fa fa-fw fa-th"></i>
+            <span class="nav-link-text">Modify Requests</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
-          <a class="nav-link" href="admin_calendar.php">
+          <a class="nav-link" href="teachview.php">
             <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Master Calendar</span>
+            <span class="nav-link-text">Calendar</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Collision">
-          <a class="nav-link" href="collision.php">
-            <i class="fa fa-minus-circle"></i>
-            <span class="nav-link-text">Collision</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
-          <a class="nav-link" href="show_students.php">
-            <i class="fa fa-fw fa-graduation-cap"></i>
-            <span class="nav-link-text">Students</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
-          <a class="nav-link" href="show_teachers.php">
-            <i class="fa fa-fw fa-leanpub"></i>
-            <span class="nav-link-text">Teachers</span>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Notes">
+          <a class="nav-link" href="Lead_notes.php">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Add Notes</span>
           </a>
         </li>
 
@@ -109,39 +120,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
       <ul class="navbar-nav ml-auto">
         
       
-<!-- this is for the registation button -->
-  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link">
-            <?php
-           
 
-$setting;
-$open = "yes";
-$close = "no";
-
-$sql = "SELECT register_permission FROM semester WHERE ID = 1";
-
-$result = mysqli_query($con, $sql);
-
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-          $setting = $row['register_permission'];
-
-
-if($setting == $open){
-
-  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
-}
-
-elseif($setting == $close){
-
-  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
-}    
-
-?>
-          </a>
-        </li>
-<!-- this is for the registation button -->
 
         <li class="nav-item">
           <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
@@ -166,46 +145,25 @@ elseif($setting == $close){
       </ol>-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="modify_event.php"><h3>Modefy room reservations:</h3></a>
+          <a href="modify_event.php"><h3>Modify room reservations:</h3></a>
         </li>
       </ol>
 
       <?php
-
-
-
-
 $teacher = new Teacher($con, $_SESSION['email']);
-
 //getting teacher's CWID:
 $myID = $teacher ->getID($_SESSION['email']);
-
 //getting all the classes taught by the professor
 $classes = $teacher -> classesNow($myID);
-
-
-
-
-
-
-
-
-
-
 if(!empty($classes)){
-
   echo "<div id='accordion'>";
-
   $divID = 1;
   $divName = "collaps$divID";
-
   foreach($classes as $class => $details){
-
           $Prefix = $details['Prefix'];
           $Number = $details['Number'];
           $CRN = $details['Course_ID'];
           
-
         echo "<div class='card'>
               <div class='card-header' id='$divName'>
                <h5 class='mb-0'>               
@@ -214,21 +172,13 @@ if(!empty($classes)){
                 </button>
                 </h5>
              </div>
-
-
-
           <div id='$divName' class='collapse show' aria-labelledby='$divName' data-parent='#accordion'>
             <div class='card-body'> ";
-
               echo "<h5 style='text-align: center' >Reserverd rooms:</h5>";
               
-
               $booked = $teacher -> giveBooked($CRN);
-
               if(!empty($booked)){
-
               echo "<table class='table table-striped table-responsive-md btn-table'>";
-
               echo "<!--Table head-->
                 <thead>
                     <tr>
@@ -241,25 +191,20 @@ if(!empty($classes)){
                     </tr>
                 </thead>
                 <!--Table head-->
-
                  <!--Table body-->
                     <tbody>";
-
               $row = 1;
                 foreach($booked as $booking => $details){
-
               $Room = $details['Name'];
               $room_id = $details['Room_ID'];
               $start_date = $details['start_date'];
               $end_date = $details['end_date'];
               $week_id = $details['week_id'];
-
               $M = $details['M'];
               $T = $details['T'];
               $W = $details['W'];
               $R = $details['R'];
               $F = $details['F'];
-
               echo "<tr>
                         <th scope='row'>$row</th>
                         <td>$Room</td>
@@ -267,38 +212,24 @@ if(!empty($classes)){
                         <td>$end_date</td>
                         <td>$M, $T, $W, $R, $F</td>
                        
-
                         <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='process($CRN, $room_id, $week_id)'>Button</button></td>
                         
                      </tr>";
                      $row++;
-
               
-
             }
-
           echo "</table>";  
-
               }
-
               else{
                 echo "No approved reservations yet";
               }
            
-
-
-
          
            echo " </div> </div>";
-
            $pending = $teacher -> givePending($CRN);
-
            echo " <h5 style='text-align: center'>Pending Requests :</h5>";
-
            if(!empty($pending)){
-
               echo "<table class='table table-striped table-responsive-md btn-table'>";
-
               echo "<!--Table head-->
                 <thead>
                     <tr>
@@ -311,25 +242,20 @@ if(!empty($classes)){
                     </tr>
                 </thead>
                 <!--Table head-->
-
                  <!--Table body-->
                     <tbody>";
-
               $row = 1;
                 foreach($pending as $booking => $details){
-
               $Room = $details['Name'];
               $room_id = $details['Room_ID'];
               $start_date = $details['start_date'];
               $end_date = $details['end_date'];
               $week_id = $details['week_id'];
-
               $M = $details['M'];
               $T = $details['T'];
               $W = $details['W'];
               $R = $details['R'];
               $F = $details['F'];
-
               echo "<tr>
                         <th scope='row'>$row</th>
                         <td>$Room</td>
@@ -337,39 +263,23 @@ if(!empty($classes)){
                         <td>$end_date</td>
                         <td>$M, $T, $W, $R, $F</td>
                        
-
                         <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='collision($CRN, $room_id, $week_id)'>Button</button></td>
                         
                      </tr>";
                      $row++;
-
               
-
             }
-
           echo "</table>";  
-
               }
-
               else{
                 echo " No pending requests";
               }
-
             echo "</div>";
-
           //echo "The info is: Prefix: $Prefix, Number: $Number, and CRN: $CRN  .. <br/>";
-
     }
-
     echo "</div> ";
 }
-
-
   
-
-
-
-
 ?>
 
 <div id = "name_feedback"></div>

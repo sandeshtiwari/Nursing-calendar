@@ -57,8 +57,10 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 #students li a:hover:not(.header) {
     background-color: #eee; /* Add a hover effect to all links, except for headers */
 }
-  
+  </style>
+</head>
 
+<style>
   .btn-primary {
       background: #6f0029;
       color: #ffffff;
@@ -78,42 +80,33 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 .navbar-sidenav{
   background: #6f0029 !important;
 }
-#sidenavToggler{
-  background: #6f0029 !important;
-}
-#logo{
-    height: 35px;
-   
-}
-#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
-    color: #e9ecef;
-}
-.navbar-dark .navbar-nav .nav-link {
-    color: #e9ecef;
-}
-
 </style>
-</head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"> <img id="logo" src="ulm_logo_new.png"> Nursing Admin</a>
+    <a class="navbar-brand" href="admin_page.php">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
+          <a class="nav-link" href="admin_calendar.php">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Master Calendar</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
           <a class="nav-link" href="admin_page.php">
             <i class="fa fa-fw fa-th"></i>
             <span class="nav-link-text">Rooms</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
-          <a class="nav-link" href="admin_calendar.php">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Master Calendar</span>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
+          <a class="nav-link" href="lead_teacher.php">
+            <i class="fa fa-fw fa-th"></i>
+            <span class="nav-link-text">Assign Lead Teacher</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Collision">
@@ -242,7 +235,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 
 
 <!-- this is for the registation button -->
- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+ <li class="nav-item" data-toggle="tooltip" data-placement="right">
           <a class="nav-link">
             <?php
            

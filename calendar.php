@@ -7,48 +7,36 @@
   {
     header("Location: index.php");
   }
+    $teacher = new Teacher($con, $_SESSION['email']);
+$status= $teacher->checkRegistrationStatus();
   $_SESSION['privilege'] = 'admin';
   if(check_student($con))
   {
     $_SESSION['privilege'] = 'student';
   }
-  else if(check_teacher($con))
+  
+  else if(check_lead($con) && ($teacher->checkRegistrationStatus()))
   {
+    $_SESSION['privilege'] = 'lead';
+  }
+  else if (check_teacher($con)){
     $_SESSION['privilege'] = 'teacher';
   }
+    
   $display = "";
   if($_SESSION['privilege'] == 'admin')
   {
     header("location:admin_calendar.php");
   }
-  else if($_SESSION['privilege'] == 'teacher')
+   else if($_SESSION['privilege'] == 'teacher'){
+    header("location: crnTeachView.php");
+   }
+  else if($_SESSION['privilege'] == 'lead')
   {
    //test to see if registration is open or closed 
-  $setting;
-  $open = "yes";
-  $close = "no";
-
-  $sql = "SELECT register_permission FROM semester WHERE ID = 1";
-
-  $result = mysqli_query($con, $sql);
-
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-          $setting = $row['register_permission'];
-
-    //if open allow teachers to get to the register.php
-    if($setting == $open){
-
-      $display = "<a href='register.php'>Register Classroom</a>";
-      $person = new Teacher($con, $_SESSION['email']);
-    }
-    //if not then say registration closed and have link to calender.php
-    elseif($setting == $close){
-
-      $display = "<a href='calendar.php'>Registration Closed</a>";
-      $person = new Teacher($con, $_SESSION['email']);
-
-    }    
+    
+          header("location:lead_register.php?hyaa='$status'");
+      
   }
   else
   {
@@ -349,6 +337,108 @@ img {
     <br/>
     <br/>
 
+  <?php
+
+      if($_SESSION['privilege'] == 'teacher')
+  {
+
+      $idnum = " ";
+       $userpa = $_SESSION['username'];
+      
+    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
+
+    $result = mysqli_query($con, $sql2);
+
+    if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+  
+    while($row = mysqli_fetch_assoc($result)) {
+        $idnum = $row["CWID"];
+        
+    }
+    } else {
+    echo "No Notes";
+    }
+
+$sql1 = "SELECT * FROM course WHERE Teacher_CWID= $idnum";
+
+$result = mysqli_query($con, $sql1);
+
+if (mysqli_num_rows($result) >= 0) {
+    // output data of each row
+  
+    
+       while($row = mysqli_fetch_assoc($result)) {
+        echo "<br><br>Class: ". $row["Course_ID"]." " . $row["Prefix"]. " " . $row["Number"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
+        $boom=$row["Course_ID"];
+        echo "<form action='push_Notes.php' method='post'>
+            <input type='text' name='Notes'></input>
+            <input type='hidden' name='LastName' value='$boom'></input>
+            <input type='submit' name='submit' value='Update Note'></input>
+            </form>";
+    }
+    
+} else {
+    echo "No Notes <br/>";
+}
+
+}
+elseif($_SESSION['privilege'] == 'admin'){
+
+
+
+}
+else{
+
+ $idnum = " ";
+       $userpa = $_SESSION['username'];
+      
+    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
+
+    $result = mysqli_query($con, $sql2);
+
+    if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+  
+    while($row = mysqli_fetch_assoc($result)) {
+        $idnum = $row["CWID"];
+        
+    }
+    } else {
+    echo "No Notes";
+    }
+$sql3 = "SELECT Course_ID FROM registered WHERE CWID = $idnum";
+
+
+$result1 = mysqli_query($con, $sql3);
+
+if (mysqli_num_rows($result1) >= 0) {
+    // output data of each row
+      while($row1 = mysqli_fetch_assoc($result1)) {
+        
+
+          $cwidstudent = $row1['Course_ID'];
+          $sql4 = "SELECT * FROM course WHERE Course_ID = $cwidstudent";
+
+          $result2 = mysqli_query($con, $sql4);
+
+        if (mysqli_num_rows($result2) >= 0) {
+            // output data of each row
+           while($row2 = mysqli_fetch_assoc($result2)) {
+            echo "<br><br>Class: ". $row2["Course_ID"]." " . $row2["Prefix"]. " " . $row2["Number"]. "<br>  Teacher's Notes: <br> " . $row2["Notes"]. "<br>" ;
+          }
+        }
+      }   
+    
+} else {
+    echo "No Notes <br/>";
+}
+
+
+
+}
+
+?>
 
 
 

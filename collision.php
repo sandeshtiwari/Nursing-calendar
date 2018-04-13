@@ -59,12 +59,34 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
       background: #6f0029;
       color: #ffffff;
   }
-  .btn-danger{
+
+  .btn-secondary {
+    background: #6f0029;
+    color: #ffffff;
+  }
+
+  .btn-outline-secondary:hover, .btn-outline-secondary:focus, .btn-outline-secondary:active, .btn-outline-secondary.active, .open > .dropdown-toggle.btn-outline-secondary {
+  border-color: #6f0029;
+  background: #6f0029;
+}
+.btn-outline-secondary:active, .btn-outline-secondary {
+  border-color: #6f0029;
+  color: #6f0029;
+  box-shadow: none;
+  border: 1.5px solid;
+}
+
+.btn-danger{
   padding: 0;
 }
 
 .btn-success{
   padding: 0;
+}
+
+.btn-secondary-mod{
+  background: #6c757d;
+  color: #ffffff;
 }
 
 .bg-dark{
@@ -74,43 +96,33 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 .navbar-sidenav{
   background: #6f0029 !important;
 }
-#sidenavToggler{
-  background: #6f0029 !important;
-}
-#logo{
-    height: 33px;
-}
-#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
-    color: #e9ecef;
-}
-.navbar-dark .navbar-nav .nav-link {
-    color: #e9ecef;
-}
-
-
 
 </style>
-
-
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png"> Nursing Admin</a>
+    <a class="navbar-brand" href="admin_page.php">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
+          <a class="nav-link" href="admin_calendar.php">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Master Calendar</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
           <a class="nav-link" href="admin_page.php">
             <i class="fa fa-fw fa-th"></i>
             <span class="nav-link-text">Rooms</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
-          <a class="nav-link" href="admin_calendar.php">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Master Calendar</span>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
+          <a class="nav-link" href="lead_teacher.php">
+            <i class="fa fa-fw fa-th"></i>
+            <span class="nav-link-text">Assign Lead Teacher</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Collision">
@@ -238,7 +250,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
         </li>  -->
 
 <!-- this is for the registation button -->
-  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+  <li class="nav-item" data-toggle="tooltip" data-placement="right">
           <a class="nav-link">
             <?php
            
@@ -305,15 +317,7 @@ elseif($setting == $close){
         else if(isset($_GET['deleted']))
         {
           echo "<div class='alert alert-success'>Request successfully deleted!</div>";
-        }
-        else if(isset($_GET['moved']))
-        {
-          echo "<div class='alert alert-success'>Moved successfully!</div>";
-        }
-        else if(isset($_GET['registered']))
-        {
-          echo "<div class='alert alert-success'>Booked successfully!</div>";
-        }
+        } 
       ?>
       <div class="row">
         <div class="col-12">
@@ -433,11 +437,7 @@ elseif($setting == $close){
 
 
 
-
-
-
-
-        </div>
+</div>
       </div>
     </div>
     <!-- /.container-fluid-->
@@ -465,7 +465,7 @@ elseif($setting == $close){
           </div>
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-secondary-mod" type="button" data-dismiss="modal">Cancel</button>
             <a class="btn btn-primary" href="logout.php">Logout</a>
           </div>
         </div>

@@ -1,6 +1,7 @@
 <?php
 require 'config/config.php';
-if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
+require "classes/Teacher.php";
+if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
 {
   header("Location: index.php");
 }
@@ -31,13 +32,8 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
     background: #6f0029;
     color: #ffffff;
 }
-
-.btn-danger{
-  padding: 0;
-}
-
-.btn-success{
-  padding: 0;
+.bg-dark{
+  background-color: #6f0029 !important;
 }
 
 .bg-dark{
@@ -48,135 +44,47 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
   background: #6f0029 !important;
 }
 
+
+
+
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php">Nursing Admin</a>
+    <a class="navbar-brand" href="admin_page.php"><?php echo "Welcome, ". $_SESSION['username']?></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Requests">
+          <a class="nav-link" href="lead_register.php">
+            <i class="fa fa-fw fa-th"></i>
+            <span class="nav-link-text">Reserve Classroom</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Modify Requests">
+          <a class="nav-link" href="modify_event.php">
+            <i class="fa fa-fw fa-th"></i>
+            <span class="nav-link-text">Modify Requests</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
-          <a class="nav-link" href="admin_calendar.php">
+          <a class="nav-link" href="teachview.php">
             <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Master Calendar</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
-          <a class="nav-link" href="admin_page.php">
-            <i class="fa fa-fw fa-th"></i>
-            <span class="nav-link-text">Rooms</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
-          <a class="nav-link" href="lead_teacher.php">
-            <i class="fa fa-fw fa-th"></i>
-            <span class="nav-link-text">Assign Lead Teacher</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Collision">
-          <a class="nav-link" href="collision.php">
-            <i class="fa fa-minus-circle"></i>
-            <span class="nav-link-text">Collision</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
-          <a class="nav-link" href="show_students.php">
-            <i class="fa fa-fw fa-graduation-cap"></i>
-            <span class="nav-link-text">Students</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
-          <a class="nav-link" href="show_teachers.php">
-            <i class="fa fa-fw fa-leanpub"></i>
-            <span class="nav-link-text">Teachers</span>
+            <span class="nav-link-text">Calendar</span>
           </a>
         </li>
 
-  
-
-        <!--
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="tables.html">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Notes">
+          <a class="nav-link" href="lead_notes.php">
             <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Tables</span>
+            <span class="nav-link-text">Add Notes</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-wrench"></i>
-            <span class="nav-link-text">Components</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseComponents">
-            <li>
-              <a href="navbar.html">Navbar</a>
-            </li>
-            <li>
-              <a href="cards.html">Cards</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-file"></i>
-            <span class="nav-link-text">Example Pages</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
-            <li>
-              <a href="login.html">Login Page</a>
-            </li>
-            <li>
-              <a href="register.html">Registration Page</a>
-            </li>
-            <li>
-              <a href="forgot-password.html">Forgot Password Page</a>
-            </li>
-            <li>
-              <a href="blank.html">Blank Page</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-sitemap"></i>
-            <span class="nav-link-text">Menu Levels</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseMulti">
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-              <ul class="sidenav-third-level collapse" id="collapseMulti2">
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-          <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-link"></i>
-            <span class="nav-link-text">Link</span>
-          </a>
-        </li>
-      -->
+        
+
       </ul>
 
 
@@ -189,54 +97,6 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
       </ul>
       <ul class="navbar-nav ml-auto">
         
-        <!--
-        <li class="nav-item">
-          <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-              <input class="form-control" type="text" placeholder="Search for...">
-              <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-          </form>
-        </li>  -->
-
-
-<!-- this is for the registation button -->
-  <li class="nav-item">
-    <a class = "nav-link" data-toggle="tooltip" data-placement="right">
-        <?php
-       
-
-          $setting;
-          $open = "yes";
-          $close = "no";
-
-          $sql = "SELECT register_permission FROM semester WHERE ID = 1";
-
-          $result = mysqli_query($con, $sql);
-
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $setting = $row['register_permission'];
-
-
-          if($setting == $open){
-
-            echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
-          }
-
-          elseif($setting == $close){
-
-            echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
-          }    
-        ?>
-    </a>
-  </li>
-
-<!-- this is for the registation button -->
-
         <li class="nav-item">
           <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
             <i class="fa fa-fw fa-arrow-circle-left"></i>Back</a>
@@ -261,9 +121,117 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
       </ol>-->
       <div class="row">
         <div class="col-12">
-          <h1>Show all the rooms</h1>
-          <p>Display all the rooms here</p>
-        
+          <?php
+  
+  
+  
+
+  if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
+  {
+    header("Location: index.php");
+  }
+  $teacher = new Teacher($con, $_SESSION['email']);
+?>
+
+
+
+    <div class='container'>
+      <?php
+        $classes = $teacher->myClasses();
+        if(isset($classes))
+        {
+          //print_r($classes);
+          echo "<h2>Register a room for your classes.</h2>";
+          // display message if registered or not
+          if(isset($_GET['registered']) && $_GET['registered'] == 'yes')
+          {
+            echo "<div class='alert alert-success' role='alert'>
+                    Registered Successfully
+                  </div>";
+          }
+          // display message if registration failed
+          else if(isset($_GET['registered']) && $_GET['registered'] == 'no')
+          {
+            echo "<div class='alert alert-danger' role='alert'>
+                    Failed to register
+                  </div>";
+          }
+          if(isset($_GET['days']))
+          {
+             echo "<div class='alert alert-danger' role='alert'>
+                    Please enter days to request or register a class
+                  </div>";
+          }
+          if(isset($_GET['requestFailed']))
+          {
+             echo "<div class='alert alert-danger' role='alert'>
+                    Request failed because you have an overlapping request. Please cancel the previous request to make this request.
+                  </div>";
+          }
+          // display message if request was successfull
+          if(isset($_GET['requested']))
+          {
+            echo "<div class='alert alert-info' role='alert'>
+                    Request placed successfully
+                  </div>";
+          }
+          // display message if successfully cancled registration
+          if(isset($_GET['cancled']))
+          {
+            echo "<div class='alert alert-success' role='alert'>
+                    Successfully cancled registration.
+                  </div>";
+          }
+          if(isset($_GET['date']))
+          {
+            echo "<div class='alert alert-danger' role='alert'>
+                    Please enter a valid date range.
+                  </div>";
+          }
+          echo "<table class='table'>";
+          $hassedEmail = password_hash($_SESSION['email'], PASSWORD_DEFAULT);
+          $latestSem = $teacher->getLatestSem();
+          $weekDates = $teacher->getWeekDates($latestSem);
+          //print_r($weekDates);
+          //print_r($classes);
+          foreach($classes as $class)
+          {
+            $parts = explode(" ",$class);
+            echo "<tr>";
+            echo "<td class='list-group-item list-group-item-light'>".$class."</td>";
+            echo "<form method='POST' action='lead_book.php'>";
+            echo "<input type= 'hidden' name = 'email' id='email' value=".$hassedEmail.">";
+            echo "<input type= 'hidden' name = 'courseID' id='courseID' value=".$parts[0].">";
+            echo "<td><select class='form-control' name = 'start_date'>";
+            echo "<option>Select Start-date</option>";
+            for($i = 0; $i<sizeof($weekDates); $i++)
+            {
+              echo "<option>".$weekDates[$i]['start_date']."</option>";
+            }
+            echo "</select>";
+            echo "<td>";
+            echo "<td><select class='form-control' name = 'end_date'>";
+            echo "<option>Select End-date</option>";
+            for($i = 0; $i<sizeof($weekDates); $i++)
+            {
+              echo "<option>".$weekDates[$i]['end_date']."</option>";
+            }
+            echo "</select>";
+            echo "<td>";
+            echo "<td><input type = 'submit' value ='See Rooms' class='btn btn-primary value ='Register'></td>";
+            echo "</form></tr>";
+          }
+          echo "</table>";
+        }
+        else
+        {
+          echo "<h2>You are not assigned to teach any classes so far.</h2>";
+        }
+      ?>
+      </div>
+
+
+
 <!-- this is for the registation button -->
 
  <div class="modal fade" id = "myModal">
@@ -357,7 +325,6 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
     <script src="js/sb-admin.min.js"></script>
     <script src="js/admin_js.js"></script>
   </div>
-    </div>
 </body>
 
 </html>

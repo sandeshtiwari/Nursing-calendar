@@ -19,7 +19,7 @@
 		//print_r($_POST);
 		$admin->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['week'],$_POST['day'], $_POST['roomToDelete']);
 		$admin->updateOccupied($_POST['course_id'], $_POST['roomToDelete'], $_POST['week'], $_POST['day'], $semester_id);
-		//header("Location: collision.php?moved");
+		header("Location: collision.php?moved");
 	}
 	else if(isset($_POST['book']) && isset($_POST['move']))
 	{
@@ -34,7 +34,7 @@
 		//echo "requesting";
 		if(!isset($_POST['requestDays']))
 		{
-			//header("Location: lead_register.php?days");
+			header("Location: lead_register.php?days");
 			//echo $_POST['course_id'];
 		}
 		else
@@ -44,13 +44,13 @@
 			if($room->checkRequested($_POST['course_id'], $_POST['room_id'], $semester_id, $_POST['weeks'], $_POST['requestDays']))
 			{
 				echo "previously requested";
-				//header("Location: lead_register.php?requestFailed");
+				header("Location: lead_register.php?requestFailed");
 			}
 			else
 			{
 				//echo "request successful";
 				$room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['requestDays']);
-				//header("Location: lead_register.php?requested");
+				header("Location: lead_register.php?requested");
 			}
 		}
 	}
@@ -59,7 +59,7 @@
 		//echo "booking ";
 		if(!isset($_POST['bookDays']))
 		{
-			//header("Location: lead_register.php?days");
+			header("Location: lead_register.php?days");
 		}
 		else
 		{
@@ -69,12 +69,12 @@
 			//echo $_POST['room_id']. " ";
 			//echo $_POST['course_id'];
 			$room->reserveRoom($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['bookDays']);
-			//header("Location: lead_register.php?registered=yes");
+			header("Location: lead_register.php?registered=yes");
 		}
 	}
 	else if(!isset($_POST['request']) && !isset($_POST['book']))
 	{
-		//header("Location: index.php");
+		header("Location: index.php");
 	}
 ?>
 

@@ -113,27 +113,15 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Requests">
-          <a class="nav-link" href="lead_register.php">
-            <i class="fa fa-fw fa-th"></i>
-            <span class="nav-link-text">Reserve Classroom</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Modify Requests">
-          <a class="nav-link" href="modify_event.php">
-            <i class="fa fa-fw fa-th"></i>
-            <span class="nav-link-text">Modify Requests</span>
-          </a>
-        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
-          <a class="nav-link" href="teachview.php">
+          <a class="nav-link" href="crnteachview.php">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Calendar</span>
           </a>
         </li>
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Notes">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="crn_notes.php">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Add Notes</span>
           </a>
@@ -201,6 +189,18 @@
           background: #6f0029 !important;
         }
 
+        .textBox{
+          width:100%;
+          padding: 4px 8px;
+          box-sizing: border-box;
+          border: 2px solid #6f0029;
+          border-radius: 4px;
+        }
+
+        .textBox[type=text]:focus {
+          background-color: #ffe5ee;
+        }
+
             
           </style>
 
@@ -236,12 +236,12 @@ if (mysqli_num_rows($result) >= 0) {
   
     
        while($row = mysqli_fetch_assoc($result)) {
-        echo "<br><br>Class: ". $row["Course_ID"]." " . $row["Prefix"]. " " . $row["Number"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
+        echo "<br><br>Class: ". $row["Prefix"]." " . $row["Number"]. " " . $row["Title"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
         $boom=$row["Course_ID"];
         echo "<form action='push_Notes.php' method='post'>
-            <input type='text' name='Notes'></input>
+            <input type='text' class = 'textBox' name='Notes'></input>
             <input type='hidden' name='LastName' value='$boom'></input>
-            <input type='submit' name='submit' value='Update Note'></input>
+            <input class = 'btn btn-primary' type='submit' name='submit' value='Update Note'></input>
             </form>";
     }
     

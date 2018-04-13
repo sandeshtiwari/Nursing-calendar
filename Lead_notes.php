@@ -1,4 +1,4 @@
-        <?php
+<?php
 
   require 'check_privilege.php';
   require 'classes/Teacher.php';
@@ -201,6 +201,18 @@
           background: #6f0029 !important;
         }
 
+        .textBox{
+          width:100%;
+          padding: 4px 8px;
+          box-sizing: border-box;
+          border: 2px solid #6f0029;
+          border-radius: 4px;
+        }
+
+        .textBox[type=text]:focus {
+          background-color: #ffe5ee;
+        }
+
             
           </style>
 
@@ -236,12 +248,12 @@ if (mysqli_num_rows($result) >= 0) {
   
     
        while($row = mysqli_fetch_assoc($result)) {
-        echo "<br><br>Class: ". $row["Course_ID"]." " . $row["Prefix"]. " " . $row["Number"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
+        echo "<br><br>Class: ". $row["Prefix"]." " . $row["Number"]. " " . $row["Title"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
         $boom=$row["Course_ID"];
         echo "<form action='push_Notes.php' method='post'>
-            <input type='text' name='Notes'></input>
+            <input type='text' class = 'textBox' name='Notes'></input>
             <input type='hidden' name='LastName' value='$boom'></input>
-            <input type='submit' name='submit' value='Update Note'></input>
+            <input class = 'btn btn-primary' type='submit' name='submit' value='Update Note'></input>
             </form>";
     }
     

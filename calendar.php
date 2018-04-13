@@ -276,6 +276,20 @@ img {
 }
 
 
+.tbl1{
+	width: 65%;
+	border: 2px solid #6f0029;
+    margin: auto;
+    text-align: left;
+}
+
+.tbl1 td{
+	line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
 
 }
  
@@ -425,7 +439,10 @@ if (mysqli_num_rows($result1) >= 0) {
         if (mysqli_num_rows($result2) >= 0) {
             // output data of each row
            while($row2 = mysqli_fetch_assoc($result2)) {
-            echo "<br><br>Class: ". $row2["Course_ID"]." " . $row2["Prefix"]. " " . $row2["Number"]. "<br>  Teacher's Notes: <br> " . $row2["Notes"]. "<br>" ;
+            echo "<table class = 'tbl1'>";
+            echo "<tr><th>". $row2["Prefix"]." " . $row2["Number"]. " " . $row2["Title"]. "<br> </th></tr>";
+            echo "<tr><td> Teacher's Notes: " . $row2["Notes"]. "<br> </td></tr>";
+            echo "</table>";
           }
         }
       }   
@@ -440,6 +457,8 @@ if (mysqli_num_rows($result1) >= 0) {
 
 ?>
 
+
+</br></br></br>
 
 
     <div class = "no-print">

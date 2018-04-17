@@ -72,6 +72,21 @@
 			}
 			return $occupiedDays;
 		}
+		private function updateLog($activity, $course_id, $room_id, $week)
+		{
+			$email = $_SESSION['email'];
+			$string = "SELECT Fname, Lname, CWID FROM person WHERE email = '$email' LIMIT 1";
+
+			$query = mysqli_query($this->con, $string);
+			$result = mysqli_fetch_assoc($query);
+			$fname = $result['Fname'];
+			$lname = $result['Lname'];
+			$cwid = $result['CWID'];
+			$name = $fname." ".$lname;
+			$string = "INSERT INTO logs(CWID, Name, activity, Course_ID, Room_ID, Week_ID, Time) VALUES($cwid, '$name', '$activity', $course_id, $room_id, $week, now())";
+			$query = mysqli_query($this->con, $string);
+			return $string;
+		}
         // method to check if a room is vacant for a single day for a course
         public function checkVacancyForSingleDay($day, $week_id, $semester_id, $room_id)
 		{
@@ -136,9 +151,31 @@
 	        foreach($weeks as $week)
 	        {
 	        	//echo $week." ";
+	        	$day = "";
 	        	$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID,M,T,W,R,F,Week_ID,Semester_ID)
 	        	VALUES('$course_id','$collision_id','$room_id','".$requestedDays['M']."','".$requestedDays['T']."','".$requestedDays['W']."','".$requestedDays['R']."','".$requestedDays['F']."','$week','$semester_id')";
 	        	$query = mysqli_query($this->con,$string);
+	        	if($requestedDays['M'] == 'yes')
+	        	{
+	        		$day .= " Monday";
+	        	}
+	        	if($requestedDays['T'] == 'yes')
+	        	{
+	        		$day .= " Tuesday";
+	        	}
+	        	if($requestedDays['W'] == 'yes')
+	        	{
+	        		$day .= " Wednesday";
+	        	}
+	        	if($requestedDays['R'] == 'yes')
+	        	{
+	        		$day .= " Thursday";
+	        	}
+	        	if($requestedDays['F'] == 'yes')
+	        	{
+	        		$day .= " Friday";
+	        	}
+	        	$this->updateLog("Request -".$day, $course_id, $room_id, $week);
 	        }
 	        /*for($i = 0; $i<sizeof($conflictingCourses); $i++)
 	        {
@@ -148,6 +185,7 @@
 	        	VALUES('".$conflictingCourses[$i]."','$collision_id','$room_id','".$days['M']."','".$days['T']."','".$days['W']."','".$days['R']."','".$days['F']."','".$conflictingWeeks[$i]."','$semester_id','yes')";
 	        	$query = mysqli_query($this->con, $string);
 	        }*/
+	        //return $this->updateLog("Request for ".$day, $course_id, $room_id);
         }
         // method to get all the days from a set of requested days
         private function getAllDaysFromRequestedDays($requestedDays)
@@ -551,9 +589,31 @@
 			echo $course_id." ";
 			foreach($weeks as $week_id)
 			{
+				$day = "";
 				$string = "INSERT INTO occupied(Course_ID, Room_ID, Semester_ID,M, T, W, R, F, Week_ID, occupied_ID)
 				VALUES('$course_id', '$room_id', '$semester_id', '".$days['M']."', '".$days['T']."', '".$days['W']."', '".$days['R']."', '".$days['F']."', '$week_id', '$occupied_id')";
 				$query = mysqli_query($this->con, $string);
+				if($days['M'] == 'yes')
+	        	{
+	        		$day .= " Monday";
+	        	}
+	        	if($days['T'] == 'yes')
+	        	{
+	        		$day .= " Tuesday";
+	        	}
+	        	if($days['W'] == 'yes')
+	        	{
+	        		$day .= " Wednesday";
+	        	}
+	        	if($days['R'] == 'yes')
+	        	{
+	        		$day .= " Thursday";
+	        	}
+	        	if($days['F'] == 'yes')
+	        	{
+	        		$day .= " Friday";
+	        	}
+	        	$this->updateLog("Booked -".$day, $course_id, $room_id, $week_id);
 			}
 		}
 		// function to get a unique collision id which is not already in the table

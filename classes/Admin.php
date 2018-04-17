@@ -71,11 +71,13 @@
 		// method to update the collision table after the collision is resolved
         public function updateOccupied($course_id, $room_id, $week_id, $day, $semester_id)
 		{
+			$fullDay = $day;
 			$day = substr($day, 0, 1);
 			$string = "UPDATE occupied SET $day = 'no'
 			WHERE Course_ID = '$course_id' AND Room_ID='$room_id' AND Week_ID = $week_id AND Semester_ID = $semester_id";
 			$query = mysqli_query($this->con, $string);
 			$this->sanitize("occupied");
+			$this->updateLog("Deleted - ".$fullDay, $course_id, $room_id, $week_id);
 			return $string;
 		}
 		// function to get a unique collision id which is not already in the table
@@ -98,33 +100,39 @@
         // method to delete request
         public function deleteRequest($course_id, $room_id, $week_id, $day, $semester_id)
 		{
+			$fullDay = $day;
 			$day = substr($day, 0, 1);
 			$string = "UPDATE collision SET $day = 'no'
 			WHERE Course_ID = $course_id AND Room_ID = $room_id AND Week_ID = $week_id AND Semester_ID = $semester_id";
 			$query = mysqli_query($this->con, $string);
 			$this->sanitize("collision");
+			$this->updateLog("Deleted - ".$fullDay, $course_id, $room_id, $week_id);
 		}
         // method to give access to a requesting course_id
         public function giveAccess($collidingCoures,$course_id,$room_id,$week_id,$day,$semester_id)
 		{
+			$fullDay = $day;
 			$day = substr($day, 0, 1);
 			$days = $this->giveDays($day);
 			$occupied_id = $this->getUniqueOccupiedID();
 			$string = "INSERT INTO occupied(Course_ID, Room_ID, Semester_ID,M, T, W, R, F, Week_ID, occupied_ID)
 			 VALUES('$course_id', '$room_id', '$semester_id', '".$days['M']."', '".$days['T']."', '".$days['W']."', '".$days['R']."', '".$days['F']."',$week_id, $occupied_id)";
 			$query = mysqli_query($this->con, $string);
+			$this->updateLog("Added - ".$fullDay, $course_id, $room_id, $week_id);
 			$string = "UPDATE occupied SET $day ='no' 
 			WHERE Room_ID = $room_id AND Week_ID = $week_id AND Course_ID = $collidingCoures AND Semester_ID = $semester_id";
 			$query = mysqli_query($this->con, $string);
+			$this->updateLog("Deleted course- ".$fullDay, $collidingCoures, $room_id, $week_id);
 			$this->sanitize("occupied");
-			$this->updateCollision($course_id, $room_id, $week_id, $day, $semester_id);
+			$this->updateCollision($course_id, $room_id, $week_id, $day, $semester_id,$fullDay);
 		}
         // method to update the collision table after the collision is resolved
-        private function updateCollision($course_id, $room_id, $week_id, $day, $semester_id)
+        private function updateCollision($course_id, $room_id, $week_id, $day, $semester_id, $fullDay)
 		{
 			$string = "UPDATE collision SET $day = 'no'
 			WHERE Course_ID = '$course_id' AND Room_ID='$room_id' AND Week_ID = $week_id AND Semester_ID = $semester_id";
 			$query = mysqli_query($this->con, $string);
+			$this->updateLog("Deleted collision- ".$fullDay, $course_id, $room_id, $week_id);
 			$this->sanitize("collision");
 		}
         // method to delete any unwanted rows from a given table
@@ -286,6 +294,7 @@
 			}
 			$string = "INSERT INTO semester(ID, semester, start_date, end_date) VALUES('$id','$name','$start_date','$end_date')";
 			$query = mysqli_query($this->con, $string);
+			$this->updateLog("Added semester start date as $startdate and end date as $end_date ", "N/A", "N/A", "N/A");
 			$this->fillWeeks($id,$start_date,$end_date);
 		}
         // to fill the weeks week and semester
@@ -301,6 +310,7 @@
 			    $week_end_date = $result['end'];
 			    $string = "INSERT INTO week(ID, semester_ID, start_date, end_date) VALUES('$startWeek', '$Semester_ID', '$week_start_date', '$week_end_date')";
 			    $query = mysqli_query($this->con, $string);
+
 			    $startWeek++;
 			    if($startWeek > 52)
 			    {

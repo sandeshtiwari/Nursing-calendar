@@ -36,20 +36,36 @@
 			}
 			return json_encode($data);
 		}
+		private function updateLog($activity, $course_id, $room_id, $week)
+		{
+			$email = $_SESSION['email'];
+			$string = "SELECT Fname, Lname, CWID FROM person WHERE email = '$email' LIMIT 1";
+
+			$query = mysqli_query($this->con, $string);
+			$result = mysqli_fetch_assoc($query);
+			$fname = $result['Fname'];
+			$lname = $result['Lname'];
+			$cwid = $result['CWID'];
+			$name = $fname." ".$lname;
+			$string = "INSERT INTO logs(CWID, Name, activity, Course_ID, Room_ID, Week_ID, Time) VALUES($cwid, '$name', '$activity', $course_id, $room_id, $week, now())";
+			$query = mysqli_query($this->con, $string);
+			return $string;
+		}
 		// method to add collision
 		public function addCollision($room_id, $course_id, $semester_id, $week, $day, $roomToDelete)
 		{
-			$day = substr($day, 0, 1);
+			$collision_day = substr($day, 0, 1);
 			$days['M'] = 'no';
 			$days['T'] = 'no';
 			$days['W'] = 'no';
 			$days['R'] = 'no';
 			$days['F'] = 'no';
-			$days[$day] = 'yes';
+			$days[$collision_day] = 'yes';
 			$collision_id = $this->getUniqueCollID();
 			$string = "INSERT INTO collision(Course_ID, Coll_ID, Room_ID, M, T, W, R, F, Week_ID, Semester_ID) 
 			VALUES($course_id, $collision_id, $room_id, '".$days['M']."', '".$days['T']."','".$days['W']."','".$days['R']."','".$days['F']."', $week, $semester_id)";
 			$query = mysqli_query($this->con, $string);
+			$this->updateLog("Request - ".$day, $course_id, $room_id, $week);
 			 //return $this->updateOccupied($course_id, $roomToDelete, $week, $day, $semester_id);
 		}
 		// method to update the collision table after the collision is resolved

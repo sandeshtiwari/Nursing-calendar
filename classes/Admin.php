@@ -40,7 +40,7 @@
 		{
 			$logs = array();
 			//"SELECT CWID, Fname, Lname, email FROM person WHERE role = 'student'"
-			$string = "SELECT * FROM logs";
+			$string = "SELECT * FROM logs ORDER BY Time DESC";
 			$query = mysqli_query($this->con, $string);
 			while($log = mysqli_fetch_assoc($query))
 			{

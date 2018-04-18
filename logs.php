@@ -332,7 +332,7 @@ elseif($setting == $close){
             }
             else
             {
-              echo "<tr><td>No logs right now</td></tr>"
+              echo "<tr><td>No logs right now</td></tr>";
             }
             echo "</table>";
           ?>

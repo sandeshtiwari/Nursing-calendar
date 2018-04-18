@@ -171,7 +171,12 @@
             <span class="nav-link-text">Teachers</span>
           </a>
         </li>
-
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
+          <a class="nav-link" href="logs.php">
+            <i class="fa fa-address-book"></i>
+            <span class="nav-link-text">Logs</span>
+          </a>
+        </li>
         <!--
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="nav-link" href="tables.html">

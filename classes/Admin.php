@@ -36,6 +36,26 @@
 			}
 			return json_encode($data);
 		}
+		public function giveLogs()
+		{
+			$logs = array();
+			//"SELECT CWID, Fname, Lname, email FROM person WHERE role = 'student'"
+			$string = "SELECT * FROM logs";
+			$query = mysqli_query($this->con, $string);
+			while($log = mysqli_fetch_assoc($query))
+			{
+				$oneLog = array();
+				$oneLog['CWID'] = $log['CWID'];
+				$oneLog['Name'] = $log['Name'];
+				$oneLog['activity'] = $log['activity'];
+				$oneLog['Course_ID'] = $log['Course_ID'];
+				$oneLog['Room_ID'] = $log['Room_ID'];
+				$oneLog['Week_ID'] = $log['Week_ID'];
+				$oneLog['Time'] = $log['Time'];
+				$logs[] = $oneLog; 
+			}
+			return $logs;
+		}
 		private function updateLog($activity, $course_id, $room_id, $week)
 		{
 			$email = $_SESSION['email'];

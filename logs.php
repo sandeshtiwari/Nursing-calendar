@@ -65,6 +65,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
       background: #6f0029;
       color: #ffffff;
   }
+
   .btn-danger{
   padding: 0;
 }
@@ -80,6 +81,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 .navbar-sidenav{
   background: #6f0029 !important;
 }
+
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -133,6 +135,8 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
             <span class="nav-link-text">Logs</span>
           </a>
         </li>
+
+   
         <!--
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="nav-link" href="tables.html">
@@ -239,8 +243,8 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
         </li>  -->
 
 
-<!-- this is for the registation button -->
- <li class="nav-item" data-toggle="tooltip" data-placement="right">
+<!-- this is for the registation button -->        
+            <li class="nav-item" data-toggle="tooltip" data-placement="right">
           <a class="nav-link">
             <?php
            
@@ -271,13 +275,13 @@ elseif($setting == $close){
 ?>
           </a>
         </li>
-
 <!-- this is for the registation button -->
 
         <li class="nav-item">
           <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
             <i class="fa fa-fw fa-arrow-circle-left"></i>Back</a>
         </li>
+
 
          <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
@@ -291,36 +295,46 @@ elseif($setting == $close){
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="show_teachers.php"><h3>All Teachers</h3></a>
+          <a href="logs.php"><h3>Logs</h3></a>
         </li>
       </ol>
       <div class="row">
         <div class="col-12">
           <?php
             $admin = new Admin($con,$_SESSION['email']);
-            $teachers = $admin->giveTeachers();
-            echo "<input type='text' id='cwidInput' onkeyup='filter()' placeholder='Search by CWID here..'>";
+            $logs = $admin->giveLogs();
+            //echo "<input type='text' id='cwidInput' onkeyup='filter()' placeholder='Search by CWID here..'>";
             echo "<table class='table' id='table'>";
             echo "<tr>";
             echo "<th scope = 'col'>CWID</th>";
-            echo "<th scope = 'col'>First Name</th>";
-            echo "<th scope = 'col'>Last Name</th>";
-            echo "<th scope = 'col'>Email</th></tr>";
-            
-            foreach($teachers as $teacher)
+            echo "<th scope = 'col'>Name</th>";
+            echo "<th scope = 'col'>Activity</th>";
+            echo "<th scope = 'col'>Course Affected</th>";
+            echo "<th scope = 'col'>Room Affected</th>";
+            echo "<th scope = 'col'>Week</th>";
+            echo "<th scope = 'col'>Date & Time</th></tr>";
+            //print_r($logs);
+            foreach($logs as $log)
             {
+              //print_r($log);
               echo "<tr>";
-              $email = $admin->getEmail($teacher['CWID'], "teacher");
-              echo "<td><a href ='styles/calview.php?email=".$email."&teacher=".$teacher['Fname']." ".$teacher['Lname']."'>".$teacher['CWID']."</a></td><td>".$teacher['Fname']."</td><td>".$teacher['Lname']."</td><td>".$teacher['email']."</td>";
+              echo "<td>".$log['CWID']."</td>";
+              echo "<td>".$log['Name']."</td>";
+              echo "<td>".$log['activity']."</td>";
+              echo "<td>".$log['Course_ID']."</td>";
+              echo "<td>".$log['Room_ID']."</td>";
+              echo "<td>".$log['Week_ID']."</td>";
+              echo "<td>".$log['Time']."</td>";
               echo "</tr>";
             }
             echo "</table>";
           ?>
 
 
+
 <!-- this is for the registation button -->
 
-            <div class="modal fade" id = "myModal">
+<div class="modal fade" id = "myModal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
@@ -346,25 +360,24 @@ elseif($setting == $close){
          
            
             <div class="modal fade" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Modal title</h4>
-                  </div>
-                <div class="modal-body">
-               <p>One fine body&hellip;</p>
-              </div>
-             <div class="modal-footer">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
-<!-- this is for the registation button -->
-
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- this is for the registation button -->
 
 
 
@@ -433,6 +446,7 @@ elseif($setting == $close){
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
     <script src="js/admin_js.js"></script>
+
   </div>
 </body>
 

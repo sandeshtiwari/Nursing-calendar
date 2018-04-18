@@ -314,18 +314,25 @@ elseif($setting == $close){
             echo "<th scope = 'col'>Week</th>";
             echo "<th scope = 'col'>Date & Time</th></tr>";
             //print_r($logs);
-            foreach($logs as $log)
+            if(!empty($logs))
             {
-              //print_r($log);
-              echo "<tr>";
-              echo "<td>".$log['CWID']."</td>";
-              echo "<td>".$log['Name']."</td>";
-              echo "<td>".$log['activity']."</td>";
-              echo "<td>".$log['Course_ID']."</td>";
-              echo "<td>".$log['Room_ID']."</td>";
-              echo "<td>".$log['Week_ID']."</td>";
-              echo "<td>".$log['Time']."</td>";
-              echo "</tr>";
+              foreach($logs as $log)
+              {
+                //print_r($log);
+                echo "<tr>";
+                echo "<td>".$log['CWID']."</td>";
+                echo "<td>".$log['Name']."</td>";
+                echo "<td>".$log['activity']."</td>";
+                echo "<td>".$log['Course_ID']."</td>";
+                echo "<td>".$log['Room_ID']."</td>";
+                echo "<td>".$log['Week_ID']."</td>";
+                echo "<td>".$log['Time']."</td>";
+                echo "</tr>";
+              }
+            }
+            else
+            {
+              echo "<tr><td>No logs right now</td></tr>"
             }
             echo "</table>";
           ?>

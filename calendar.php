@@ -3,6 +3,7 @@
   require 'classes/Teacher.php';
   require 'classes/Student.php';
   require 'classes/Admin.php';
+  require 'head.php';
   if(!isset($_SESSION['username']))
   {
     header("Location: index.php");
@@ -40,6 +41,7 @@ $status= $teacher->checkRegistrationStatus();
   }
   else
   {
+    $display = "<a href = 'student_notes.php'>View notes</a>";
     $person = new Student($con, $_SESSION['email']);
   }
   // if the admin wants to view a specific student's calendar
@@ -204,16 +206,7 @@ $status= $teacher->checkRegistrationStatus();
   background-color: #F5F5F5;
   }
 
-  h4 { 
-    display: block;
-    font-size: 1em;
-    margin-top: 1.0em;
-    margin-bottom: 1.0em;
-    margin-left: 4.0em;
-    margin-right: 0;
-    font-weight: bold;
-}
-
+  
   .footer {
    position: absolute;
   right: 0;
@@ -234,43 +227,7 @@ $status= $teacher->checkRegistrationStatus();
 
   }
 
-  ul {
-
-    list-style-type: none;
-    padding: 0;
-    overflow: hidden;
-    background-color: #6f0029;
-}
-
-li {
-    float: left;
-     margin-top: 1.0em;
-    margin-bottom: 1.0em;
-    border-right:1px solid #bbb;
-}
-
-li:last-child {
-   margin-top: 1.0em;
-    margin-bottom: 1.0em;
-    border-left: 1px solid #bbb;
-}
-
-li a {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-    background-color: #EBAF0F;
-}
-
-.active {
-    background-color: #870505;
-    
-}
+  
 img {  
   
     background: url('ulm_logo.png');
@@ -315,40 +272,14 @@ img {
 
 <div class="no-print">
 
-      <ul>
-       
-        <a class="navbar-brand" rel="home" href="#" title="University of Louisiana at Monroe">      
-        
-          <h4 align="center" style="color: #ffffff"> 
-            <?php 
-              echo "Welcome ". $_SESSION['username']." ";
-            ?> 
-          </h4>
-         
-        </a>
-       
-        <li><a href="#home">Home</a></li>
-        <li><a href="#news">News</a></li>
-        
-        <li style="float:right"><a href="logout.php">Logout</a></li>
-        <li style="float:right">
-
-        <?php
-        echo "".$display;
-        ?>
-
-        </li>
-    </ul> 
+      
 
     <img style="max-width:500px; margin-top: 7px;" src="styles/images/Nursing101.png" class="img-circle" align="middle" >
        
        
      <br/>
      <br/>
-     <br/>
-
-     <br/>
-  </div> 
+     
     <div id='calendar'></div>
     <br/>
     <br/>

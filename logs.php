@@ -93,7 +93,15 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 .navbar-dark .navbar-nav .nav-link {
     color: #e9ecef;
 }
-
+.btn-logdwn{
+  background: #6f0029;
+  color: #ffffff;
+  position: absolute;
+  right: 20px;
+  top: 81px;
+  width: 150px;
+  padding: 10px;
+}
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -308,7 +316,7 @@ elseif($setting == $close){
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="logs.php"><h3>Logs</h3></a>
-                <a href="#" id ="export" role='button'>Download Logs
+                <a href="#" class = "btn btn-logdwn" id ="export" role='button'>Download Logs
                 </a>
         </li>
       </ol>

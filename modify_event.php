@@ -37,20 +37,38 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 ?>
 
 <style>
-.btn-primary {
-    background: #6f0029;
-    color: #ffffff;
+  .btn-primary {
+      background: #6f0029;
+      color: #ffffff;
+  }
+  .btn-danger{
+  padding: 0;
+}
+
+.btn-success{
+  padding: 0;
 }
 
 .bg-dark{
-  background: #6f0029 !important;
+  background: #6f0029 !important; 
 }
 
 .navbar-sidenav{
   background: #6f0029 !important;
-  color: white;
 }
-
+#sidenavToggler{
+  background: #6f0029 !important;
+}
+#logo{
+    height: 35px;
+   
+}
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #e9ecef;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #e9ecef;
+}
 </style>
 
 <!DOCTYPE html>
@@ -148,6 +166,48 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
           <a href="modify_event.php"><h3>Modify room reservations:</h3></a>
         </li>
       </ol>
+      <style>
+ .btn-outline-primary{
+              background: #6f0029;
+              color: #ffffff;
+            }
+
+            .btn-outline-info{
+              background: #6f0029;
+              color: #ffffff;
+            }
+
+            .btn-primary{
+              background: #6f0029;
+              color: #ffffff;
+            }
+
+            .bg-dark{
+              background: #6f0029 !important;
+        }
+
+        .navbar-sidenav{
+          background: #6f0029 !important;
+        }
+
+        .textBox{
+          width:100%;
+          padding: 4px 8px;
+          box-sizing: border-box;
+          border: 2px solid #6f0029;
+          border-radius: 4px;
+        }
+
+        .textBox[type=text]:focus {
+          background-color: #ffe5ee;
+        }
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #f8f9fa;
+}
+ .navbar-dark .navbar-nav .nav-link {
+    color: #f8f9fa;
+    }
+    </style>
 
       <?php
 $teacher = new Teacher($con, $_SESSION['email']);

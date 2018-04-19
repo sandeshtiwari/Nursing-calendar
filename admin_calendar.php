@@ -101,6 +101,8 @@
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+  
+  <link rel='stylesheet' type='text/css' media="print" href='fullcalendar.print.css' />
 </head>
 
 <style>

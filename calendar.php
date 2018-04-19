@@ -187,7 +187,11 @@ $status= $teacher->checkRegistrationStatus();
 </script>
 <style>
 
- body {
+ body 
+
+
+ {
+
 
   margin-top: 0px;
 

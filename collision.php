@@ -59,34 +59,12 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
       background: #6f0029;
       color: #ffffff;
   }
-
-  .btn-secondary {
-    background: #6f0029;
-    color: #ffffff;
-  }
-
-  .btn-outline-secondary:hover, .btn-outline-secondary:focus, .btn-outline-secondary:active, .btn-outline-secondary.active, .open > .dropdown-toggle.btn-outline-secondary {
-  border-color: #6f0029;
-  background: #6f0029;
-}
-.btn-outline-secondary:active, .btn-outline-secondary {
-  border-color: #6f0029;
-  color: #6f0029;
-  box-shadow: none;
-  border: 1.5px solid;
-}
-
-.btn-danger{
+  .btn-danger{
   padding: 0;
 }
 
 .btn-success{
   padding: 0;
-}
-
-.btn-secondary-mod{
-  background: #6c757d;
-  color: #ffffff;
 }
 
 .bg-dark{
@@ -96,12 +74,26 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 .navbar-sidenav{
   background: #6f0029 !important;
 }
+#sidenavToggler{
+  background: #6f0029 !important;
+}
+#logo{
+    height: 33px;
+}
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #e9ecef;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #e9ecef;
+}
+
+
 
 </style>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php">Nursing Admin</a>
+    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

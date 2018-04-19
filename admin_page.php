@@ -62,6 +62,13 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<!-- sweet alert boxes cdn  
+
+<script src="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.js"></script>
+<link href="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+-->
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
@@ -287,18 +294,18 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to save changes?</h5>
+                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to change the booking status?</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
-                          To confirm your choise, please, press Save Changes. <br>
+                          To change the booking status for requesting rooms, press 'Change Booking Status'. <br>
                           Press Close to exit.
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" onclick="switchReg()">Save changes</button>
+                          <button type="button" class="btn btn-primary" onclick="switchReg()">Change Booking Status</button>
                         </div>
                       </div>
                     </div>

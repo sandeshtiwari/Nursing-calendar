@@ -114,7 +114,7 @@ $('.to_date')
 
 		$.post('setting.php', { reg_status : status  }, function(data){
 
-			alert(data);
+			//swal("malai baal");
 			location.reload(true);
 			
 		}); 

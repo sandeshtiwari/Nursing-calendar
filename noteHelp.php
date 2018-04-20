@@ -171,7 +171,7 @@ if (isset($_POST['NewNote'])) {
 	if($_SESSION['privilege'] == 'admin'){
 		$redirect_url = 'admin_notes.php';
 	}
-	elseif($_SESSION['privilege'] == 'teacher'){
+	elseif($_SESSION['privilege'] == 'teacher' || $_SESSION['privilege'] == 'lead'){
 		$redirect_url = 'teacherNotes.php';
 	}
 	else{
@@ -179,7 +179,7 @@ if (isset($_POST['NewNote'])) {
 	}
 
 
-	//header('refresh: 0; URL='.$redirect_url);
+	header('refresh: 0; URL='.$redirect_url);
 
 
 

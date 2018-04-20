@@ -171,8 +171,11 @@ if (isset($_POST['NewNote'])) {
 	if($_SESSION['privilege'] == 'admin'){
 		$redirect_url = 'admin_notes.php';
 	}
-	elseif($_SESSION['privilege'] == 'teacher' || $_SESSION['privilege'] == 'lead'){
-		$redirect_url = 'teacherNotes.php';
+	elseif($_SESSION['privilege'] == 'teacher' ){
+		$redirect_url = 'crn_notes.php';
+	}
+	elseif($_SESSION['privilege'] == 'lead' ){
+		$redirect_url = 'Lead_notes.php';
 	}
 	else{
 		$redirect_url = 'calendar.php';

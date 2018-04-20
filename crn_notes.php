@@ -204,108 +204,182 @@
             
           </style>
 
+     <div class="container" >   
+  <div class="card-header">
+
+    <h3>Notes for students:</h3>
+  </div>
+  <div class="card-body">
+    <form method="post" action="noteHelp.php">
+      
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Course:</label>
+        <select class="form-control" id="exampleFormControlSelect1" name="Course">
+
+
           <?php
 
-      if($_SESSION['privilege'] == 'teacher')
-  {
+        $teacher = new Teacher($con, $_SESSION['email']);
+        $myId = $teacher->getID($_SESSION['email']);
 
-      $idnum = " ";
-       $userpa = $_SESSION['username'];
-      
-    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
+        $myClasses = $teacher->classesNow($myId);
 
-    $result = mysqli_query($con, $sql2);
+        if(!empty($myClasses)){
 
-    if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-  
-    while($row = mysqli_fetch_assoc($result)) {
-        $idnum = $row["CWID"];
-        
-    }
-    } else {
-    echo "No Notes";
-    }
+          foreach($myClasses as $class => $details){
 
-$sql1 = "SELECT * FROM course WHERE Teacher_CWID= $idnum";
+          $Prefix = $details['Prefix'];
+          $Number = $details['Number'];
+          $Course_ID = $details['Course_ID'];
+          $Title = $details['Title'];
 
-$result = mysqli_query($con, $sql1);
+          echo "<option value = '$Course_ID'> $Title  </option> ";
 
-if (mysqli_num_rows($result) >= 0) {
-    // output data of each row
-  
-    
-       while($row = mysqli_fetch_assoc($result)) {
-        echo "<br><br>Class: ". $row["Prefix"]." " . $row["Number"]. " " . $row["Title"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
-        $boom=$row["Course_ID"];
-        echo "<form action='push_Notes.php' method='post'>
-            <input type='text' class = 'textBox' name='Notes'></input>
-            <input type='hidden' name='LastName' value='$boom'></input>
-            <input class = 'btn btn-primary' type='submit' name='submit' value='Update Note'></input>
-            </form>";
-    }
-    
-} else {
-    echo "No Notes <br/>";
-}
-
-}
-elseif($_SESSION['privilege'] == 'admin'){
-
-
-
-}
-else{
-
- $idnum = " ";
-       $userpa = $_SESSION['username'];
-      
-    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
-
-    $result = mysqli_query($con, $sql2);
-
-    if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-  
-    while($row = mysqli_fetch_assoc($result)) {
-        $idnum = $row["CWID"];
-        
-    }
-    } else {
-    echo "No Notes";
-    }
-$sql3 = "SELECT Course_ID FROM registered WHERE CWID = $idnum";
-
-
-$result1 = mysqli_query($con, $sql3);
-
-if (mysqli_num_rows($result1) >= 0) {
-    // output data of each row
-      while($row1 = mysqli_fetch_assoc($result1)) {
-        
-
-          $cwidstudent = $row1['Course_ID'];
-          $sql4 = "SELECT * FROM course WHERE Course_ID = $cwidstudent";
-
-          $result2 = mysqli_query($con, $sql4);
-
-        if (mysqli_num_rows($result2) >= 0) {
-            // output data of each row
-           while($row2 = mysqli_fetch_assoc($result2)) {
-            echo "<br><br>Class: ". $row2["Course_ID"]." " . $row2["Prefix"]. " " . $row2["Number"]. "<br>  Teacher's Notes: <br> " . $row2["Notes"]. "<br>" ;
           }
+
         }
-      }   
-    
-} else {
-    echo "No Notes <br/>";
-}
+
+        
+        echo "</select>
+           </div>";
+
+      echo "<div class='form-group'>
+        <label for='exampleFormControlSelect2'>Week</label>
+        <select class='form-control' id='exampleFormControlSelect2' name = 'Week'>";
+
+        $weeks = $teacher->weeks();
+          if(!empty($weeks)){
+
+          foreach($weeks as $week => $details){
+
+            $start_date = $details['start_date'];
+          $end_date = $details['end_date'];
+          $ID = $details['ID'];
+          
+
+          echo "<option value = $ID>$ID: ($start_date - $end_date) </option> ";
+
+          }
+
+        }
+       
+       echo " </select>
+         </div>";
+
+         ?>
+      <div class="form-group">
+        <label for="Note">Note</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" name="Note" rows="3"></textarea>
+      </div>
+       <button type="submit" name = "save" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h4 align="center">All notes:</h4>
+
+    <?php
+
+    if(!empty($myClasses)){
+
+          foreach($myClasses as $class => $details){
+
+            $Prefix = $details['Prefix'];
+          $Number = $details['Number'];
+          $Course_ID = $details['Course_ID'];
+          $Title = $details['Title'];
+          $Name;
+
+          echo "
+
+          <button class='btn btn-secondary btn-lg btn-block mt-2' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
+              $Title
+          </button><br>
+
+          <div id ='$Course_ID' class='collapse'>
+          <table class='table table-hover'>
+              <thead>          
+              <tr>
+                  <th scope='col'>Week</th>
+                  <th scope='col'>Note</th>      
+                </tr>
+              </thead>
+
+              <tbody> ";
+
+          $notes = $teacher->dispalyMyNotes($_SESSION['email'], $Course_ID);  
+          $myName = $teacher->getName($_SESSION['email']);
+          $fullName = $myName[0]." ".$myName[1];
+
+
+          
+          if(!empty($notes)){
+
+
+          foreach($notes as $note => $details){
+
+            $Name = $details['Name'];
+            $Note = $details['Note'];
+            $Week = $details['Week_ID'];
 
 
 
-}
+           echo"<tr>
+                  <th scope='row'>$Week</th>
+                  <td>$Name: $Note
+                  <div id ='$Note' class='collapse'>
 
-?>
+                  <form method='post' action='noteHelp.php?course=$Course_ID&week=$Week'>
+                   
+                    
+                     <textarea method = 'class='form-control' id='exampleFormControlTextarea1' name='NewNote' rows='3'></textarea>
+                      <button type='submit' name = 'update' class='btn btn-primary btn-sm'>Submit</button>
+
+                  
+                    </form>      
+                  
+
+                 </div></td>";
+
+                  if($fullName == $Name){
+                 echo " <td>
+
+                 <button class='btn btn-warning btn-sm' type='button' data-toggle='collapse' data-target='#$Note' aria-expanded='false' aria-controls='$Note'>Edit </button>                 
+                  <a onclick='return confirm('are you sure?') href='noteHelp.php?id=delete&week=$Week&course=$Course_ID' class = 'btn btn-danger btn-rounded btn-sm my-0'>Delete</a><td>
+                        ";
+                  }           
+               echo " </tr>";
+
+          }
+
+
+
+      } 
+
+      else{
+
+        echo"<tr>
+              <th scope='row'>0</th>
+              <td>No notes has been posted</td>           
+            </tr>";
+
+      }
+         
+
+          echo "</tbody>
+            </table>
+            </div>
+            "; 
+
+
+          }
+
+        }
+
+
+
+    ?>
+    </div>
+</div>
+
 
 
 </div>

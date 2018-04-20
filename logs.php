@@ -5,7 +5,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 {
   header("Location: index.php");
 }
-
+$admin = new Admin($con, $_SESSION['email']);
 
 ?>
 
@@ -318,14 +318,30 @@ elseif($setting == $close){
           <a href="logs.php"><h3>Logs</h3></a>
                 <a href="#" class = "btn btn-logdwn" id ="export" role='button'>Download Logs
                 </a>
+                <a href="logs.php?deleteLogs">Delete logs</a>
         </li>
       </ol>
       <div class="row">
         <div class="col-12">
           <?php
-            $admin = new Admin($con,$_SESSION['email']);
-            $logs = $admin->giveLogs();
+            //$admin = new Admin($con,$_SESSION['email']);
             //echo "<input type='text' id='cwidInput' onkeyup='filter()' placeholder='Search by CWID here..'>";
+            if(isset($_GET['deleteLogs']))
+            {
+                if($admin->deleteLogs())
+                {
+                    echo "<div class='alert alert-success' role='alert'>
+                            Log records successfully deleted!
+                        </div>"; 
+                }
+                else
+                {
+                    echo "<div class='alert alert-danger' role='alert'>
+                            Failed to delete log records.
+                        </div>";
+                }
+            }
+            $logs = $admin->giveLogs();
             echo " <div id='dvData'>";
             echo "<table class='table' id='table'>";
             echo "<tr>";
@@ -355,7 +371,7 @@ elseif($setting == $close){
             }
             else
             {
-              echo "<tr><td>No logs right now</td></tr>";
+              echo "<tr><td colspan='7'>No logs records right now</td></tr>";
             }
             echo "</table>";
             echo "</div>";

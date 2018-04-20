@@ -56,6 +56,12 @@
 			}
 			return $logs;
 		}
+		public function deleteLogs()
+		{
+			$string = "DELETE FROM logs";
+			$query = mysqli_query($this->con, $string);
+			return $query;
+		}
 		private function updateLog($activity, $course_id, $room_id, $week)
 		{
 			$email = $_SESSION['email'];

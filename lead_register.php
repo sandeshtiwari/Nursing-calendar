@@ -201,6 +201,12 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
                     Please enter a valid date range.
                   </div>";
           }
+          if(!$teacher->checkRegistrationStatus())
+          {
+            echo "<div class='alert alert-info' role='alert'>
+                    Note: Registration is off at the moment so even if you book a room, it will be requested.
+                  </div>";
+          }
           echo "<table class='table'>";
           $hassedEmail = password_hash($_SESSION['email'], PASSWORD_DEFAULT);
           $latestSem = $teacher->getLatestSem();

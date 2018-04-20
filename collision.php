@@ -27,7 +27,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   }
   else
   {
-    echo "<td>The course is not colliding with any courses for this day but is has a range of weeks that is requested</td>";
+    echo "<td>The course is not colliding with any courses for this day but may have a range of weeks that is requested</td>";
   }
   echo "</tr>";
   echo "</tbody>";

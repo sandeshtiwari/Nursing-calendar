@@ -68,8 +68,16 @@
 			//print_r($_POST['weeks']);
 			//echo $_POST['room_id']. " ";
 			//echo $_POST['course_id'];
-			$room->reserveRoom($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['bookDays']);
-			header("Location: lead_register.php?registered=yes");
+            if($teacher->checkRegistrationStatus())
+            {
+                $room->reserveRoom($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['bookDays']);
+			     header("Location: lead_register.php?registered=yes");
+            }
+			else
+            {
+                $room->addCollision($_POST['room_id'],$_POST['course_id'],$semester_id,$_POST['weeks'],$_POST['bookDays']);
+				header("Location: lead_register.php?requested");
+            }
 		}
 	}
 	else if(!isset($_POST['request']) && !isset($_POST['book']))

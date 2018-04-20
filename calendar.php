@@ -16,7 +16,7 @@ $status= $teacher->checkRegistrationStatus();
     $_SESSION['privilege'] = 'student';
   }
   
-  else if(check_lead($con) && ($teacher->checkRegistrationStatus()))
+  else if(check_lead($con))
   {
     $_SESSION['privilege'] = 'lead';
   }

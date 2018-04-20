@@ -153,6 +153,13 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
                 header("Location: register.php?date");
               }
             }
+            $teacher = new Teacher($con, $_SESSION['email']);
+            if(!$teacher->checkRegistrationStatus())
+            {
+              echo "<div class='alert alert-info' role='alert'>
+                    Note: Registration is off at the moment so even if you book a room, it will be requested.
+                    </div>";
+            }
             $rooms = new Room($con);
             $teacher = new Teacher($con, $_SESSION['email']);
             $semester_id = $teacher->getLatestSem();

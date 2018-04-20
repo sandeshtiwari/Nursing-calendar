@@ -136,7 +136,8 @@
 		public function classesNow($id)
 		{			
 			$clases = array();	
-			$sql = "SELECT DISTINCT Prefix, Number, Course_ID FROM course WHERE Semester_ID = 1 and Teacher_CWID = $id;";
+			$semester = $this->getLatestSem();
+			$sql = "SELECT DISTINCT Prefix, Number, Course_ID, Title  FROM course WHERE Semester_ID = $semester and Teacher_CWID = $id;";
 			$res = mysqli_query($this->con, $sql);
 
 				while($class = mysqli_fetch_assoc($res)){
@@ -144,12 +145,13 @@
 					$oneClass['Prefix'] = $class['Prefix'];
 					$oneClass['Number'] = $class['Number'];
 					$oneClass['Course_ID'] = $class['Course_ID'];
+					$oneClass['Title'] = $class['Title'];
+
 					$clases[] = $oneClass;
 
 				}
 			return $clases;
 		}
-
 		public function getID($email)
 		{
 
@@ -287,6 +289,136 @@
 			$name = mysqli_fetch_assoc($query);
 			return $name['Name'];
 		}
+		/**************************************************************
+		Function added for the button
+		***********************************************************/
+		public function regBtn(){
+
+			$setting;
+			$open = "yes";
+			$close = "no";
+			$semester = $this->getLatestSem();
+
+			$sql = "SELECT register_permission FROM semester WHERE ID = $semester";
+
+			$result = mysqli_query($this->con, $sql);
+
+			  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+			          $setting = $row['register_permission'];
+
+
+			if($setting == $open){
+
+			  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
+			}
+
+			elseif($setting == $close){
+
+				$date = date("Y-m-d");
+				$sql2 = "UPDATE semester SET deadline = '$date' WHERE ID = $semester;";
+
+				mysqli_query($this->con, $sql2);
+
+				echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
+				
+			}    
+
+
+		}
+
+		/*****************************************************************************************
+		Functions added for the notes
+		***************************************************************************************/
+
+
+		public function weeks(){
+			
+					
+			$weeks = array();	
+			$semester = $this->getLatestSem();
+			$sql = "SELECT ID, start_date, end_date FROM week WHERE semester_ID = $semester";
+			$res = mysqli_query($this->con, $sql);
+
+				while($week = mysqli_fetch_assoc($res)){
+
+					$oneWeek = array();
+
+					$oneWeek['ID'] = $week['ID'];
+					$oneWeek['start_date'] = $week['start_date'];
+					$oneWeek['end_date'] = $week['end_date'];
+					
+
+					$weeks[] = $oneWeek;
+
+				}
+			return $weeks;
+		}
+
+		public function getName($email){
+
+			$string = "SELECT Fname, Lname from person where email = '$email';";
+			$query = mysqli_query($this->con,$string);			
+			$result = mysqli_fetch_assoc($query);
+
+			$name = array();
+			$name[] = $result['Fname'];
+			$name[] = $result['Lname'];
+			return $name;
+		}
+
+		public function checkNote($semester, $course_id, $week_id, $name){
+
+			$status = 0;
+			$string = "SELECT * FROM notes where Semester_ID = $semester and Course_ID = $course_id and Week_ID = $week_id and Name = '$name'";
+			
+
+			$query = mysqli_query($this->con,$string);			
+			$result = mysqli_fetch_assoc($query);
+
+			if(!empty($result)){
+
+				$status = 1;
+				
+
+			}
+			else{
+				$status = 0;
+				
+			}			
+
+			return $status;
+
+		}
+
+		public function dispalyMyNotes($email, $courseID){
+
+			//$myName = $this->getName($email);
+			//$FullName = $myName[0]." ".$myName[1];
+
+			$notes = array();	
+			$semester = $this->getLatestSem();
+			$sql = "SELECT Note, Name, Course_ID, Week_ID FROM `notes` WHERE Course_ID = $courseID and Semester_ID = $semester";
+			$res = mysqli_query($this->con, $sql);
+
+				while($note = mysqli_fetch_assoc($res)){
+
+					$oneNote = array();
+
+					$oneNote['Note'] = $note['Note'];
+					$oneNote['Name'] = $note['Name'];
+					$oneNote['Course_ID'] = $note['Course_ID'];
+					$oneNote['Week_ID'] = $note['Week_ID'];
+					
+
+					$notes[] = $oneNote;
+
+				}
+			return $notes;
+		}
+		
+
+
 
 
 	}

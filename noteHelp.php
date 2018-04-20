@@ -14,7 +14,7 @@ require "classes/Room.php";
 	$semester = $teacher->getLatestSem();
     
   }
-   else if($_SESSION['privilege'] == 'teacher'){
+   else if($_SESSION['privilege'] == 'teacher' || $_SESSION['privilege'] == 'lead'){
 
     $teacher = new Teacher($con, $_SESSION['email']);
 	$name = $teacher->getName($_SESSION['email']);	 

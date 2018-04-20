@@ -31,6 +31,7 @@ require "classes/Room.php";
 if (isset($_GET['id'])){
 	$request = $_GET['id'];
 
+	$room = new Room($con);
 
 	if($request == 'update'){
 
@@ -53,6 +54,11 @@ if (isset($_GET['id'])){
 		$sql = "DELETE FROM notes WHERE Course_ID = $Course_ID and Name = '$FullName' and Week_ID = $weekId and Semester_ID = $semester;";
 
 		if(mysqli_query($con, $sql)){
+
+			$room_id = "0";
+		$activity = "Deleted notes";		
+
+		$room->updateLog($activity, $Course_ID, $room_id, $weekId);
 				echo "Sucess! Note was removed";
 
 			}
@@ -67,6 +73,8 @@ if (isset($_GET['id'])){
 if (isset($_POST['save'])) {
 
 	 
+
+	$room = new Room($con);
 
 	if (isset($_POST['Course'])){
 
@@ -96,6 +104,12 @@ if (isset($_POST['save'])) {
 		$sql = "INSERT INTO notes (`Course_ID`, `Week_ID`, `Note`, `Name`, `Semester_ID`) VALUES ('$Course', '$Week', '$Note', '$FullName', '$semester');";
 
 		if(mysqli_query($con, $sql)){
+
+		$room_id = "0";
+		$activity = "Added notes";		
+
+		$room->updateLog($activity, $Course, $room_id, $Week);
+
 			echo "Sucess! Inserted";
 
 		}
@@ -107,6 +121,11 @@ if (isset($_POST['save'])) {
 	else{
 		$sql = "UPDATE notes SET Note= '$Note' WHERE Course_ID = $Course and Week_ID = $Week and Semester_ID = $semester;";
 		if(mysqli_query($con, $sql)){
+
+		$room_id = "0";
+		$activity = "Updated notes";		
+
+		$room->updateLog($activity, $Course, $room_id, $Week);
 			echo "Sucess! Updated";
 
 		}

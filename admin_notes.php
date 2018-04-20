@@ -146,6 +146,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
   <div class="card-body">
     <form method="post" action="noteHelp.php">
       
+      
       <div class="form-group">
         <label for="exampleFormControlSelect1">Course:</label>
         <select class="form-control" id="exampleFormControlSelect1" name="Course">

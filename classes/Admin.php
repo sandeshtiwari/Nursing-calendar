@@ -62,7 +62,8 @@
 			$query = mysqli_query($this->con, $string);
 			return $query;
 		}
-		private function updateLog($activity, $course_id, $room_id, $week)
+		
+		public function updateLog($activity, $course_id, $room_id, $week)
 		{
 			$email = $_SESSION['email'];
 			$string = "SELECT Fname, Lname, CWID FROM person WHERE email = '$email' LIMIT 1";
@@ -377,7 +378,7 @@
 				}
 			return $clases;
 		}
-		
+
 		public function generateOptions($prefix, $number)
 		{
 			$teachers = array();

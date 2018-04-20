@@ -2,10 +2,11 @@
 require 'config/config.php';
 require "classes/Admin.php";
 require "classes/Teacher.php";
+require "classes/Room.php";
 //require 'check_privilege.php';
 
 
-if($_SESSION['privilege'] == 'admin')
+	if($_SESSION['privilege'] == 'admin')
   {
   	$teacher = new Admin($con, $_SESSION['email']);
 	$name = $teacher->getName($_SESSION['email']);	 
@@ -23,6 +24,8 @@ if($_SESSION['privilege'] == 'admin')
    else{
    	echo " Neither nor";
    }
+
+   
 
 
 if (isset($_GET['id'])){
@@ -120,7 +123,7 @@ if (isset($_POST['save'])) {
 
 if (isset($_POST['NewNote'])) {
 
-
+	$room = new Room($con);
 	
 		$Course = $_GET['course'];
 
@@ -139,7 +142,10 @@ if (isset($_POST['NewNote'])) {
 			echo "Try agane";
 		}
 
+		$room_id = "0";
+		$activity = "Updated notes";		
 
+		$room->updateLog($activity, $Course, $room_id, $Week);
 
 	}
 

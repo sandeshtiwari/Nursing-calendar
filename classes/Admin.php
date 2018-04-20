@@ -361,19 +361,23 @@
 
 		public function giveClasses()
 		{
+			$semester = $this->getLatestSem();
 			$clases = array();	
-			$sql = "SELECT DISTINCT Prefix, Number FROM course WHERE Semester_ID = 1;";
+			$sql = "SELECT DISTINCT Prefix, Number, Course_ID, Title FROM course WHERE Semester_ID = $semester;";
 			$res = mysqli_query($this->con, $sql);
 
 				while($class = mysqli_fetch_assoc($res)){
 					$oneClass = array();
 					$oneClass['Prefix'] = $class['Prefix'];
 					$oneClass['Number'] = $class['Number'];
+					$oneClass['Course_ID'] = $class['Course_ID'];
+					$oneClass['Title'] = $class['Title'];
+
 					$clases[] = $oneClass;
 				}
 			return $clases;
 		}
-
+		
 		public function generateOptions($prefix, $number)
 		{
 			$teachers = array();
@@ -411,6 +415,179 @@
 				$leaders[] = $oneLeader;
 			}
 			return $leaders;
+		}
+
+
+		/*************************************************************
+			the regestration buton display
+		**************************************************************/
+		
+		//Method to determine what is the regestration status and siplay regestration button in the nav bar
+      public function regBtn(){
+
+			$setting;
+			$open = "yes";
+			$close = "no";
+			$semester = $this->getLatestSem();
+
+			$sql = "SELECT register_permission FROM semester WHERE ID = $semester";
+
+			$result = mysqli_query($this->con, $sql);
+
+			  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+			          $setting = $row['register_permission'];
+
+
+			if($setting == $open){
+
+			  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
+			}
+
+			elseif($setting == $close){
+
+				$date = date("Y-m-d");
+				$sql2 = "UPDATE semester SET deadline = '$date' WHERE ID = $semester;";
+
+				mysqli_query($this->con, $sql2);
+
+				echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
+				
+			}    
+
+
+		}	
+
+		/***************************************************************
+		Functions that have been added for notes related purposes
+		***************************************************************/
+		
+		public function roomsButton(){			
+
+			$rooms = array();
+			$sql = "SELECT Name, ID FROM room WHERE Available = 'yes';";
+
+			$res = mysqli_query($this->con, $sql);
+
+			while($room = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+
+				$oneRoom = array();
+
+				$oneRoom['Name'] = $room['Name'];
+				$oneRoom['ID'] = $room['ID'];
+
+				$rooms [] = $oneRoom;
+
+			}	
+
+			return $rooms;
+		}
+
+		//Function to compare the deadline date and current date
+		public function deadlineCheck(){
+
+			$today =  date('Y-m-d');
+			$semester = $this->getLatestSem();
+
+			$sql = "SELECT deadline from semester where ID = $semester;";
+
+			$res = mysqli_fetch_array(mysqli_query($this->con, $sql), MYSQLI_ASSOC);
+
+
+
+			$deadline = $res['deadline'];
+
+			
+			if($today < $deadline){
+				return true;
+			}
+			else{
+
+				return false;
+			}
+		}
+
+		public function weeks(){
+			
+					
+			$weeks = array();	
+			$semester = $this->getLatestSem();
+			$sql = "SELECT ID, start_date, end_date FROM week WHERE semester_ID = $semester";
+			$res = mysqli_query($this->con, $sql);
+
+				while($week = mysqli_fetch_assoc($res)){
+
+					$oneWeek = array();
+
+					$oneWeek['ID'] = $week['ID'];
+					$oneWeek['start_date'] = $week['start_date'];
+					$oneWeek['end_date'] = $week['end_date'];
+					
+
+					$weeks[] = $oneWeek;
+
+				}
+			return $weeks;
+		}
+
+		public function getName($email){
+
+			$string = "SELECT Fname, Lname from person where email = '$email';";
+			$query = mysqli_query($this->con,$string);			
+			$result = mysqli_fetch_assoc($query);
+
+			$name = array();
+			$name[] = $result['Fname'];
+			$name[] = $result['Lname'];
+			return $name;
+		}
+
+		public function checkNote($semester, $course_id, $week_id, $name){
+
+			$status = 0;
+			$string = "SELECT * FROM notes where Semester_ID = $semester and Course_ID = $course_id and Week_ID = $week_id and Name = '$name'";
+			
+
+			$query = mysqli_query($this->con,$string);			
+			$result = mysqli_fetch_assoc($query);
+
+			if(!empty($result)){
+
+				$status = 1;
+				
+
+			}
+			else{
+				$status = 0;
+				
+			}			
+
+			return $status;
+
+		}
+
+		public function dispalyMyNotes($email, $courseID){
+
+
+			$notes = array();	
+			$semester = $this->getLatestSem();
+			$sql = "SELECT Note, Name, Course_ID, Week_ID FROM `notes` WHERE Course_ID = $courseID and Semester_ID = $semester";
+			$res = mysqli_query($this->con, $sql);
+
+				while($note = mysqli_fetch_assoc($res)){
+
+					$oneNote = array();
+
+					$oneNote['Note'] = $note['Note'];
+					$oneNote['Name'] = $note['Name'];
+					$oneNote['Course_ID'] = $note['Course_ID'];
+					$oneNote['Week_ID'] = $note['Week_ID'];
+					
+
+					$notes[] = $oneNote;
+
+				}
+			return $notes;
 		}
 }
 ?>

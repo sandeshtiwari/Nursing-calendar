@@ -118,29 +118,28 @@ if (isset($_POST['save'])) {
 
 
 
-if (isset($_POST['delete'])) {
+if (isset($_POST['NewNote'])) {
 
-	/*
 
-	$weekIdandCourse = $_POST['delete'];
+	
+		$Course = $_GET['course'];
 
-	$parts = explode(' ', $weekIdandCourse);
+		$Week = $_GET['week'];
 
-	$weekId = $parts[0];
+		$Note = htmlspecialchars($_POST['NewNote']);
 
-	$Course_ID = $parts[1];
+	
 
-	$sql = "DELETE FROM notes WHERE Course_ID = $Course_ID and Name = '$FullName' and Week_ID = $weekId and Semester_ID = $semester;";
-
-	if(mysqli_query($con, $sql)){
-			echo "Sucess! Note was removed";
+		$sql = "UPDATE notes SET Note= '$Note' WHERE Course_ID = $Course and Week_ID = $Week and Semester_ID = $semester;";
+		if(mysqli_query($con, $sql)){
+			echo "Sucess! Updated";
 
 		}
 		else{
-			echo "Try agane, note is still there";
+			echo "Try agane";
 		}
 
-	*/
+
 
 	}
 
@@ -155,7 +154,7 @@ if (isset($_POST['delete'])) {
 	}
 
 
-	header('refresh: 0; URL='.$redirect_url);
+	//header('refresh: 0; URL='.$redirect_url);
 
 
 

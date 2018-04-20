@@ -218,7 +218,7 @@ $classes = $teacher -> classesNow($myID);
 if(!empty($classes)){
   echo "<div id='accordion'>";
   $divID = 1;
-  $divName = "collaps$divID";
+  $divName = "collaps".$divID;
   foreach($classes as $class => $details){
           $Prefix = $details['Prefix'];
           $Number = $details['Number'];
@@ -265,16 +265,29 @@ if(!empty($classes)){
               $W = $details['W'];
               $R = $details['R'];
               $F = $details['F'];
+
+              $days = $teacher->getDays($M, $T, $W, $R, $F);
               echo "<tr>
                         <th scope='row'>$row</th>
                         <td>$Room</td>
                         <td>$start_date</td>
                         <td>$end_date</td>
-                        <td>$M, $T, $W, $R, $F</td>
+                        <td>$days</td>
                        
-                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='process($CRN, $room_id, $week_id);history.go(0)'>Cancel Request</button></td>
+                        <td>
+                        <form method = 'post' action='modefy_helper.php?room=$room_id&week=$week_id&course=$CRN&days=$days'>
+                          <button type='submit' name = 'occupied' class='btn btn-primary btn-sm'>Cancel reservation</button>
+                        </form>
+
+                       </td>
+                       </tr>";
+
+
+/*
+                        <td>
+                        <button type='button'  name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='process($CRN, $room_id, $week_id);history.go(0)'>Cancel Request</button></td>
                         
-                     </tr>";
+                     </tr>";*/
                      $row++;
               
             }
@@ -316,16 +329,21 @@ if(!empty($classes)){
               $W = $details['W'];
               $R = $details['R'];
               $F = $details['F'];
+              $days = $teacher->getDays($M, $T, $W, $R, $F);
               echo "<tr>
                         <th scope='row'>$row</th>
                         <td>$Room</td>
                         <td>$start_date</td>
                         <td>$end_date</td>
-                        <td>$M, $T, $W, $R, $F</td>
+                        <td>$days</td>
                        
-                        <td><button type='button' name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='collision($CRN, $room_id, $week_id);history.go(0)'>Cancel Request</button></td>
-                        
-                     </tr>";
+                        <td>
+                        <form method = 'post' action='modefy_helper.php?room=$room_id&week=$week_id&course=$CRN&days=$days'>
+                          <button type='submit' name = 'collision' class='btn btn-primary btn-sm'>Cancel reservation</button>
+                        </form>
+
+                       </td>
+                       </tr>";
                      $row++;
               
             }

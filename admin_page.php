@@ -1,17 +1,16 @@
-<?php
-require 'config/config.php';
-if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
-{
-  header("Location: index.php");
-}
-
-
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 
 <head>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,7 +26,7 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 </head>
 
 <style>
-.btn-primary {
+  .btn-primary {
       background: #6f0029;
       color: #ffffff;
   }
@@ -46,65 +45,34 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 .navbar-sidenav{
   background: #6f0029 !important;
 }
-#sidenavToggler{
-  background: #6f0029 !important;
-}
-#logo{
-    height: 35px;
-   
-}
-#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
-    color: #e9ecef;
-}
-.navbar-dark .navbar-nav .nav-link {
-    color: #e9ecef;
-}
+
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-<!-- sweet alert boxes cdn  
-
-<script src="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.js"></script>
-<link href="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.css" rel="stylesheet"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-
--->
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
+    <a class="navbar-brand" href="admin_page.php">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
-          <a class="nav-link" href="admin_calendar.php">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Master Calendar</span>
-          </a>
-        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
           <a class="nav-link" href="admin_page.php">
             <i class="fa fa-fw fa-th"></i>
             <span class="nav-link-text">Rooms</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
-          <a class="nav-link" href="lead_teacher.php">
-            <i class="fa fa-address-book"></i>
-            <span class="nav-link-text">Assign Lead Teacher</span>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
+          <a class="nav-link" href="admin_calendar.php">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Master Calendar</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Collision">
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
-          <a class="nav-link" href="admin_notes.php">
-            <i class="fa fa-sticky-note"></i>
-            <span class="nav-link-text">Add notes</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
@@ -119,93 +87,6 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
             <span class="nav-link-text">Teachers</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
-          <a class="nav-link" href="logs.php">
-            <i class="fa fa-th-list"></i>
-            <span class="nav-link-text">Logs</span>
-          </a>
-        </li>
-  
-
-        <!--
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="tables.html">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Tables</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-wrench"></i>
-            <span class="nav-link-text">Components</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseComponents">
-            <li>
-              <a href="navbar.html">Navbar</a>
-            </li>
-            <li>
-              <a href="cards.html">Cards</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-file"></i>
-            <span class="nav-link-text">Example Pages</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
-            <li>
-              <a href="login.html">Login Page</a>
-            </li>
-            <li>
-              <a href="register.html">Registration Page</a>
-            </li>
-            <li>
-              <a href="forgot-password.html">Forgot Password Page</a>
-            </li>
-            <li>
-              <a href="blank.html">Blank Page</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-sitemap"></i>
-            <span class="nav-link-text">Menu Levels</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseMulti">
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-              <ul class="sidenav-third-level collapse" id="collapseMulti2">
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-          <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-link"></i>
-            <span class="nav-link-text">Link</span>
-          </a>
-        </li>
-      -->
       </ul>
 
 
@@ -217,26 +98,15 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        
-        <!--
-        <li class="nav-item">
-          <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-              <input class="form-control" type="text" placeholder="Search for...">
-              <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-          </form>
-        </li>  -->
+       
 
-
-<!-- this is for the registation button -->
+        <!-- this is for the registation button -->
   <li class="nav-item">
     <a class = "nav-link" data-toggle="tooltip" data-placement="right">
         <?php
+          require "config/config.php";
+          //require "class"
+          //error_reporting(0);
        
 
           $setting;
@@ -264,8 +134,6 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
     </a>
   </li>
 
-<!-- this is for the registation button -->
-
         <li class="nav-item">
           <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
             <i class="fa fa-fw fa-arrow-circle-left"></i>Back</a>
@@ -281,42 +149,69 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
   </nav>
   <div class="content-wrapper">
     <div class="container-fluid">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href = "admin_page.php"><h3>Room Calendar</h3></a>
-        </li>
-      </ol>
 
-      <!-- Breadcrumbs
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="index.html">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">Blank Page</li>
-      </ol>-->
-      <div class="row">
-        <div class="col-12">
-          
-        
-<!-- this is for the registation button -->
+
+      
+      <div id='nurcalendar'></div>
+        <div class="row">
+          <div class="col-12">
+            <?php
+              require "classes/admin.php";
+              require "classes/room.php";
+
+            $admin = new Admin($con, $_SESSION['email']);
+
+            $rooms = $admin->roomsButton();
+
+            if(!empty($rooms)){
+
+              foreach($rooms as $room => $details){
+
+                $person = new Room($con);
+              //$id = 312;
+             
+           // $json = $person->getJSON($id);
+
+                $Name = $details['Name'];
+            $ID = $details['ID'];
+
+
+
+              echo "<a href = 'roomCalendar.php?id=$ID' type='button' class = 'btn btn-primary'>$Name</a><br>";
+              //echo "<div id='$ID' class='collapse'>
+                //<embed src='styles/roomCalendar.php?id=$ID' style='width:700px; height: 720px; position: relative; left: 175px;'>
+        //<div id='calendar'></div>
+          //  </div>";
+
+            }
+            }
+
+
+            ?>
+
+            
+            
+
+
+              <!-- this is for the registation button -->
 
  <div class="modal fade" id = "myModal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to change the booking status?</h5>
+                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to save changes?</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
-                          To change the booking status for requesting rooms, press 'Change Booking Status'. <br>
+                          To confirm your choise, please, press Save Changes. <br>
                           Press Close to exit.
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" onclick="switchReg()">Change Booking Status</button>
+                          <button type="button" class="btn btn-primary" onclick="switchReg()">Save changes</button>
                         </div>
                       </div>
                     </div>
@@ -345,12 +240,17 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
 
 
 <!-- this is for the registation button -->
+          </div>
+        </div>      
 
-
-
-        </div>
-      </div>
-    </div>
+      <!-- Breadcrumbs
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Blank Page</li>
+      </ol>-->
+      
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
@@ -389,9 +289,8 @@ if($_SESSION['privilege'] != 'admin' || !isset($_SESSION['email']))
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
-    <script src="js/admin_js.js"></script>
+     <script src="js/admin_js.js"></script>
   </div>
-    </div>
 </body>
 
 </html>

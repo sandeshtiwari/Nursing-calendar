@@ -418,6 +418,32 @@
 		}
 		
 
+		public function getDays($m, $t, $w, $r, $f){
+			$day = '';
+			if($m == 'yes')
+	        	{
+	        		$day .= " Monday";
+	        	}
+	        	if($t == 'yes')
+	        	{
+	        		$day .= " Tuesday";
+	        	}
+	        	if($w == 'yes')
+	        	{
+	        		$day .= " Wednesday";
+	        	}
+	        	if($r == 'yes')
+	        	{
+	        		$day .= " Thursday";
+	        	}
+	        	if($f == 'yes')
+	        	{
+	        		$day .= " Friday";
+	        	}
+
+	        	return $day;
+		}
+
 
 
 

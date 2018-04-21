@@ -205,7 +205,7 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
                     Please enter a valid date range.
                   </div>";
           }
-          if(!$teacher->checkRegistrationStatus())
+          if(!$teacher->checkRegistrationStatus() && $_SESSION['privilege'] == "lead")
           {
             echo "<div class='alert alert-info' role='alert'>
                     Note: Registration is off at the moment so even if you book a room, it will be requested.

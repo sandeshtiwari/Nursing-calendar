@@ -32,8 +32,12 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
     background: #6f0029;
     color: #ffffff;
 }
-.bg-dark{
-  background-color: #6f0029 !important;
+.btn-danger{
+  padding: 0;
+}
+
+.btn-success{
+  padding: 0;
 }
 
 .bg-dark{
@@ -43,16 +47,29 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
 .navbar-sidenav{
   background: #6f0029 !important;
 }
+#sidenavToggler{
+  background: #6f0029 !important;
+}
+#logo{
+    height: 35px;
+   
+}
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #e9ecef;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #e9ecef;
+}
 
-
-
-
+.logo{
+  height:35px;
+}
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"><?php echo "Welcome, ". $_SESSION['username']?></a>
+    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png"><strong><?php echo "Welcome, ". $_SESSION['username']?></strong></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -60,13 +77,13 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Requests">
           <a class="nav-link" href="lead_register.php">
-            <i class="fa fa-fw fa-th"></i>
+            <i class="fa fa-check-circle"></i>
             <span class="nav-link-text">Reserve Classroom</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Modify Requests">
           <a class="nav-link" href="modify_event.php">
-            <i class="fa fa-fw fa-th"></i>
+            <i class="fa fa-edit"></i>
             <span class="nav-link-text">Modify Requests</span>
           </a>
         </li>
@@ -78,8 +95,8 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
         </li>
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Notes">
-          <a class="nav-link" href="lead_notes.php">
-            <i class="fa fa-fw fa-table"></i>
+          <a class="nav-link" href="lead_Notes.php">
+            <i class="fa fa-sticky-note"></i>
             <span class="nav-link-text">Add Notes</span>
           </a>
         </li>
@@ -186,6 +203,12 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
           {
             echo "<div class='alert alert-danger' role='alert'>
                     Please enter a valid date range.
+                  </div>";
+          }
+          if(!$teacher->checkRegistrationStatus())
+          {
+            echo "<div class='alert alert-info' role='alert'>
+                    Note: Registration is off at the moment so even if you book a room, it will be requested.
                   </div>";
           }
           echo "<table class='table'>";

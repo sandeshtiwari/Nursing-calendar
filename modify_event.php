@@ -36,8 +36,26 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Nursing Admin</title>
+  <!-- Bootstrap core CSS-->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+</head>
+
 <style>
-  .btn-primary {
+.btn-primary {
       background: #6f0029;
       color: #ffffff;
   }
@@ -50,7 +68,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 }
 
 .bg-dark{
-  background: #6f0029 !important; 
+  background: #6f0029 !important;
 }
 
 .navbar-sidenav{
@@ -71,29 +89,17 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 }
 </style>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>Nursing Admin</title>
-  <!-- Bootstrap core CSS-->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom fonts for this template-->
-  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin.css" rel="stylesheet">
-  
-</head>
-
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<!-- sweet alert boxes cdn  
+
+<script src="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.js"></script>
+<link href="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+-->
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"><?php echo "Welcome, ". $_SESSION['username'] ?></a>
+    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -101,13 +107,13 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Requests">
           <a class="nav-link" href="lead_register.php">
-            <i class="fa fa-fw fa-th"></i>
+            <i class="fa fa-check-circle"></i>
             <span class="nav-link-text">Reserve Classroom</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Modify Requests">
           <a class="nav-link" href="modify_event.php">
-            <i class="fa fa-fw fa-th"></i>
+            <i class="fa fa-edit"></i>
             <span class="nav-link-text">Modify Requests</span>
           </a>
         </li>
@@ -119,12 +125,92 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
         </li>
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Notes">
-          <a class="nav-link" href="Lead_notes.php">
-            <i class="fa fa-fw fa-table"></i>
+          <a class="nav-link" href="lead_Notes.php">
+            <i class="fa fa-sticky-note"></i>
             <span class="nav-link-text">Add Notes</span>
           </a>
         </li>
+  
 
+        <!--
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="tables.html">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Tables</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">Components</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a href="navbar.html">Navbar</a>
+            </li>
+            <li>
+              <a href="cards.html">Cards</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">Example Pages</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+            <li>
+              <a href="login.html">Login Page</a>
+            </li>
+            <li>
+              <a href="register.html">Registration Page</a>
+            </li>
+            <li>
+              <a href="forgot-password.html">Forgot Password Page</a>
+            </li>
+            <li>
+              <a href="blank.html">Blank Page</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-sitemap"></i>
+            <span class="nav-link-text">Menu Levels</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseMulti">
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
+              <ul class="sidenav-third-level collapse" id="collapseMulti2">
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+          <a class="nav-link" href="#">
+            <i class="fa fa-fw fa-link"></i>
+            <span class="nav-link-text">Link</span>
+          </a>
+        </li>
+      -->
       </ul>
 
 
@@ -137,15 +223,33 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
       </ul>
       <ul class="navbar-nav ml-auto">
         
-      
+        <!--
+        <li class="nav-item">
+          <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Search for...">
+              <span class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </li>  -->
 
+
+<!-- this is for the registation button -->
+  
+
+<!-- this is for the registation button -->
 
         <li class="nav-item">
           <a class="nav-link" href = "javascript:history.go(-1)"onMouseOver"self.status.referrer;return true" data-target="#exampleModal">
             <i class="fa fa-fw fa-arrow-circle-left"></i>Back</a>
         </li>
 
-         <li class="nav-item">
+
+        <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
         </li>
@@ -154,6 +258,12 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   </nav>
   <div class="content-wrapper">
     <div class="container-fluid">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="modify_event.php"><h3>Modify room reservations</h3></a>
+        </li>
+      </ol>
+
       <!-- Breadcrumbs
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -161,55 +271,12 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
         </li>
         <li class="breadcrumb-item active">Blank Page</li>
       </ol>-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="modify_event.php"><h3>Modify room reservations:</h3></a>
-        </li>
-      </ol>
-      <style>
- .btn-outline-primary{
-              background: #6f0029;
-              color: #ffffff;
-            }
+      <div class="row">
+        <div class="col-12">
+          
 
-            .btn-outline-info{
-              background: #6f0029;
-              color: #ffffff;
-            }
 
-            .btn-primary{
-              background: #6f0029;
-              color: #ffffff;
-            }
-
-            .bg-dark{
-              background: #6f0029 !important;
-        }
-
-        .navbar-sidenav{
-          background: #6f0029 !important;
-        }
-
-        .textBox{
-          width:100%;
-          padding: 4px 8px;
-          box-sizing: border-box;
-          border: 2px solid #6f0029;
-          border-radius: 4px;
-        }
-
-        .textBox[type=text]:focus {
-          background-color: #ffe5ee;
-        }
-#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
-    color: #f8f9fa;
-}
- .navbar-dark .navbar-nav .nav-link {
-    color: #f8f9fa;
-    }
-    </style>
-
-      <?php
+          <?php
 $teacher = new Teacher($con, $_SESSION['email']);
 //getting teacher's CWID:
 $myID = $teacher ->getID($_SESSION['email']);
@@ -218,7 +285,7 @@ $classes = $teacher -> classesNow($myID);
 if(!empty($classes)){
   echo "<div id='accordion'>";
   $divID = 1;
-  $divName = "collaps".$divID;
+  $divName = "collapse".$divID;
   foreach($classes as $class => $details){
           $Prefix = $details['Prefix'];
           $Number = $details['Number'];
@@ -359,30 +426,27 @@ if(!empty($classes)){
 }
   
 ?>
-
-<div id = "name_feedback"></div>
-      
-     
-
-
+          
+        
 <!-- this is for the registation button -->
-<div class="modal fade" id = "myModal">
+
+ <div class="modal fade" id = "myModal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to save changes?</h5>
+                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to change the booking status?</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
-                          To confirm your choise, please, press Save Changes. <br>
+                          To change the booking status for requesting rooms, press 'Change Booking Status'. <br>
                           Press Close to exit.
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" onclick="switchReg()">Save changes</button>
+                          <button type="button" class="btn btn-primary" onclick="switchReg()">Change Booking Status</button>
                         </div>
                       </div>
                     </div>
@@ -405,15 +469,12 @@ if(!empty($classes)){
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
-<!-- this is for the registation button -->
-
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 
-
-
+<!-- this is for the registation button -->
 
 
 
@@ -458,9 +519,9 @@ if(!empty($classes)){
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
-    <!-- this is for the registation button -->
-    <script src="js/modefy.js"></script>
+    <script src="js/admin_js.js"></script>
   </div>
+    </div>
 </body>
 
 </html>

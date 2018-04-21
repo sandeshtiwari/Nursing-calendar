@@ -73,7 +73,9 @@
 
  $(document).ready(function() {
 
-  $('#calendar').fullCalendar({
+  i = 0;
+
+  $('#calendar').fullCalendar({    
         // when the event is clicked show the day of the event and change the view  to day
         eventClick: function(calEvent, jsEvent, view){
             jsEvent.preventDefault();
@@ -103,6 +105,11 @@
         windowResize: function(view) {
   },
 
+
+   //eventColor: '#488016',
+   //eventColor : giveColor(i),
+   
+   eventTextColor: 'black',
   
 
     customButtons: {
@@ -137,6 +144,7 @@
         theme: true,
         default: 'false',
 
+
          
         header: {
         left: 'prev,next today',
@@ -157,7 +165,9 @@
          right: 'myCustomButton'
         },
         //defaultDate: '2016-01-15T16:00:00',
-        events: giveEvents()
+        events: giveEvents(),
+       
+
 
           
   });
@@ -169,8 +179,35 @@
     {
       data[i]['dowstart'] = new Date(data[i]['dowstart']);
       data[i]['dowend'] = new Date(data[i]['dowend']);
+      data[i]['color'] = giveColor(i);
+      //giveColor(i);
     }
     return data;
+  }
+
+  function giveColor(i){
+    var Pink = '#BB606B'; //Green
+    var Green = '#4C693A'; //red
+    var Blue = '#97B2A0'; //blue
+    var Yelow = '#d49a29'; //yeallow
+    
+
+    number = i%4;
+
+
+    if(number == 1){colorID = Pink}
+    
+    if(number == 2){colorID = Green}
+
+
+    if(number == 3){colorID = Blue}
+    
+
+    if(number == 0){colorID = Yelow}  
+    i++;      
+
+    return colorID;
+
   }
 });
 </script>

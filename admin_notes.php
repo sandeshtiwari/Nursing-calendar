@@ -276,7 +276,7 @@ if(!empty($classes)){
       $Name;
 
      echo " <button class='btn btn-classlist btn-lg ' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
-              $Title
+             $Course_ID $Title
           </button><br>
 
           <div id ='$Course_ID' class='collapse'>

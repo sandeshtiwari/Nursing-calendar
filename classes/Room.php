@@ -10,6 +10,45 @@
 			$this->con = $con;
 			$this->occupiedWeeks = array();
 		}
+        public function getJSON($id)
+		{
+			$data = array();
+			$sem = $this->getLatestSem();
+			// query to find all the classes taught by the teacher logged in
+			$databaseQuery = "SELECT O.Course_ID as id, O.occupied_ID as occupied_ID, C.Prefix, C.Number, C.Title as title, Start_time, End_time
+			FROM occupied as O, course as C 
+			WHERE O.Course_ID = C.Course_ID AND O.Room_ID = $id AND C.Semester_ID = $sem";
+			$result = mysqli_query($this->con, $databaseQuery);
+			// iterate through the classes taught by the teacher
+			while($row = mysqli_fetch_assoc($result))
+			{
+				$Course_ID = $row['id'];
+				$occupied_ID = $row['occupied_ID'];
+				$dates = mysqli_query($this->con, "SELECT MIN(start_date) as start_date, MAX(end_date) as end_date
+				FROM occupied, week 
+				WHERE occupied.Week_ID = week.ID AND occupied.Course_ID = '$Course_ID' AND occupied.Room_ID = $id AND occupied.occupied_ID = $occupied_ID");
+				$dateRow = mysqli_fetch_assoc($dates);
+				// query to get the days and class time for a class
+				$courseDay = mysqli_query($this->con, "SELECT M, T, W, R, F FROM occupied 
+					WHERE Course_ID = '$Course_ID' AND occupied_ID = '$occupied_ID' AND Room_ID = $id");
+				$days = mysqli_fetch_assoc($courseDay);
+				$dow = $this->occupiedWeeksForJSON($days);
+				// get the starting and ending dates for the course
+				//$dates = mysqli_query($this->con, "SELECT start_date, end_date FROM semester, course WHERE semester.ID = course.Semester_ID AND course.Course_ID = '$Course_ID'");
+				//$dateRow = mysqli_fetch_assoc($dates);
+				$row['title'] .= "\n".$this->getRoomName($id);
+				$row['title'] = $Course_ID."\n".$row['title'];
+				$row['dow'] = $dow;
+				$row['dowstart'] = date('Y-m-d', strtotime($dateRow['start_date']));
+				$row['dowend'] = date('Y-m-d', strtotime($dateRow['end_date']));
+				$row['start'] = $row['Start_time'];
+				$row['end'] = $row['End_time'];
+				$data[] = $row;
+			}
+			//echo(json_encode($data));
+			//print_r($data);
+			return json_encode($data);
+		}
 		// method to get all the occupied rooms IDs for a given course
 		public function getOccupiedRoomAndDays($course_id,$semester_id,$weeks)
 		{

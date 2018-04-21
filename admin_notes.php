@@ -32,8 +32,12 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
     background: #6f0029;
     color: #ffffff;
 }
-.bg-dark{
-  background-color: #6f0029 !important;
+.btn-danger{
+  padding: 0;
+}
+
+.btn-success{
+  padding: 0;
 }
 
 .bg-dark{
@@ -43,13 +47,48 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 .navbar-sidenav{
   background: #6f0029 !important;
 }
+#sidenavToggler{
+  background: #6f0029 !important;
+}
+#logo{
+    height: 33px;
+}
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #e9ecef;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #e9ecef;
+}
+
+.btn-classlist{
+  background: #6f0029;
+  color: #fff;
+  margin-top: .5em;
+  width: 20em;
+
+}
+.btn-delt{
+  float: right;
+  margin-right: -7em;
+  padding: .25em;
+}
+
+.btn-edit{
+  float :right;
+  margin-right: 5em;
+  padding: .45em;
+  padding-right: 1em;
+  padding-left: 1em; 
+}
+
+
 
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">Nursing Admin</a>
+    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -69,7 +108,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
           <a class="nav-link" href="lead_teacher.php">
-            <i class="fa fa-fw fa-th"></i>
+            <i class="fa fa-address-book"></i>
             <span class="nav-link-text">Assign Lead Teacher</span>
           </a>
         </li>
@@ -77,6 +116,12 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
+          <a class="nav-link" href="admin_notes.php">
+            <i class="fa fa-sticky-note"></i>
+            <span class="nav-link-text">Add notes</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
@@ -90,7 +135,16 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
             <i class="fa fa-fw fa-leanpub"></i>
             <span class="nav-link-text">Teachers</span>
           </a>
-        </li>        
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
+          <a class="nav-link" href="logs.php">
+            <i class="fa fa-th-list"></i>
+            <span class="nav-link-text">Logs</span>
+          </a>
+        </li>
+
+
+
       </ul>
 
 
@@ -141,7 +195,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
       <div class="container" >   
   <div class="card-header mt-1.5">
 
-    <h3>Notes to students and teachers:</h3>
+    <a href = "admin_notes.php"><h3>Notes to students and teachers</h3></a>
   </div>
   <div class="card-body">
     <form method="post" action="noteHelp.php">
@@ -221,7 +275,7 @@ if(!empty($classes)){
       $Title = $details['Title'];
       $Name;
 
-     echo " <button class='btn btn-secondary btn-lg btn-block mt-2' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
+     echo " <button class='btn btn-classlist btn-lg' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
               $Title
           </button><br>
 
@@ -253,7 +307,7 @@ if(!empty($classes)){
 
            echo"<tr>
                   <th scope='row'>$Week</th>
-                  <td>$Name: $Note
+                  <td><strong>$Name</strong>: $Note
                   <div id ='$Note' class='collapse'>
 
                   <form method='post' action='noteHelp.php?course=$Course_ID&week=$Week'>
@@ -271,8 +325,8 @@ if(!empty($classes)){
                   if($fullName == $Name){
                  echo " <td>
 
-                 <button class='btn btn-warning btn-sm' type='button' data-toggle='collapse' data-target='#$Note' aria-expanded='false' aria-controls='$Note'>Edit </button>                 
-                  <a onclick='return confirm('are you sure?') href='noteHelp.php?id=delete&week=$Week&course=$Course_ID' class = 'btn btn-danger btn-rounded btn-sm my-0'>Delete</a><td>
+                 <button class='btn btn-warning btn-sm btn btn-edit' type='button' data-toggle='collapse' data-target='#$Note' aria-expanded='false' aria-controls='$Note'>Edit </button>                 
+                  <a onclick='return confirm('are you sure?') href='noteHelp.php?id=delete&week=$Week&course=$Course_ID' class = 'btn btn-danger btn-rounded btn-delt'> Delete </a><td>
                         ";
                   }           
                echo " </tr>";

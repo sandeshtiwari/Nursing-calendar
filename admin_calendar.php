@@ -164,7 +164,7 @@
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
           <a class="nav-link" href="lead_teacher.php">
-            <i class="fa fa-fw fa-th"></i>
+            <i class="fa fa-address-book"></i>
             <span class="nav-link-text">Assign Lead Teacher</span>
           </a>
         </li>
@@ -172,6 +172,12 @@
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
+          <a class="nav-link" href="admin_notes.php">
+            <i class="fa fa-sticky-note"></i>
+            <span class="nav-link-text">Add notes</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
@@ -188,7 +194,7 @@
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
           <a class="nav-link" href="logs.php">
-            <i class="fa fa-address-book"></i>
+            <i class="fa fa-th-list"></i>
             <span class="nav-link-text">Logs</span>
           </a>
         </li>

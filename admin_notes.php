@@ -64,7 +64,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
   background: #6f0029;
   color: #fff;
   margin-top: .5em;
-  width: 20em;
+  width: 100%;
 
 }
 .btn-delt{
@@ -275,7 +275,7 @@ if(!empty($classes)){
       $Title = $details['Title'];
       $Name;
 
-     echo " <button class='btn btn-classlist btn-lg' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
+     echo " <button class='btn btn-classlist btn-lg ' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
               $Title
           </button><br>
 

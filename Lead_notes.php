@@ -1,3 +1,4 @@
+
 <?php
 
   require 'check_privilege.php';
@@ -89,7 +90,7 @@
   background: #6f0029;
   color: #fff;
   margin-top: .5em;
-  width: 20em;
+  width: 100%;
 
 }
 .btn-delt{

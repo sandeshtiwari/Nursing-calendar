@@ -28,16 +28,12 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
 </head>
 
 <style>
-  .btn-primary {
-      background: #6f0029;
-      color: #ffffff;
-  }
-  .btn-danger{
-  padding: 0;
+.btn-primary {
+    background: #6f0029;
+    color: #ffffff;
 }
-
-.btn-success{
-  padding: 0;
+.bg-dark{
+  background-color: #6f0029 !important;
 }
 
 .bg-dark{
@@ -47,25 +43,16 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
 .navbar-sidenav{
   background: #6f0029 !important;
 }
-#sidenavToggler{
-  background: #6f0029 !important;
-}
-#logo{
-    height: 35px;
-   
-}
-#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
-    color: #e9ecef;
-}
-.navbar-dark .navbar-nav .nav-link {
-    color: #e9ecef;
-}
+
+
+
+
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png"><?php echo "Welcome, ". $_SESSION['username']?></a>
+    <a class="navbar-brand" href="admin_page.php"><?php echo "Welcome, ". $_SESSION['username']?></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -199,12 +186,6 @@ if($_SESSION['privilege'] != 'lead' || !isset($_SESSION['email']))
           {
             echo "<div class='alert alert-danger' role='alert'>
                     Please enter a valid date range.
-                  </div>";
-          }
-          if(!$teacher->checkRegistrationStatus())
-          {
-            echo "<div class='alert alert-info' role='alert'>
-                    Note: Registration is off at the moment so even if you book a room, it will be requested.
                   </div>";
           }
           echo "<table class='table'>";

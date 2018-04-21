@@ -3,7 +3,7 @@ require 'config/config.php';
 require "classes/admin.php";
 if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 {
-  header("Locaton: index.php");
+  header("locaton: index.php");
 }
 ?>
 
@@ -28,16 +28,12 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 </head>
 
 <style>
-  .btn-primary {
-      background: #6f0029;
-      color: #ffffff;
-  }
-  .btn-danger{
-  padding: 0;
+.btn-primary {
+    background: #6f0029;
+    color: #ffffff;
 }
-
-.btn-success{
-  padding: 0;
+.bg-dark{
+  background-color: #6f0029 !important;
 }
 
 .bg-dark{
@@ -47,25 +43,13 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 .navbar-sidenav{
   background: #6f0029 !important;
 }
-#sidenavToggler{
-  background: #6f0029 !important;
-}
-#logo{
-    height: 35px;
-   
-}
-#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
-    color: #e9ecef;
-}
-.navbar-dark .navbar-nav .nav-link {
-    color: #e9ecef;
-}
+
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
+    <a class="navbar-brand" href="index.html">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -85,7 +69,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
           <a class="nav-link" href="lead_teacher.php">
-            <i class="fa fa-address-book"></i>
+            <i class="fa fa-fw fa-th"></i>
             <span class="nav-link-text">Assign Lead Teacher</span>
           </a>
         </li>
@@ -93,12 +77,6 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
-          <a class="nav-link" href="admin_notes.php">
-            <i class="fa fa-sticky-note"></i>
-            <span class="nav-link-text">Add notes</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
@@ -115,13 +93,10 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
           <a class="nav-link" href="logs.php">
-            <i class="fa fa-th-list"></i>
+            <i class="fa fa-address-book"></i>
             <span class="nav-link-text">Logs</span>
           </a>
-        </li>
-
-
-
+        </li>      
       </ul>
 
 
@@ -181,12 +156,6 @@ elseif($setting == $close){
 
 <div class="content-wrapper">
     <div class="container-fluid">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href = "lead_teacher.php"><h3>Assign Lead Teacher</h3></a>
-        </li>
-      </ol>
-              
       <!-- Breadcrumbs
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -196,9 +165,6 @@ elseif($setting == $close){
       </ol>-->
       <div class="row">
         <div class="col-12">
-
-
-
           <h5 style="text-align: center;">The Lead Techers at this moment:</h5>
 <!--Table-->
 
@@ -283,18 +249,18 @@ $classes = $admin->giveClasses();
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to change the booking status?</h5>
+                          <h5 class="modal-title" id="exampleModalLongTitle">Do you want to save changes?</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
-                          To change the booking status for requesting rooms, please, press 'Change Booking Status'. <br>
+                          To confirm your choise, please, press Save Changes. <br>
                           Press Close to exit.
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" onclick="switchReg()">Change Booking Status</button>
+                          <button type="button" class="btn btn-primary" onclick="switchReg()">Save changes</button>
                         </div>
                       </div>
                     </div>

@@ -19,7 +19,7 @@
   {
     $person = new Student($con, $_SESSION['email']);
   }
- 
+  $json = $person->getJSON();
 ?>
 
 <!DOCTYPE html>
@@ -33,12 +33,69 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+<script>
+ $(document).ready(function() {
+  $('#nurcalendar').fullCalendar({ 
+        eventRender: function(event, element, view) {
+        var theDate = event.start
+        var endDate = event.dowend;
+        var startDate = event.dowstart;
+        
+        if (theDate >= endDate) {
+                return false;
+        }
+
+        if (theDate <= startDate) {
+          return false;
+        }
+        
+        },
+
+        defaultView: 'month',
+        nowIndicator: true,
+        header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+        },
+        //defaultDate: '2016-01-15T16:00:00',
+        events: giveEvents()
+  });
+  function giveEvents()
+  {
+    var data = <?php echo $json;?>;
+    console.log(data[0]);
+    for(i = 0; i < data.length; i++)
+    {
+      data[i]['dowstart'] = new Date(data[i]['dowstart']);
+      data[i]['dowend'] = new Date(data[i]['dowend']);
+    }
+    return data;
+  }
+});
+</script>
+<style>
+
+ body {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+  }
+
+ #nurcalendar {
+  width: 650px;
+  margin: 0 auto;
+  }
+
+</style>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Teacher Notes</title>
+  <title>Nursing Admin</title>
   <!-- Bootstrap core CSS-->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
@@ -76,7 +133,7 @@
         </li>
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Notes">
-          <a class="nav-link" href="teacherNotes.php">
+          <a class="nav-link" href="lead_notes.php">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Add Notes</span>
           </a>
@@ -109,183 +166,161 @@
     </div>
   </nav>
   <div class="content-wrapper">
-    
-    <div class="container" >   
-  <div class="card-header">
+    <div class="container-fluid">
+      <!-- Breadcrumbs
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Blank Page</li>
+      </ol>-->
+      <div class="row">
+        <div class="col-12">
+          
+          <style>
+            .btn-outline-primary{
+              background: #6f0029;
+              color: #ffffff;
+            }
 
-    <h3>Notes for students:</h3>
-  </div>
-  <div class="card-body">
-    <form method="post" action="noteHelp.php">
-      
-      <div class="form-group">
-        <label for="exampleFormControlSelect1">Course:</label>
-        <select class="form-control" id="exampleFormControlSelect1" name="Course">
+            .btn-outline-info{
+              background: #6f0029;
+              color: #ffffff;
+            }
 
+            .btn-primary{
+              background: #6f0029;
+              color: #ffffff;
+            }
+
+            .bg-dark{
+              background: #6f0029 !important;
+        }
+
+        .navbar-sidenav{
+          background: #6f0029 !important;
+        }
+
+        .textBox{
+          width:100%;
+          padding: 4px 8px;
+          box-sizing: border-box;
+          border: 2px solid #6f0029;
+          border-radius: 4px;
+        }
+
+        .textBox[type=text]:focus {
+          background-color: #ffe5ee;
+        }
+
+            
+          </style>
 
           <?php
 
-        $teacher = new Teacher($con, $_SESSION['email']);
-        $myId = $teacher->getID($_SESSION['email']);
+      if($_SESSION['privilege'] == 'lead')
+  {
 
-        $myClasses = $teacher->classesNow($myId);
+      $idnum = " ";
+       $userpa = $_SESSION['username'];
+      
+    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
 
-        if(!empty($myClasses)){
+    $result = mysqli_query($con, $sql2);
 
-          foreach($myClasses as $class => $details){
-
-          $Prefix = $details['Prefix'];
-          $Number = $details['Number'];
-          $Course_ID = $details['Course_ID'];
-          $Title = $details['Title'];
-
-          echo "<option value = '$Course_ID'> $Title  </option> ";
-
-          }
-
-        }
-
+    if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+  
+    while($row = mysqli_fetch_assoc($result)) {
+        $idnum = $row["CWID"];
         
-        echo "</select>
-           </div>";
+    }
+    } else {
+    echo "No Notes";
+    }
 
-      echo "<div class='form-group'>
-        <label for='exampleFormControlSelect2'>Week</label>
-        <select class='form-control' id='exampleFormControlSelect2' name = 'Week'>";
+$sql1 = "SELECT * FROM course WHERE Teacher_CWID= $idnum";
 
-        $weeks = $teacher->weeks();
-          if(!empty($weeks)){
+$result = mysqli_query($con, $sql1);
 
-          foreach($weeks as $week => $details){
+if (mysqli_num_rows($result) >= 0) {
+    // output data of each row
+  
+    
+       while($row = mysqli_fetch_assoc($result)) {
+        echo "<br><br>Class: ". $row["Prefix"]." " . $row["Number"]. " " . $row["Title"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
+        $boom=$row["Course_ID"];
+        echo "<form action='push_Notes.php' method='post'>
+            <input type='text' class = 'textBox' name='Notes'></input>
+            <input type='hidden' name='LastName' value='$boom'></input>
+            <input class = 'btn btn-primary' type='submit' name='submit' value='Update Note'></input>
+            </form>";
+    }
+    
+} else {
+    echo "No Notes <br/>";
+}
 
-            $start_date = $details['start_date'];
-          $end_date = $details['end_date'];
-          $ID = $details['ID'];
-          
+}
+elseif($_SESSION['privilege'] == 'admin'){
 
-          echo "<option value = $ID>$ID: ($start_date - $end_date) </option> ";
 
+
+}
+else{
+
+ $idnum = " ";
+       $userpa = $_SESSION['username'];
+      
+    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
+
+    $result = mysqli_query($con, $sql2);
+
+    if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+  
+    while($row = mysqli_fetch_assoc($result)) {
+        $idnum = $row["CWID"];
+        
+    }
+    } else {
+    echo "No Notes";
+    }
+$sql3 = "SELECT Course_ID FROM registered WHERE CWID = $idnum";
+
+
+$result1 = mysqli_query($con, $sql3);
+
+if (mysqli_num_rows($result1) >= 0) {
+    // output data of each row
+      while($row1 = mysqli_fetch_assoc($result1)) {
+        
+
+          $cwidstudent = $row1['Course_ID'];
+          $sql4 = "SELECT * FROM course WHERE Course_ID = $cwidstudent";
+
+          $result2 = mysqli_query($con, $sql4);
+
+        if (mysqli_num_rows($result2) >= 0) {
+            // output data of each row
+           while($row2 = mysqli_fetch_assoc($result2)) {
+            echo "<br><br>Class: ". $row2["Course_ID"]." " . $row2["Prefix"]. " " . $row2["Number"]. "<br>  Teacher's Notes: <br> " . $row2["Notes"]. "<br>" ;
           }
-
         }
-       
-       echo " </select>
-         </div>";
-
-         ?>
-      <div class="form-group">
-        <label for="Note">Note</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" name="Note" rows="3"></textarea>
-      </div>
-       <button type="submit" name = "save" class="btn btn-primary">Submit</button>
-    </form>
-
-    <h4 align="center">All notes:</h4>
-
-    <?php
-
-    if(!empty($myClasses)){
-
-          foreach($myClasses as $class => $details){
-
-            $Prefix = $details['Prefix'];
-          $Number = $details['Number'];
-          $Course_ID = $details['Course_ID'];
-          $Title = $details['Title'];
-          $Name;
-
-          echo "
-
-          <button class='btn btn-secondary btn-lg btn-block mt-2' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
-              $Title
-          </button><br>
-
-          <div id ='$Course_ID' class='collapse'>
-          <table class='table table-hover'>
-              <thead>          
-              <tr>
-                  <th scope='col'>Week</th>
-                  <th scope='col'>Note</th>      
-                </tr>
-              </thead>
-
-              <tbody> ";
-
-          $notes = $teacher->dispalyMyNotes($_SESSION['email'], $Course_ID);  
-          $myName = $teacher->getName($_SESSION['email']);
-          $fullName = $myName[0]." ".$myName[1];
-
-
-          
-          if(!empty($notes)){
-
-
-          foreach($notes as $note => $details){
-
-            $Name = $details['Name'];
-            $Note = $details['Note'];
-            $Week = $details['Week_ID'];
+      }   
+    
+} else {
+    echo "No Notes <br/>";
+}
 
 
 
-           echo"<tr>
-                  <th scope='row'>$Week</th>
-                  <td>$Name: $Note
-                  <div id ='$Note' class='collapse'>
+}
 
-                  <form method='post' action='noteHelp.php?course=$Course_ID&week=$Week'>
-                   
-                    
-                     <textarea method = 'class='form-control' id='exampleFormControlTextarea1' name='NewNote' rows='3'></textarea>
-                      <button type='submit' name = 'update' class='btn btn-primary btn-sm'>Submit</button>
-
-                  
-                    </form>      
-                  
-
-                 </div></td>";
-
-                  if($fullName == $Name){
-                 echo " <td>
-
-                 <button class='btn btn-warning btn-sm' type='button' data-toggle='collapse' data-target='#$Note' aria-expanded='false' aria-controls='$Note'>Edit </button>                 
-                  <a onclick='return confirm('are you sure?') href='noteHelp.php?id=delete&week=$Week&course=$Course_ID' class = 'btn btn-danger btn-rounded btn-sm my-0'>Delete</a><td>
-                        ";
-                  }           
-               echo " </tr>";
-
-          }
+?>
 
 
-
-      } 
-
-      else{
-
-        echo"<tr>
-              <th scope='row'>0</th>
-              <td>No notes has been posted</td>           
-            </tr>";
-
-      }
-         
-
-          echo "</tbody>
-            </table>
-            </div>
-            "; 
-
-
-          }
-
-        }
-
-
-
-    ?>
-    </div>
 </div>
-
 
 
 

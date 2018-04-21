@@ -63,5 +63,142 @@
 				$dow[] = 5;
 			return $dow;
 		}
+
+		/************************************************************
+		Methods for the notes
+		*******************************************************/
+		
+		/***********************************************************/
+		public function getMyClasses($id){
+
+			$classes = array();
+			$sql = "SELECT Course_ID FROM `registered` WHERE CWID = $id";
+			$res = mysqli_query($this->con, $sql);
+
+				while($class = mysqli_fetch_assoc($res)){
+
+					$oneClass = array();
+					$oneClass['Course_ID'] = $class['Course_ID'];
+					$classes[] = $oneClass;
+				}
+
+			return $classes;
+		}
+
+
+
+		public function getID($email)
+		{
+
+			$sql = "SELECT DISTINCT CWID from person where email = '$email';";
+			$res = mysqli_query($this->con, $sql);
+
+			if ($id = mysqli_fetch_assoc($res)){
+				$CWID = $id['CWID'];
+				return $CWID;
+			}
+			else{
+				echo "Mistake";
+			}
+		}
+
+		public function getCourseName($crn){
+			$sql = "SELECT Title FROM `course` WHERE Course_ID = $crn";
+			$res = mysqli_query($this->con, $sql);
+			if ($title = mysqli_fetch_assoc($res)){
+				$Title = $title['Title'];
+				return $Title;
+			}	
+			else{
+				echo "Mistake";
+			}
+		}
+
+		public function weekID(){
+
+			$today =  date('Y-m-d');
+
+			$weeks = $this->weeks();
+
+			$thisWeekId = 0;
+
+			 if(!empty($weeks)){
+
+        		foreach($weeks as $week => $details ){
+
+		    		$start_date = $details['start_date'];
+					$end_date = $details['end_date'];
+					$ID = $details['ID'];
+
+					
+					//We checking if the date is bigger than start date, because the last week that access this loop will has right ID.
+					if( $today >= $start_date ) {						
+
+						$thisWeekId = $ID;
+
+					}				
+
+
+        		}
+        	}
+
+        	return $thisWeekId;		
+
+		}
+
+		 public function getLatestSem()
+		{
+			$string = "SELECT ID, MAX(end_date) FROM semester LIMIT 1";
+			$query = mysqli_query($this->con, $string);
+			$sem = mysqli_fetch_assoc($query);
+			return $sem['ID'];
+		}
+
+		public function weeks(){
+			
+					
+			$weeks = array();	
+			$semester = $this->getLatestSem();
+			$sql = "SELECT ID, start_date, end_date FROM week WHERE semester_ID = $semester";
+			$res = mysqli_query($this->con, $sql);
+
+				while($week = mysqli_fetch_assoc($res)){
+
+					$oneWeek = array();
+
+					$oneWeek['ID'] = $week['ID'];
+					$oneWeek['start_date'] = $week['start_date'];
+					$oneWeek['end_date'] = $week['end_date'];
+					
+
+					$weeks[] = $oneWeek;
+
+				}
+			return $weeks;
+		}
+
+		public function selectNotes($crn, $weekID){
+			$notes = array();	
+			$semester = $this->getLatestSem();
+			$sql = "SELECT Note, Name FROM notes WHERE Week_ID = $weekID and Semester_ID = $semester and Course_ID = $crn";
+			$res = mysqli_query($this->con, $sql);
+
+				while($note = mysqli_fetch_assoc($res)){
+
+					$oneNote = array();
+
+					$oneNote['Note'] = $note['Note'];
+					$oneNote['Name'] = $note['Name'];					
+
+					$notes[] = $oneNote;
+
+				}
+			return $notes;
+
+
+		}
+
+
+
 	}
 ?>

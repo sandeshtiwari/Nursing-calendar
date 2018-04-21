@@ -285,110 +285,118 @@ img {
     <br/>
     <br/>
     <br/>
+<div class="container-fluid">
+    <div class="row">
 
-  <?php
+      <div class="col">
 
-      if($_SESSION['privilege'] == 'teacher')
-  {
+<?php
 
-      $idnum = " ";
-       $userpa = $_SESSION['username'];
-      
-    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
+$myId = $person -> getID($_SESSION['email']);
 
-    $result = mysqli_query($con, $sql2);
+$myClasses = $person ->getMyClasses($myId);
 
-    if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-  
-    while($row = mysqli_fetch_assoc($result)) {
-        $idnum = $row["CWID"];
-        
-    }
-    } else {
-    echo "No Notes";
-    }
-
-$sql1 = "SELECT * FROM course WHERE Teacher_CWID= $idnum";
-
-$result = mysqli_query($con, $sql1);
-
-if (mysqli_num_rows($result) >= 0) {
-    // output data of each row
-  
-    
-       while($row = mysqli_fetch_assoc($result)) {
-        echo "<br><br>Class: ". $row["Course_ID"]." " . $row["Prefix"]. " " . $row["Number"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
-        $boom=$row["Course_ID"];
-        echo "<form action='push_Notes.php' method='post'>
-            <input type='text' name='Notes'></input>
-            <input type='hidden' name='LastName' value='$boom'></input>
-            <input type='submit' name='submit' value='Update Note'></input>
-            </form>";
-    }
-    
-} else {
-    echo "No Notes <br/>";
-}
-
-}
-elseif($_SESSION['privilege'] == 'admin'){
+$weekId = $person ->weekID();
 
 
+echo "<div class='card' >
+       <div class='card-header'><h3>Notes for week $weekId</h3></div>
+       <div class='card-body'>";
 
-}
-else{
+  if(!empty($myClasses)){
 
- $idnum = " ";
-       $userpa = $_SESSION['username'];
-      
-    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
+        foreach($myClasses as $class => $details){
 
-    $result = mysqli_query($con, $sql2);
+          $CRN = $details['Course_ID'];
 
-    if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-  
-    while($row = mysqli_fetch_assoc($result)) {
-        $idnum = $row["CWID"];
-        
-    }
-    } else {
-    echo "No Notes";
-    }
-$sql3 = "SELECT Course_ID FROM registered WHERE CWID = $idnum";
+          $title = $person ->getCourseName($CRN);
 
+          echo "<h3><u>$title</u></h3>";
 
-$result1 = mysqli_query($con, $sql3);
+          $notesForThisClass = $person-> selectNotes($CRN, $weekId);
 
-if (mysqli_num_rows($result1) >= 0) {
-    // output data of each row
-      while($row1 = mysqli_fetch_assoc($result1)) {
-        
+          if(!empty($notesForThisClass)){
 
-          $cwidstudent = $row1['Course_ID'];
-          $sql4 = "SELECT * FROM course WHERE Course_ID = $cwidstudent";
+              foreach($notesForThisClass as $note => $details){
 
-          $result2 = mysqli_query($con, $sql4);
+                $Note = $details['Note'];
+                $Name = $details['Name'];
 
-        if (mysqli_num_rows($result2) >= 0) {
-            // output data of each row
-           while($row2 = mysqli_fetch_assoc($result2)) {
-            echo "<table class = 'tbl1'>";
-            echo "<tr><th>". $row2["Prefix"]." " . $row2["Number"]. " " . $row2["Title"]. "<br> </th></tr>";
-            echo "<tr><td> Teacher's Notes: " . $row2["Notes"]. "<br> </td></tr>";
-            echo "</table>";
-          }
-        }
-      }   
-    
-} else {
-    echo "No Notes <br/>";
-}
+                echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>$Note</p>
+                      <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
+                    </blockquote>";               
+
+              }
+            }
+            else {
+              echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>No notes for this Week</p>
+                      <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
+                    </blockquote>";
+            }
 
 
 
-}
+
+          
+
+         }
+
+         echo "</div></div></div>";
+  }  
+
+  $weekId ++;
+ echo "<div class='col'>
+ <div class='card' '>
+       <div class='card-header'><h3>Notes for week $weekId</h3></div>
+       <div class='card-body'>";
+
+  if(!empty($myClasses)){
+
+        foreach($myClasses as $class => $details){
+
+          $CRN = $details['Course_ID'];
+
+          $title = $person ->getCourseName($CRN);
+
+          echo "<h3><u>$title</u></h3>";
+
+          $notesForThisClass = $person-> selectNotes($CRN, $weekId);
+
+          if(!empty($notesForThisClass)){
+
+              foreach($notesForThisClass as $note => $details){
+
+                $Note = $details['Note'];
+                $Name = $details['Name'];
+
+                echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>$Note</p>
+                      <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
+                    </blockquote>";   
+
+              }
+            }
+            else {
+              echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>No notes for this Week</p>
+                      <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
+                    </blockquote>";
+            }
+
+
+
+
+          
+
+         }
+
+         echo "</div></div><div>";
+  }              
+
+
+
 
 ?>
 

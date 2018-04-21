@@ -64,6 +64,13 @@
 				$dow[] = 5;
 			return $dow;
 		}
+        public function getLatestSem()
+		{
+			$string = "SELECT ID, MAX(end_date) FROM semester LIMIT 1";
+			$query = mysqli_query($this->con, $string);
+			$sem = mysqli_fetch_assoc($query);
+			return $sem['ID'];
+		}
 		// method to get all the occupied rooms IDs for a given course
 		public function getOccupiedRoomAndDays($course_id,$semester_id,$weeks)
 		{

@@ -97,14 +97,36 @@ $admin = new Admin($con, $_SESSION['email']);
   background: #6f0029;
   color: #ffffff;
   position: absolute;
+  right: 160px;
+  top: 81px;
+  width: 125px;
+  padding: 10px;
+}
+
+.btn-btndel{
+  background: #6f0029;
+  color: #ffffff;
+  position: absolute;
   right: 20px;
   top: 81px;
-  width: 150px;
+  width: 125px;
   padding: 10px;
+}
+
+.btn-btndel:hover, .btn-btndel:focus, .btn-btndel:active, .btn-btndel.active, .open>.dropdown-toggle.btn-btndel {
+    color: #fff;
+    background-color: #f00;
 }
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!--delete modal -->
+  <script src="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.js"></script>
+  <link href="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.css" rel="stylesheet"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+
+
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
@@ -127,7 +149,7 @@ $admin = new Admin($con, $_SESSION['email']);
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
           <a class="nav-link" href="lead_teacher.php">
-            <i class="fa fa-fw fa-th"></i>
+            <i class="fa fa-address-book"></i>
             <span class="nav-link-text">Assign Lead Teacher</span>
           </a>
         </li>
@@ -135,6 +157,12 @@ $admin = new Admin($con, $_SESSION['email']);
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
+          <a class="nav-link" href="admin_notes.php">
+            <i class="fa fa-sticky-note"></i>
+            <span class="nav-link-text">Add notes</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
@@ -151,7 +179,7 @@ $admin = new Admin($con, $_SESSION['email']);
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
           <a class="nav-link" href="logs.php">
-            <i class="fa fa-address-book"></i>
+            <i class="fa fa-th-list"></i>
             <span class="nav-link-text">Logs</span>
           </a>
         </li>
@@ -318,8 +346,33 @@ elseif($setting == $close){
           <a href="logs.php"><h3>Logs</h3></a>
                 <a href="#" class = "btn btn-logdwn" id ="export" role='button'>Download Logs
                 </a>
-                <a href="logs.php?deleteLogs">Delete logs</a>
+                <a href="logs.php?deleteLogs" class = "btn btn-btndel" id = "logdel">Delete logs</a>
         </li>
+
+        <script>
+          $("#logdel").click(function(e) {
+          e.preventDefault()
+            swal({
+            title : "",
+            text : "Do you want to delete all the logs?",
+                type : "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+           },
+        function(isConfirm){
+          if (isConfirm) {
+              //window.location="logut page url"; // if you need redirect page 
+              swal("Poof! Your logs have been deleted!", {
+              icon: "success",
+            });
+            window.location="logs.php?deleteLogs";
+          } else {
+              swal("Cancelled");
+          }
+            })
+        });
+        </script>
+
       </ol>
       <div class="row">
         <div class="col-12">

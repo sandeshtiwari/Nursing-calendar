@@ -511,13 +511,13 @@
 			$today =  date('Y-m-d');
 			$semester = $this->getLatestSem();
 
-			$sql = "SELECT deadline from semester where ID = $semester";
+			$sql = "SELECT Override from semester where ID = $semester";
 
 			$res = mysqli_fetch_array(mysqli_query($this->con, $sql), MYSQLI_ASSOC);
 
 
 
-			$deadline = $res['deadline'];
+			$deadline = $res['Override'];
 
 			
 			if($today < $deadline){

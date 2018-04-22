@@ -174,7 +174,7 @@ background: #660000 !important;
 
 <body class="bg-dark">
  
-<div class="topnav" id="myTopnav">The University of Lousiana at Monroe</a></div>
+<div class="topnav" id="myTopnav">The University of Louisiana at Monroe</a></div>
        
 
 

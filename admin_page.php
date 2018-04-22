@@ -1,3 +1,6 @@
+<?php
+    require "config/config.php";
+?>
 <!DOCTYPE html>
 
 <html>
@@ -117,7 +120,7 @@
   <li class="nav-item">
     <a class = "nav-link" data-toggle="tooltip" data-placement="right">
         <?php
-          require "config/config.php";
+          
           //require "class"
           //error_reporting(0);
        

@@ -118,6 +118,12 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
             <span class="nav-link-text">Collision</span>
           </a>
         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Registration Deadline">
+          <a class="nav-link" href="registration.php">
+            <i class="fa fa-power-off"></i>
+            <span class="nav-link-text">Registration Deadline</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
           <a class="nav-link" href="admin_notes.php">
             <i class="fa fa-sticky-note"></i>

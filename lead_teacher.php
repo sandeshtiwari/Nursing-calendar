@@ -79,6 +79,12 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
             <span class="nav-link-text">Collision</span>
           </a>
         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Registration Deadline">
+          <a class="nav-link" href="registration.php">
+            <i class="fa fa-power-off"></i>
+            <span class="nav-link-text">Registration Deadline</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
           <a class="nav-link" href="show_students.php">
             <i class="fa fa-fw fa-graduation-cap"></i>
@@ -110,33 +116,14 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
       <ul class="navbar-nav ml-auto">
          <li class="nav-item" data-toggle="tooltip" data-placement="right">
           <a class="nav-link">
-            <?php
-           
+               <?php
 
-$setting;
-$open = "yes";
-$close = "no";
+            $admin = new Admin($con, $_SESSION['email']);
 
-$sql = "SELECT register_permission FROM semester WHERE ID = 1";
-
-$result = mysqli_query($con, $sql);
-
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-          $setting = $row['register_permission'];
+            $admin->regBtn();
 
 
-if($setting == $open){
-
-  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
-}
-
-elseif($setting == $close){
-
-  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
-}    
-
-?>
+            ?>
           </a>
         </li>
 

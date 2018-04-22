@@ -123,6 +123,12 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
             <span class="nav-link-text">Collision</span>
           </a>
         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Registration Deadline">
+          <a class="nav-link" href="registration.php">
+            <i class="fa fa-power-off"></i>
+            <span class="nav-link-text">Registration Deadline</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
           <a class="nav-link" href="admin_notes.php">
             <i class="fa fa-sticky-note"></i>
@@ -255,33 +261,14 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 <!-- this is for the registation button -->
   <li class="nav-item" data-toggle="tooltip" data-placement="right">
           <a class="nav-link">
-            <?php
-           
+              <?php
 
-$setting;
-$open = "yes";
-$close = "no";
+            $admin = new Admin($con, $_SESSION['email']);
 
-$sql = "SELECT register_permission FROM semester WHERE ID = 1";
-
-$result = mysqli_query($con, $sql);
-
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-          $setting = $row['register_permission'];
+            $admin->regBtn();
 
 
-if($setting == $open){
-
-  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
-}
-
-elseif($setting == $close){
-
-  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
-}    
-
-?>
+            ?>
           </a>
         </li>
 <!-- this is for the registation button -->

@@ -424,40 +424,61 @@
 		**************************************************************/
 		
 		//Method to determine what is the regestration status and siplay regestration button in the nav bar
-      public function regBtn(){
+       public function regBtn(){
 
-			$setting;
-			$open = "yes";
-			$close = "no";
+			$deadlinePermission = $this -> deadlineCheck();
+
+			$over;
+			$on = "on";
+			$off = "off";
 			$semester = $this->getLatestSem();
+            
+           
 
-			$sql = "SELECT register_permission FROM semester WHERE ID = $semester";
+			$sql = "SELECT Override FROM semester WHERE ID = $semester";
 
 			$result = mysqli_query($this->con, $sql);
 
 			  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-			          $setting = $row['register_permission'];
+			          $over = $row['Override'];
 
 
-			if($setting == $open){
+			if($over == $on && $deadlinePermission == 1){
 
-			  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
+			  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Override'>  ";
+			  $sql1 = "UPDATE semester SET register_permission= 'yes' WHERE ID = $semester";
 			}
 
-			elseif($setting == $close){
+			elseif($over == $on && $deadlinePermission == 0){
 
-				$date = date("Y-m-d");
-				$sql2 = "UPDATE semester SET deadline = '$date' WHERE ID = $semester;";
+			  echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Override'>  ";
+			  $sql1 = "UPDATE semester SET register_permission= 'yes' WHERE ID = $semester";
+			}
 
-				mysqli_query($this->con, $sql2);
 
-				echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
+			elseif($over == $off && $deadlinePermission == 1){
+
+			  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Override'>  ";
+			  $sql1 = "UPDATE semester SET register_permission= 'yes' WHERE ID = $semester";
+			}
+
+
+			elseif($over == $off && $deadlinePermission == 0){
+
+			  echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Override'>  ";
+			  $sql1 = "UPDATE semester SET register_permission= 'no' WHERE ID = $semester";
+			}  
+
+			if(mysqli_query($this->con, $sql1)){
+					
+				}     
+			else{
 				
-			}    
+			}
 
 
-		}	
+		}
 
 		/***************************************************************
 		Functions that have been added for notes related purposes
@@ -490,7 +511,7 @@
 			$today =  date('Y-m-d');
 			$semester = $this->getLatestSem();
 
-			$sql = "SELECT deadline from semester where ID = $semester;";
+			$sql = "SELECT deadline from semester where ID = $semester";
 
 			$res = mysqli_fetch_array(mysqli_query($this->con, $sql), MYSQLI_ASSOC);
 
@@ -503,7 +524,7 @@
 				return true;
 			}
 			else{
-
+				
 				return false;
 			}
 		}

@@ -313,8 +313,9 @@
 			}
 			return $teachers;
 		}
-        public function setSemesterDates($id,$name, $start_date, $end_date)
+        public function setSemesterDates($name, $start_date, $end_date)
 		{
+			$id = 3;
 			if($end_date < $start_date)
 			{
 				return false;

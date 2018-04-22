@@ -132,85 +132,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
         </li>
   
 
-        <!--
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="tables.html">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Tables</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-wrench"></i>
-            <span class="nav-link-text">Components</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseComponents">
-            <li>
-              <a href="navbar.html">Navbar</a>
-            </li>
-            <li>
-              <a href="cards.html">Cards</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-file"></i>
-            <span class="nav-link-text">Example Pages</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
-            <li>
-              <a href="login.html">Login Page</a>
-            </li>
-            <li>
-              <a href="register.html">Registration Page</a>
-            </li>
-            <li>
-              <a href="forgot-password.html">Forgot Password Page</a>
-            </li>
-            <li>
-              <a href="blank.html">Blank Page</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-sitemap"></i>
-            <span class="nav-link-text">Menu Levels</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseMulti">
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-              <ul class="sidenav-third-level collapse" id="collapseMulti2">
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-          <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-link"></i>
-            <span class="nav-link-text">Link</span>
-          </a>
-        </li>
-      -->
+       
       </ul>
 
 
@@ -223,19 +145,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
       </ul>
       <ul class="navbar-nav ml-auto">
         
-        <!--
-        <li class="nav-item">
-          <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-              <input class="form-control" type="text" placeholder="Search for...">
-              <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-          </form>
-        </li>  -->
+       
 
 
 <!-- this is for the registation button -->
@@ -257,54 +167,60 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
     </div>
   </nav>
   <div class="content-wrapper">
-    <div class="container-fluid">
+    
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="modify_event.php"><h3>Modify room reservations</h3></a>
         </li>
       </ol>
 
-      <!-- Breadcrumbs
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="index.html">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">Blank Page</li>
-      </ol>-->
-      <div class="row">
-        <div class="col-12">
-          
 
-
-          <?php
+<div class="card">
+  <div class="card-header">
+   <h4> All Room Reservations By Class:</h4>
+  </div>
+      <?php
 $teacher = new Teacher($con, $_SESSION['email']);
 //getting teacher's CWID:
 $myID = $teacher ->getID($_SESSION['email']);
 //getting all the classes taught by the professor
 $classes = $teacher -> classesNow($myID);
+
 if(!empty($classes)){
-  echo "<div id='accordion'>";
-  $divID = 1;
-  $divName = "collapse".$divID;
+//If we have classes, put them in accordion toggle.
+echo "<div id='accordion' >";
   foreach($classes as $class => $details){
           $Prefix = $details['Prefix'];
           $Number = $details['Number'];
           $CRN = $details['Course_ID'];
-          
-        echo "<div class='card'>
-              <div class='card-header' id='$divName'>
-               <h5 class='mb-0'>               
-                <button class='btn btn-link' data-toggle='collapse' data-target='#$divName' aria-expanded='true' aria-controls='$divName'>
-                 $Prefix $Number
-                </button>
-                </h5>
-             </div>
-          <div id='$divName' class='collapse show' aria-labelledby='$divName' data-parent='#accordion'>
-            <div class='card-body'> ";
-              echo "<h5 style='text-align: center' >Reserverd rooms:</h5>";
-              
-              $booked = $teacher -> giveBooked($CRN);
-              if(!empty($booked)){
+          $Title = $details['Title'];
+
+        echo"  <div class='card'>
+          <div class='card-header' id='headingOne'>
+            <h5 class='mb-0'>
+              <button class='btn btn-link' data-toggle='collapse' data-target='#".$Prefix.$Number."' aria-expanded='false' aria-controls='".$Prefix.$Number."'>
+                $Title
+              </button>
+            </h5>
+          </div>";
+
+          /**********************************************
+            the inside will have 2 tables: 
+            Already confirmed reservations and 
+            the table with Pending requests
+           *********************************************/ 
+            //first table is for confirmed reservations:
+
+          $booked = $teacher -> giveBooked($CRN);
+
+           echo"  <div id='".$Prefix.$Number."' class='collapse' aria-labelledby='headingOne' data-parent='#accordion'>
+              <div class='card-body'>";
+
+          if(!empty($booked)){
+
+         
+                
+                echo "<h5 class='card-title' >Confirmed Reservations:</h5>";
               echo "<table class='table table-striped table-responsive-md btn-table'>";
               echo "<!--Table head-->
                 <thead>
@@ -322,53 +238,58 @@ if(!empty($classes)){
                     <tbody>";
               $row = 1;
                 foreach($booked as $booking => $details){
-              $Room = $details['Name'];
-              $room_id = $details['Room_ID'];
-              $start_date = $details['start_date'];
-              $end_date = $details['end_date'];
-              $week_id = $details['week_id'];
-              $M = $details['M'];
-              $T = $details['T'];
-              $W = $details['W'];
-              $R = $details['R'];
-              $F = $details['F'];
+                  $Room = $details['Name'];
+                  $room_id = $details['Room_ID'];
+                  $start_date = $details['start_date'];
+                  $end_date = $details['end_date'];
+                  $week_id = $details['week_id'];
+                  $M = $details['M'];
+                  $T = $details['T'];
+                  $W = $details['W'];
+                  $R = $details['R'];
+                  $F = $details['F'];
 
-              $days = $teacher->getDays($M, $T, $W, $R, $F);
-              echo "<tr>
-                        <th scope='row'>$row</th>
-                        <td>$Room</td>
-                        <td>$start_date</td>
-                        <td>$end_date</td>
-                        <td>$days</td>
-                       
-                        <td>
-                        <form method = 'post' action='modefy_helper.php?room=$room_id&week=$week_id&course=$CRN&days=$days'>
-                          <button type='submit' name = 'occupied' class='btn btn-primary btn-sm'>Cancel reservation</button>
-                        </form>
+                  $days = $teacher->getDays($M, $T, $W, $R, $F);
+                  echo "<tr>
+                            <th scope='row'>$row</th>
+                            <td>$Room</td>
+                            <td>$start_date</td>
+                            <td>$end_date</td>
+                            <td>$days</td>
+                           
+                            <td>
+                            <form method = 'post' action='modefy_helper.php?room=$room_id&week=$week_id&course=$CRN&days=$days'>
+                              <button type='submit' name = 'occupied' class='btn btn-primary btn-sm'>Cancel reservation</button>
+                            </form>
 
-                       </td>
-                       </tr>";
-
-
-/*
-                        <td>
-                        <button type='button'  name = 'row $row' class='btn btn-danger btn-rounded btn-sm my-0' onclick='process($CRN, $room_id, $week_id);history.go(0)'>Cancel Request</button></td>
-                        
-                     </tr>";*/
-                     $row++;
+                           </td>
+                           </tr>";   
+                         $row++;
               
             }
-          echo "</table>";  
-              }
-              else{
-                echo "No approved reservations yet";
-              }
+          echo "</tbody>
+          </table>";  
+
+
+
+
+        
+               
+          }
+          else{
+
+            echo "
+                <h5 class='card-title'>No Confirmed Reservations</h5>";
+            
            
-         
-           echo " </div> </div>";
+          }
+
+
+          //Now checking if class has a Pending requests:
            $pending = $teacher -> givePending($CRN);
-           echo " <h5 style='text-align: center'>Pending Requests :</h5>";
+
            if(!empty($pending)){
+              echo "<h5 class='card-title' >Pending Requests:</h5>";
               echo "<table class='table table-striped table-responsive-md btn-table'>";
               echo "<!--Table head-->
                 <thead>
@@ -386,46 +307,80 @@ if(!empty($classes)){
                     <tbody>";
               $row = 1;
                 foreach($pending as $booking => $details){
-              $Room = $details['Name'];
-              $room_id = $details['Room_ID'];
-              $start_date = $details['start_date'];
-              $end_date = $details['end_date'];
-              $week_id = $details['week_id'];
-              $M = $details['M'];
-              $T = $details['T'];
-              $W = $details['W'];
-              $R = $details['R'];
-              $F = $details['F'];
-              $days = $teacher->getDays($M, $T, $W, $R, $F);
-              echo "<tr>
-                        <th scope='row'>$row</th>
-                        <td>$Room</td>
-                        <td>$start_date</td>
-                        <td>$end_date</td>
-                        <td>$days</td>
-                       
-                        <td>
-                        <form method = 'post' action='modefy_helper.php?room=$room_id&week=$week_id&course=$CRN&days=$days'>
-                          <button type='submit' name = 'collision' class='btn btn-primary btn-sm'>Cancel reservation</button>
-                        </form>
+                  $Room = $details['Name'];
+                  $room_id = $details['Room_ID'];
+                  $start_date = $details['start_date'];
+                  $end_date = $details['end_date'];
+                  $week_id = $details['week_id'];
+                  $M = $details['M'];
+                  $T = $details['T'];
+                  $W = $details['W'];
+                  $R = $details['R'];
+                  $F = $details['F'];
+                  $days = $teacher->getDays($M, $T, $W, $R, $F);
 
-                       </td>
-                       </tr>";
-                     $row++;
+                  echo "<tr>
+                            <th scope='row'>$row</th>
+                            <td>$Room</td>
+                            <td>$start_date</td>
+                            <td>$end_date</td>
+                            <td>$days</td>
+                           
+                            <td>
+                            <form method = 'post' action='modefy_helper.php?room=$room_id&week=$week_id&course=$CRN&days=$days'>
+                              <button type='submit' name = 'collision' class='btn btn-primary btn-sm'>Cancel reservation</button>
+                            </form>
+
+                           </td>
+                           </tr>";   
+                         $row++;
               
             }
-          echo "</table>";  
-              }
-              else{
-                echo " No pending requests";
-              }
-            echo "</div>";
-          //echo "The info is: Prefix: $Prefix, Number: $Number, and CRN: $CRN  .. <br/>";
-    }
-    echo "</div> ";
+          echo "</tbody>
+          </table>";  
+          }
+
+
+
+
+           
+
+           else{
+            echo " <h5 class='card-title'>No Pending Reservations</h5>";
+              
+           }
+
+         echo"  </div>
+            </div>
+          </div>";
+
+
+
+         }
+echo "</div>";         
 }
-  
+
+
+
+
+
+
+else{
+
+echo "<h5 class='card-title'>No Reservations</h5>";
+
+}
+
+
 ?>
+
+</div>
+
+      
+     
+
+
+
           
         
 <!-- this is for the registation button -->

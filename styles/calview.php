@@ -301,6 +301,19 @@ img {
     margin-top:0px;
 }
 
+.tbl1{
+  width: 65%;
+  border: 2px solid #6f0029;
+    margin: auto;
+    text-align: left;
+}
+
+.tbl1 td{
+  line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 
 
 }

@@ -19,11 +19,11 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
 
-<link rel="stylesheet" href="../jquery-ui/jquery-ui.css" />
+<link rel="stylesheet" href="jquery-ui/jquery-ui.css" />
 
-<link rel="stylesheet" href="../jquery-ui/jquery-ui.css" />
+<link rel="stylesheet" href="jquery-ui/jquery-ui.css" />
 
-<link rel="stylesheet" href="../jquery-ui/jquery-ui.theme.css" />
+<link rel="stylesheet" href="jquery-ui/jquery-ui.theme.css" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -37,7 +37,9 @@
 
  $(document).ready(function() {
 
-  $('#calendar').fullCalendar({
+  i = 0;
+
+  $('#calendar').fullCalendar({    
         // when the event is clicked show the day of the event and change the view  to day
         eventClick: function(calEvent, jsEvent, view){
             jsEvent.preventDefault();
@@ -67,6 +69,11 @@
         windowResize: function(view) {
   },
 
+
+   //eventColor: '#488016',
+   //eventColor : giveColor(i),
+   
+   eventTextColor: 'black',
   
 
     customButtons: {
@@ -96,10 +103,11 @@
     }
   },
 
-        //defaultView: 'agendaWeek',
+        defaultView: 'month',
         nowIndicator: true,
         theme: true,
         default: 'false',
+
 
          
         header: {
@@ -121,7 +129,9 @@
          right: 'myCustomButton'
         },
         //defaultDate: '2016-01-15T16:00:00',
-        events: giveEvents()
+        events: giveEvents(),
+       
+
 
           
   });
@@ -133,8 +143,35 @@
     {
       data[i]['dowstart'] = new Date(data[i]['dowstart']);
       data[i]['dowend'] = new Date(data[i]['dowend']);
+      data[i]['color'] = giveColor(i);
+      //giveColor(i);
     }
     return data;
+  }
+
+  function giveColor(i){
+    var Pink = '#BB606B'; //Green
+    var Green = '#4C693A'; //red
+    var Blue = '#97B2A0'; //blue
+    var Yelow = '#d49a29'; //yeallow
+    
+
+    number = i%4;
+
+
+    if(number == 1){colorID = Pink}
+    
+    if(number == 2){colorID = Green}
+
+
+    if(number == 3){colorID = Blue}
+    
+
+    if(number == 0){colorID = Yelow}  
+    i++;      
+
+    return colorID;
+
   }
 });
 </script>
@@ -228,6 +265,19 @@ img {
     margin-top:0px;
 }
 
+.tbl1{
+  width: 65%;
+  border: 2px solid #6f0029;
+    margin: auto;
+    text-align: left;
+}
+
+.tbl1 td{
+  line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 
 
 }
@@ -247,9 +297,16 @@ img {
 <div id='calendar'></div>
 <br/>
 <br/>
-<br/>
-<br/>
 
+<div class = "no-print">
+
+        <?php
+
+        require "footer.php";
+
+        ?>
+
+    </div>
 </body>
 
 

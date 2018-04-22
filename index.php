@@ -46,25 +46,27 @@
 body {margin:0;font-family:Arial}
 
 .topnav {
-  overflow: hidden;
+  
   background-color: #660000;
-  float: center;
+  padding: 25px;
+  text-align: center !important;
+  color: white !important;
+  font-family: sans-serif !important;
+  font-style: italic;
+  font-size: 25px;
+  font-weight: bolder;
+  }
 
-}
-
-.topnav a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
 #logo{
     height: 40px;
     float: left;
   }
+
+ .bg-dark{
+  background-image: url("cs.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover !important;
+ } 
 
 .card-body {
   background-color: #F5F5F5;
@@ -74,7 +76,7 @@ body {margin:0;font-family:Arial}
   color: white;
 }
 .icon {
-background: #6f0029;
+background: #660000 !important;
 
 }
 .topnav .icon {
@@ -146,6 +148,14 @@ background: #6f0029;
     right: 0;
     top: 0;
   }
+  .topnav.responsive {
+    position: relative;
+    display: block;
+}
+  .center .link{
+  display: none !important;
+  
+}
   .topnav.responsive a {
     float: none;
     display: block;
@@ -163,24 +173,12 @@ background: #6f0029;
 </style>
 
 <body class="bg-dark">
-  <div class="topnav" id="myTopnav">ULM</a>
-     <a href=# class="active"><img id="logo" src="ulm_logo_new.png"></a>
-  <a href="#home" class="active">Home</a>
-  <a href="#news">News</a>
-  <a href="#contact">Contact</a>
-  <div class="dropdown">
-   
-    
-  </div> 
-  <a href="#about">About</a>
-  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
-</div>
+ 
+<div class="topnav" id="myTopnav">The University of Lousiana at Monroe</a></div>
+       
 
-<div style="padding-left:16px">
-  
-</div>
 
-<script>
+<!-- <script>
 function myFunction() {
     var x = document.getElementById("myTopnav");
     if (x.className === "topnav") {
@@ -189,14 +187,14 @@ function myFunction() {
         x.className = "topnav";
     }
 }
-</script>
+</script> -->
 
   <div class="container">
 
     <div class="card card-login mx-auto mt-5">
+      <div class="card-header"><img style="width:100%; margin-top: 7px;" src="styles/images/Nursing101.png" class="img-circle" align="middle"></div>
       
-      <div class="card-header">ULM Nursing</div>
-      
+    
 
       <div class="card-body">
 

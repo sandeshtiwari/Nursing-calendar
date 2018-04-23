@@ -10,7 +10,7 @@ body {
 
 .topnav {
   overflow: hidden;
-  background-color: #6f0029;
+  background-color: #660000;
 }
 
 .topnav a {
@@ -24,12 +24,12 @@ body {
 }
 
 .topnav a:hover {
-  background-color: #6f0029;
+  background-color: #660000;
   color: black;
 }
 
 .active {
-  background-color: #6f0029;
+  background-color: #660000;
   color: white;
 }
 
@@ -66,6 +66,10 @@ body {
 	float: left !important;
   color: white !important;
 }
+#logo{
+    height: 35px;
+   
+}
 </style>
 </head>
 <body>
@@ -75,7 +79,7 @@ body {
 
 
 <div class="topnav active" id="myTopnav">
-  <a class = "usrname"> Welcome, 
+  <a class = "usrname"> <img id="logo" src="ulm_logo_new.png">Welcome, 
   	<strong><?php
   	
   	echo $_SESSION['username']

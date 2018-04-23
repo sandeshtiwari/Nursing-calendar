@@ -1,132 +1,200 @@
-<?php
-require 'classes/Teacher.php';
-require 'classes/Student.php';
-require 'classes/Admin.php';
-require 'check_privilege.php';
-require 'head.php';
+<!DOCTYPE html>
 
+<html>
 
-echo "<br><br><br>";
-
-      if($_SESSION['privilege'] == 'teacher')
+<head>
+<div class = "no-print">
+ <?php
+  require 'check_privilege.php';
+  require 'classes/Teacher.php';
+  require 'classes/Student.php';
+  require 'classes/Admin.php';
+  require 'head.php';
+  if(!isset($_SESSION['username']))
   {
-
-      $idnum = " ";
-       $userpa = $_SESSION['username'];
+    header("Location: index.php");
+  }
+    $teacher = new Teacher($con, $_SESSION['email']);
+$status= $teacher->checkRegistrationStatus();
+  $_SESSION['privilege'] = 'admin';
+  if(check_student($con))
+  {
+    $_SESSION['privilege'] = 'student';
+  }
+  
+  else if(check_lead($con))
+  {
+    $_SESSION['privilege'] = 'lead';
+  }
+  else if (check_teacher($con)){
+    $_SESSION['privilege'] = 'teacher';
+  }
+    
+  $display = "";
+  if($_SESSION['privilege'] == 'admin')
+  {
+    header("location:admin_calendar.php");
+  }
+   else if($_SESSION['privilege'] == 'teacher'){
+    header("location: crnTeachView.php");
+   }
+  else if($_SESSION['privilege'] == 'lead')
+  {
+   //test to see if registration is open or closed 
+    
+          header("location:lead_register.php?hyaa='$status'");
       
-    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
-
-    $result = mysqli_query($con, $sql2);
-
-    if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-  
-    while($row = mysqli_fetch_assoc($result)) {
-        $idnum = $row["CWID"];
-        
-    }
-    } else {
-    echo "No Notes";
-    }
-
-$sql1 = "SELECT * FROM course WHERE Teacher_CWID= $idnum";
-
-$result = mysqli_query($con, $sql1);
-
-if (mysqli_num_rows($result) >= 0) {
-    // output data of each row
-  
-    
-       while($row = mysqli_fetch_assoc($result)) {
-        echo "<br><br>Class: ". $row["Course_ID"]." " . $row["Prefix"]. " " . $row["Number"]. "<br> Current Note To Class: <br> " . $row["Notes"]. "<br>" ;
-        $boom=$row["Course_ID"];
-        echo "<form action='push_Notes.php' method='post'>
-            <input type='text' name='Notes'></input>
-            <input type='hidden' name='LastName' value='$boom'></input>
-            <input type='submit' name='submit' value='Update Note'></input>
-            </form>";
-    }
-    
-} else {
-    echo "No Notes <br/>";
-}
-
-}
-elseif($_SESSION['privilege'] == 'admin'){
-
-
-
-}
-else{
-
- $idnum = " ";
-       $userpa = $_SESSION['username'];
-      
-    $sql2 = "SELECT CWID FROM person WHERE email LIKE '%$userpa%'";
-
-    $result = mysqli_query($con, $sql2);
-
-    if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-  
-    while($row = mysqli_fetch_assoc($result)) {
-        $idnum = $row["CWID"];
-        
-    }
-    } else {
-    echo "No Notes";
-    }
-$sql3 = "SELECT Course_ID FROM registered WHERE CWID = $idnum";
-
-
-$result1 = mysqli_query($con, $sql3);
-
-if (mysqli_num_rows($result1) >= 0) {
-    // output data of each row
-      while($row1 = mysqli_fetch_assoc($result1)) {
-        
-
-          $cwidstudent = $row1['Course_ID'];
-          $sql4 = "SELECT * FROM course WHERE Course_ID = $cwidstudent";
-
-          $result2 = mysqli_query($con, $sql4);
-
-        if (mysqli_num_rows($result2) >= 0) {
-            // output data of each row
-           while($row2 = mysqli_fetch_assoc($result2)) {
-            echo "<table class = 'tbl1'>";
-            echo "<tr><th>". $row2["Prefix"]." " . $row2["Number"]. " " . $row2["Title"]. "<br> </th></tr>";
-            echo "<tr><td> Teacher's Notes: " . $row2["Notes"]. "<br> </td></tr>";
-            echo "</table>";
-          }
-        }
-      }   
-    
-} else {
-    echo "No Notes <br/>";
-}
-
-
-
-}
-echo "<br><br><br>";
-
-require 'footer.php';
+  }
+  else
+  {
+    //$display = "<a href = 'student_notes.php'>View notes</a>";
+    $person = new Student($con, $_SESSION['email']);
+  }
+  // if the admin wants to view a specific student's calendar
+  if(isset($_GET['email']) && isset($_GET['student']) && ($_SESSION['privilege'] == 'admin'))
+  {
+    $person = new Student($con, $_GET['email']);
+    echo "<h2>".$_GET['student']."'s</h2>";
+  }
+  else if(isset($_GET['email']) && isset($_GET['teacher']) && ($_SESSION['privilege'] == 'admin'))
+  {
+    $person = new Teacher($con, $_GET['email']);
+    echo "<h2>".$_GET['teacher']."'s</h2>";
+  }
+  $json = $person->getJSON();
 ?>
 
+</div>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
+
+
+
 <style>
-  .tbl1{
+ body {
+  margin-top: 0px;
+  text-align: center;
+  font-size: 14px;
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+  background-color: #F5F5F5;
+  }
+
+.tbl1{
   width: 65%;
-  border: 2px solid #660000 !important;
+  border: 2px solid #6f0029;
     margin: auto;
     text-align: left;
-    float: left;
 }
-
 .tbl1 td{
   line-height: 1.5;
     display: inline-block;
     vertical-align: middle;
 }
-
+.blockquote-footer, .mb-0, .blockquote, .card{
+  background-color: #F5F5F5;
+}
+}
+ 
 </style>
+
+
+</head>
+<div class="no-print">
+
+<body>
+</div> 
+
+
+
+ <div class="container-fluid">
+    <div class="row">
+
+      <div class="col">
+
+<?php
+$myId = $person -> getID($_SESSION['email']);
+$myClasses = $person ->getMyClasses($myId);
+$weekId = $person ->weekID();
+echo "<div class='card' >
+       <div class='card-header'><h3>Notes for week $weekId</h3></div>
+       <div class='card-body'>";
+  if(!empty($myClasses)){
+        foreach($myClasses as $class => $details){
+          $CRN = $details['Course_ID'];
+          $title = $person ->getCourseName($CRN);
+          echo "<h3><u>$title</u></h3>";
+          $notesForThisClass = $person-> selectNotes($CRN, $weekId);
+          if(!empty($notesForThisClass)){
+              foreach($notesForThisClass as $note => $details){
+                $Note = $details['Note'];
+                $Name = $details['Name'];
+                echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>$Note</p>
+                      <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
+                    </blockquote>";               
+              }
+            }
+            else {
+              echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>No notes for this Week</p>
+                     
+                    </blockquote>";
+            }
+          
+         }
+         echo "</div></div></div>";
+  }  
+  $weekId ++;
+ echo "<div class='col'>
+ <div class='card' '>
+       <div class='card-header'><h3>Notes for week $weekId</h3></div>
+       <div class='card-body'>";
+  if(!empty($myClasses)){
+        foreach($myClasses as $class => $details){
+          $CRN = $details['Course_ID'];
+          $title = $person ->getCourseName($CRN);
+          echo "<h3><u>$title</u></h3>";
+          $notesForThisClass = $person-> selectNotes($CRN, $weekId);
+          if(!empty($notesForThisClass)){
+              foreach($notesForThisClass as $note => $details){
+                $Note = $details['Note'];
+                $Name = $details['Name'];
+                echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>$Note</p>
+                      <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
+                    </blockquote>";   
+              }
+            }
+            else {
+              echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>No notes for this Week</p>
+                      
+                    </blockquote>";
+            }
+          
+         }
+         echo "</div></div><div>";
+  }              
+?>
+</div>
+</div>
+</div>
+
+</br></br></br>
+
+
+    <div class = "no-print">
+
+        <?php
+        require "footer.php";
+        ?>
+
+    </div>
+
+
+</body>
+
+
+</html>

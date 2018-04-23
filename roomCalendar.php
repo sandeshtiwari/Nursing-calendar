@@ -212,7 +212,7 @@
 
  #calendar {
 
-  width: 650px;
+  width: 80%;
 
   margin: 0 
 

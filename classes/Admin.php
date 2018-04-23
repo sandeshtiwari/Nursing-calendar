@@ -488,7 +488,7 @@
 		public function roomsButton(){			
 
 			$rooms = array();
-			$sql = "SELECT Name, ID FROM room WHERE Available = 'yes';";
+			$sql = "SELECT Name, ID, Projector, Bed, capacity FROM room WHERE Available = 'yes';";
 
 			$res = mysqli_query($this->con, $sql);
 
@@ -498,6 +498,9 @@
 
 				$oneRoom['Name'] = $room['Name'];
 				$oneRoom['ID'] = $room['ID'];
+				$oneRoom['Projector'] = $room['Projector'];
+				$oneRoom['Bed'] = $room['Bed'];
+				$oneRoom['capacity'] = $room['capacity'];
 
 				$rooms [] = $oneRoom;
 

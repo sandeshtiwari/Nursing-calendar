@@ -105,9 +105,14 @@
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!--delete modal -->
+  <script src="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.js"></script>
+  <link href="http://tristanedwards.me/u/SweetAlert/lib/sweet-alert.css" rel="stylesheet"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"><?php echo "Welcome, ". $_SESSION['username']?></a>
+    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png"><strong><?php echo "Welcome, ". $_SESSION['username']?></strong></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -122,8 +127,8 @@
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Notes">
           <a class="nav-link" href="crn_notes.php">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Add Notes</span>
+            <i class="fa fa-sticky-note"></i>
+            <span class="nav-link-text">Class Notes</span>
           </a>
         </li>
         
@@ -166,6 +171,59 @@
         <div class="col-12">
           
           <style>
+          .btn-primary, .btn-prime {
+    background: #6f0029;
+    color: #ffffff;
+}
+.btn-danger{
+  padding: 0;
+}
+
+.btn-success{
+  padding: 0;
+}
+
+.bg-dark{
+  background: #6f0029 !important;
+}
+
+.navbar-sidenav{
+  background: #6f0029 !important;
+}
+#sidenavToggler{
+  background: #6f0029 !important;
+}
+#logo{
+    height: 33px;
+}
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+    color: #e9ecef;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #e9ecef;
+}
+
+.btn-classlist{
+  background: #6f0029;
+  color: #fff;
+  margin-top: .5em;
+  width: 100%;
+
+}
+.btn-delt{
+  float: right;
+  margin-right: -7em;
+  padding: .25em;
+}
+
+.btn-edit{
+  float :right;
+  margin-right: 5em;
+  padding: .45em;
+  padding-right: 1em;
+  padding-left: 1em; 
+}
+
             .btn-outline-primary{
               background: #6f0029;
               color: #ffffff;
@@ -176,18 +234,6 @@
               color: #ffffff;
             }
 
-            .btn-primary{
-              background: #6f0029;
-              color: #ffffff;
-            }
-
-            .bg-dark{
-              background: #6f0029 !important;
-        }
-
-        .navbar-sidenav{
-          background: #6f0029 !important;
-        }
 
         .textBox{
           width:100%;
@@ -290,8 +336,8 @@
 
           echo "
 
-          <button class='btn btn-secondary btn-lg btn-block mt-2' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
-              $Title
+          <button class='btn btn-prime btn-lg btn-block mt-2' type='button' data-toggle='collapse' data-target='#$Course_ID' aria-expanded='false' aria-controls='$Course_ID'>
+              $Course_ID $Title
           </button><br>
 
           <div id ='$Course_ID' class='collapse'>
@@ -342,8 +388,8 @@
                   if($fullName == $Name){
                  echo " <td>
 
-                 <button class='btn btn-warning btn-sm' type='button' data-toggle='collapse' data-target='#$Note' aria-expanded='false' aria-controls='$Note'>Edit </button>                 
-                  <a onclick='return confirm('are you sure?') href='noteHelp.php?id=delete&week=$Week&course=$Course_ID' class = 'btn btn-danger btn-rounded btn-sm my-0'>Delete</a><td>
+                 <button class='btn btn-warning btn-sm btn-edit' type='button' data-toggle='collapse' data-target='#$Note' aria-expanded='false' aria-controls='$Note'>Edit </button>                 
+                  <a onclick='return confirm('are you sure?') href='noteHelp.php?id=delete&week=$Week&course=$Course_ID' class = 'btn btn-danger btn-rounded btn-delt' id = 'notedel'>Delete</a><td>
                         ";
                   }           
                echo " </tr>";
@@ -377,6 +423,8 @@
 
 
     ?>
+
+    
     </div>
 </div>
 

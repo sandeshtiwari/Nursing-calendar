@@ -84,12 +84,8 @@ $status= $teacher->checkRegistrationStatus();
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
 <script>
-
-
  $(document).ready(function() {
-
   i = 0;
-
   $('#calendar').fullCalendar({    
         // when the event is clicked show the day of the event and change the view  to day
         eventClick: function(calEvent, jsEvent, view){
@@ -103,7 +99,6 @@ $status= $teacher->checkRegistrationStatus();
             $('#calendar').fullCalendar('changeView', 'agendaDay', date);
         }, 
         eventRender: function(event, element, view) {
-
         var theDate = event.start
         var endDate = event.dowend;
         var startDate = event.dowstart;
@@ -111,7 +106,6 @@ $status= $teacher->checkRegistrationStatus();
         if (theDate >= endDate) {
                 return false;
         }
-
         if (theDate <= startDate) {
           return false;
         }
@@ -119,19 +113,15 @@ $status= $teacher->checkRegistrationStatus();
         },
         windowResize: function(view) {
   },
-
-
    //eventColor: '#488016',
    //eventColor : giveColor(i),
    
    eventTextColor: 'black',
   
-
     customButtons: {
     myCustomButton: {
       text: 'Print',
       click: function() {
-
      $('.fc-agendaWeek-button').hide();
      $('.fc-agendaDay-button').hide();
      $('.fc-month-button').hide();
@@ -153,13 +143,10 @@ $status= $teacher->checkRegistrationStatus();
       }
     }
   },
-
         defaultView: 'month',
         nowIndicator: true,
         theme: true,
         default: 'false',
-
-
          
         header: {
         left: 'prev,next today',
@@ -175,15 +162,12 @@ $status= $teacher->checkRegistrationStatus();
         agendaWeek: 'Week',
         agendaDay: 'Day',
         },
-
          footer: {
          right: 'myCustomButton'
         },
         //defaultDate: '2016-01-15T16:00:00',
         events: giveEvents(),
        
-
-
           
   });
   function giveEvents()
@@ -199,48 +183,32 @@ $status= $teacher->checkRegistrationStatus();
     }
     return data;
   }
-
   function giveColor(i){
     var Pink = '#BB606B'; //Green
     var Green = '#4C693A'; //red
     var Blue = '#97B2A0'; //blue
     var Yelow = '#d49a29'; //yeallow
     
-
     number = i%4;
-
-
     if(number == 1){colorID = Pink}
     
     if(number == 2){colorID = Green}
-
-
     if(number == 3){colorID = Blue}
     
-
     if(number == 0){colorID = Yelow}  
     i++;      
-
     return colorID;
-
   }
 });
 </script>
 <style>
-
  body {
-
   margin-top: 0px;
-
   text-align: center;
-
   font-size: 14px;
-
   font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-
   background-color: #F5F5F5;
   }
-
   h4 { 
     display: block;
     font-size: 1em;
@@ -250,7 +218,6 @@ $status= $teacher->checkRegistrationStatus();
     margin-right: 0;
     font-weight: bold;
 }
-
   .footer {
    position: absolute;
   right: 0;
@@ -260,38 +227,28 @@ $status= $teacher->checkRegistrationStatus();
   background-color: #000000;
   text-align: center;
 }
-
  #calendar {
-
-  width: 650px;
-
+  width: 80%;
   margin: 0 
-
   auto;
-
   }
-
   ul {
-
     list-style-type: none;
     padding: 0;
     overflow: hidden;
     background-color: #6f0029;
 }
-
 li {
     float: left;
      margin-top: 1.0em;
     margin-bottom: 1.0em;
     border-right:1px solid #bbb;
 }
-
 li:last-child {
    margin-top: 1.0em;
     margin-bottom: 1.0em;
     border-left: 1px solid #bbb;
 }
-
 li a {
     display: inline-block;
     color: white;
@@ -299,11 +256,9 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
 }
-
 li a:hover:not(.active) {
     background-color: #EBAF0F;
 }
-
 .active {
     background-color: #870505;
     
@@ -315,25 +270,20 @@ img {
     background-position:top;
     margin-top:0px;
 }
-
 .tbl1{
   width: 65%;
   border: 2px solid #6f0029;
     margin: auto;
     text-align: left;
 }
-
 .tbl1 td{
   line-height: 1.5;
     display: inline-block;
     vertical-align: middle;
 }
-
 .blockquote-footer, .mb-0, .blockquote, .card{
   background-color: #F5F5F5;
 }
-
-
 }
  
 </style>
@@ -361,42 +311,26 @@ img {
       <div class="col">
 
 <?php
-
 $myId = $person -> getID($_SESSION['email']);
-
 $myClasses = $person ->getMyClasses($myId);
-
 $weekId = $person ->weekID();
-
-
 echo "<div class='card' >
        <div class='card-header'><h3>Notes for week $weekId</h3></div>
        <div class='card-body'>";
-
   if(!empty($myClasses)){
-
         foreach($myClasses as $class => $details){
-
           $CRN = $details['Course_ID'];
-
           $title = $person ->getCourseName($CRN);
-
           echo "<h3><u>$title</u></h3>";
-
           $notesForThisClass = $person-> selectNotes($CRN, $weekId);
-
           if(!empty($notesForThisClass)){
-
               foreach($notesForThisClass as $note => $details){
-
                 $Note = $details['Note'];
                 $Name = $details['Name'];
-
                 echo "<blockquote class='blockquote'>
                       <p class='mb-0'>$Note</p>
                       <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
                     </blockquote>";               
-
               }
             }
             else {
@@ -405,47 +339,29 @@ echo "<div class='card' >
                      
                     </blockquote>";
             }
-
-
-
-
           
-
          }
-
          echo "</div></div></div>";
   }  
-
   $weekId ++;
  echo "<div class='col'>
  <div class='card' '>
        <div class='card-header'><h3>Notes for week $weekId</h3></div>
        <div class='card-body'>";
-
   if(!empty($myClasses)){
-
         foreach($myClasses as $class => $details){
-
           $CRN = $details['Course_ID'];
-
           $title = $person ->getCourseName($CRN);
-
           echo "<h3><u>$title</u></h3>";
-
           $notesForThisClass = $person-> selectNotes($CRN, $weekId);
-
           if(!empty($notesForThisClass)){
-
               foreach($notesForThisClass as $note => $details){
-
                 $Note = $details['Note'];
                 $Name = $details['Name'];
-
                 echo "<blockquote class='blockquote'>
                       <p class='mb-0'>$Note</p>
                       <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
                     </blockquote>";   
-
               }
             }
             else {
@@ -454,20 +370,10 @@ echo "<div class='card' >
                       
                     </blockquote>";
             }
-
-
-
-
           
-
          }
-
          echo "</div></div><div>";
   }              
-
-
-
-
 ?>
 
 
@@ -477,9 +383,7 @@ echo "<div class='card' >
     <div class = "no-print">
 
         <?php
-
         require "footer.php";
-
         ?>
 
     </div>
@@ -489,4 +393,3 @@ echo "<div class='card' >
 
 
 </html>
-

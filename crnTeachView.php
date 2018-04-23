@@ -106,7 +106,7 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"><?php echo "Welcome, ". $_SESSION['username']?></a>
+    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png"><strong><?php echo "Welcome, ". $_SESSION['username']?></strong></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -123,8 +123,8 @@
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Notes">
           <a class="nav-link" href="crn_notes.php">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Add Notes</span>
+            <i class="fa fa-sticky-note"></i>
+            <span class="nav-link-text">Class Notes</span>
           </a>
         </li>
         
@@ -167,28 +167,38 @@
         <div class="col-12">
           
           <style>
-            .btn-outline-primary{
-              background: #6f0029;
-              color: #ffffff;
-            }
+            .btn-primary {
+      background: #6f0029;
+      color: #ffffff;
+    }
+    .btn-danger{
+    padding: 0;
+  }
 
-            .btn-outline-info{
-              background: #6f0029;
-              color: #ffffff;
-            }
+  .btn-success{
+    padding: 0;
+  }
 
-            .btn-primary{
-              background: #6f0029;
-              color: #ffffff;
-            }
+  .bg-dark{
+    background: #6f0029 !important;
+  }
 
-            .bg-dark{
-              background: #6f0029 !important;
-            }
-            
-            .navbar-sidenav{
-              background: #6f0029 !important;
-            }
+  .navbar-sidenav{
+    background: #6f0029 !important;
+  }
+  #sidenavToggler{
+    background: #6f0029 !important;
+  }
+  #logo{
+      height: 35px;
+     
+  }
+   #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+      color: #e9ecef;
+  }
+  .navbar-dark .navbar-nav .nav-link {
+      color: #e9ecef;
+  }
 
             
           </style>

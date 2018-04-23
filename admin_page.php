@@ -62,6 +62,19 @@
     color: #e9ecef;
 }
 
+.rmtable{
+  width: 60%;
+}
+
+
+
+.rmtable {
+  padding-left: 10px;
+  padding-top: 5px;
+  text-align: left;
+}
+
+
 </style>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -208,13 +221,17 @@
               require "classes/admin.php";
               require "classes/room.php";
 
+              
+
             $admin = new Admin($con, $_SESSION['email']);
 
             $rooms = $admin->roomsButton();
 
             if(!empty($rooms)){
+              
 
               foreach($rooms as $room => $details){
+              
 
                 $person = new Room($con);
               //$id = 312;
@@ -222,11 +239,31 @@
            // $json = $person->getJSON($id);
 
                 $Name = $details['Name'];
-            $ID = $details['ID'];
+                $ID = $details['ID'];
+                $Projector = $details['Projector'];
+                $Bed = $details['Bed'];
+                $capacity = $details['capacity'];
+
+              echo "<table class = 'rmtable'>";
+              echo "<tr>";
+              echo "<th>Room</th>
+                    <th>Projector</th>
+                    <th>Bed</th>
+                    <th>Capacity</th>
+                    <th></th> ";
+              echo "</tr>";
+
+              
+              echo "<tr>";
+              echo "<td>$Name</td>
+                    <td>$Projector</td>
+                    <td>$Bed</td>
+                    <td>$capacity</td>
+                    <td><a href = 'roomCalendar.php?id=$ID' type='button' class = 'btn btn-primary btn-round'>Room calendar</a></td> <br>";
+              echo "</tr>";
+              echo "</table>";
 
 
-
-              echo "<a href = 'roomCalendar.php?id=$ID' type='button' class = 'btn btn-primary'>$Name</a><br>";
               //echo "<div id='$ID' class='collapse'>
                 //<embed src='styles/roomCalendar.php?id=$ID' style='width:700px; height: 720px; position: relative; left: 175px;'>
         //<div id='calendar'></div>

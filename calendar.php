@@ -47,7 +47,7 @@ $status= $teacher->checkRegistrationStatus();
   }
   else
   {
-    $display = "<a href = 'student_notes.php'>View notes</a>";
+    //$display = "<a href = 'student_notes.php'>View notes</a>";
     $person = new Student($con, $_SESSION['email']);
   }
   // if the admin wants to view a specific student's calendar
@@ -349,138 +349,144 @@ img {
 </div> 
 <br>
 <div id='calendar'></div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-<div class="no-print">
-  <div class="no-print">
-
-  <?php
-
-  $myId = $person -> getID($_SESSION['email']);
-
-  $myClasses = $person ->getMyClasses($myId);
-
-  $weekId = $person ->weekID();
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 
 
-  echo "<div class='card' >
-         <div class='card-header'><h3>Notes for week $weekId</h3></div>
-         <div class='card-body'>";
+ <div class="container-fluid">
+    <div class="row">
 
-    if(!empty($myClasses)){
+      <div class="col">
 
-          foreach($myClasses as $class => $details){
+<?php
 
-            $CRN = $details['Course_ID'];
+$myId = $person -> getID($_SESSION['email']);
 
-            $title = $person ->getCourseName($CRN);
+$myClasses = $person ->getMyClasses($myId);
 
-            echo "<h3><u>$title</u></h3>";
+$weekId = $person ->weekID();
 
-            $notesForThisClass = $person-> selectNotes($CRN, $weekId);
 
-            if(!empty($notesForThisClass)){
+echo "<div class='card' >
+       <div class='card-header'><h3>Notes for week $weekId</h3></div>
+       <div class='card-body'>";
 
-                foreach($notesForThisClass as $note => $details){
+  if(!empty($myClasses)){
 
-                  $Note = $details['Note'];
-                  $Name = $details['Name'];
+        foreach($myClasses as $class => $details){
 
-                  echo "<blockquote class='blockquote'>
-                        <p class='mb-0'>$Note</p>
-                        <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
-                      </blockquote>";               
+          $CRN = $details['Course_ID'];
 
-                }
-              }
-              else {
+          $title = $person ->getCourseName($CRN);
+
+          echo "<h3><u>$title</u></h3>";
+
+          $notesForThisClass = $person-> selectNotes($CRN, $weekId);
+
+          if(!empty($notesForThisClass)){
+
+              foreach($notesForThisClass as $note => $details){
+
+                $Note = $details['Note'];
+                $Name = $details['Name'];
+
                 echo "<blockquote class='blockquote'>
-                        <p class='mb-0'>No notes for this Week</p>
-                        <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
-                      </blockquote>";
+                      <p class='mb-0'>$Note</p>
+                      <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
+                    </blockquote>";               
+
               }
+            }
+            else {
+              echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>No notes for this Week</p>
+                     
+                    </blockquote>";
+            }
 
 
 
 
-            
+          
 
-           }
+         }
 
-           echo "</div></div></div>";
-    }  
+         echo "</div></div></div>";
+  }  
 
-    $weekId ++;
-   echo "<div class='col'>
-   <div class='card' '>
-         <div class='card-header'><h3>Notes for week $weekId</h3></div>
-         <div class='card-body'>";
+  $weekId ++;
+ echo "<div class='col'>
+ <div class='card' '>
+       <div class='card-header'><h3>Notes for week $weekId</h3></div>
+       <div class='card-body'>";
 
-    if(!empty($myClasses)){
+  if(!empty($myClasses)){
 
-          foreach($myClasses as $class => $details){
+        foreach($myClasses as $class => $details){
 
-            $CRN = $details['Course_ID'];
+          $CRN = $details['Course_ID'];
 
-            $title = $person ->getCourseName($CRN);
+          $title = $person ->getCourseName($CRN);
 
-            echo "<h3><u>$title</u></h3>";
+          echo "<h3><u>$title</u></h3>";
 
-            $notesForThisClass = $person-> selectNotes($CRN, $weekId);
+          $notesForThisClass = $person-> selectNotes($CRN, $weekId);
 
-            if(!empty($notesForThisClass)){
+          if(!empty($notesForThisClass)){
 
-                foreach($notesForThisClass as $note => $details){
+              foreach($notesForThisClass as $note => $details){
 
-                  $Note = $details['Note'];
-                  $Name = $details['Name'];
+                $Note = $details['Note'];
+                $Name = $details['Name'];
 
-                  echo "<blockquote class='blockquote'>
-                        <p class='mb-0'>$Note</p>
-                        <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
-                      </blockquote>";   
-
-                }
-              }
-              else {
                 echo "<blockquote class='blockquote'>
-                        <p class='mb-0'>No notes for this Week</p>
-                        <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
-                      </blockquote>";
+                      <p class='mb-0'>$Note</p>
+                      <footer class='blockquote-footer'><cite title='Source Title'>$Name</cite></footer>
+                    </blockquote>";   
+
               }
+            }
+            else {
+              echo "<blockquote class='blockquote'>
+                      <p class='mb-0'>No notes for this Week</p>
+                      
+                    </blockquote>";
+            }
 
 
 
 
-            
+          
 
-           }
+         }
 
-           echo "</div></div><div>";
-    }              
-
-
-
-
-  ?>
-</div>
-</div>
+         echo "</div></div><div>";
+  }              
 
 
 
 
-<div class = "no-print">
-  <?php
-  require "footer.php";
-  ?>
-</div>
+?>
+
+
+</br></br></br>
+
+
+    <div class = "no-print">
+
+        <?php
+
+        require "footer.php";
+
+        ?>
+
+    </div>
+
 
 </body>
 
 
 </html>
+

@@ -29,7 +29,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 
 <style>
   .btn-primary {
-      background: #660000;
+      background: #6f0029;
       color: #ffffff;
   }
   .btn-danger{
@@ -41,14 +41,14 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 }
 
 .bg-dark{
-  background: #660000 !important;
+  background: #6f0029 !important;
 }
 
 .navbar-sidenav{
-  background: #660000 !important;
+  background: #6f0029 !important;
 }
 #sidenavToggler{
-  background: #660000 !important;
+  background: #6f0029 !important;
 }
 #logo{
     height: 35px;
@@ -66,7 +66,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
+    <a class="navbar-brand" href="index.html">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -177,10 +177,10 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
    <div class="col-md-6 col-sm-6 col-xs-12">
     <form id="monthish" class="form-horizontal" method="post" action="deadlineSetting.php">
      <div class="form-group ">
-      <label class="control-label col-sm-2 requiredField" for="date">
+      <label class="control-label requiredField" for="date">
       
        <span class="asteriskField">
-       Regestration deadline:
+       Registration deadline:
        </span>
       </label>
       <div class="col-sm-10">
@@ -194,6 +194,49 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
      <div class="form-group">
       <div class="col-sm-10 col-sm-offset-2">
        <input type='submit' name='Submit' class='btn btn-primary' value = 'Assign Deadline'/>
+      </div>
+     </div>
+    </form>
+     <form id="monthish" class="form-horizontal" method="post" action="setSemester.php">
+     <div class="form-group ">
+      <label class="control-label requiredField" for="date">
+      
+       <span class="asteriskField">
+       Set Semester Dates
+       </span>
+      </label>
+      <div class="col-sm-10">
+       <div class="input-group">
+        <div class="input-group-addon">
+        </div>
+        Semester: &nbsp &nbsp<input class="form-control" id="semname" name="semname" placeholder="Fall/Spring" type="text"/>
+       </div>
+      </div>
+     </div>
+
+      <div class="form-group ">
+      <div class="col-sm-10">
+       <div class="input-group">
+        <div class="input-group-addon">
+        </div>
+        Start Date: &nbsp <input class="form-control" id="start_date" name="start_date" placeholder="MM/DD/YYYY" type="text"/>
+       </div>
+      </div>
+     </div>
+
+     <div class="form-group ">
+      <div class="col-sm-10">
+       <div class="input-group">
+        <div class="input-group-addon">
+        </div>
+        End Date: &nbsp &nbsp<input class="form-control" id="end_date" name="end_date" placeholder="MM/DD/YYYY" type="text"/>
+       </div>
+      </div>
+     </div>
+
+     <div class="form-group">
+      <div class="col-sm-10 col-sm-offset-2">
+       <input type='submit' name='Submit' class='btn btn-primary' value = 'Set Semester'/>
       </div>
      </div>
     </form>

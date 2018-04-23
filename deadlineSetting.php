@@ -6,6 +6,7 @@ if(isset($_POST['date'])){
 }
 
 
+
 try{
 
 
@@ -57,7 +58,7 @@ $new_date=implode("-",$new_date_array);
 $from_date = date("Y-m-d", strtotime($selectedDate));
 
 //Setting Lead instructor for the all courses:
-$sql = "UPDATE semester SET deadline = '$new_date' WHERE ID = 1;";
+$sql = "UPDATE semester SET deadline = '$new_date' WHERE ID = 1";
 if(mysqli_query($con, $sql)){
 header('Location: registration.php');	
 }     
@@ -67,7 +68,5 @@ header('Location: registration.php');
 }
 catch(Exception $e){
 header('Location: registration.php');
-$message = "wrong answer";
-echo "<script type='text/javascript'>alert('$message');</script>";
 }
 ?>

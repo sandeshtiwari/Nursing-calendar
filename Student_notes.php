@@ -117,7 +117,7 @@ require 'footer.php';
 <style>
   .tbl1{
   width: 65%;
-  border: 2px solid #6f0029;
+  border: 2px solid #660000 !important;
     margin: auto;
     text-align: left;
     float: left;

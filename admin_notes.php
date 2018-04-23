@@ -29,7 +29,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 
 <style>
 .btn-primary {
-    background: #6f0029;
+    background: #660000;
     color: #ffffff;
 }
 .btn-danger{
@@ -41,14 +41,14 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 }
 
 .bg-dark{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 
 .navbar-sidenav{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #sidenavToggler{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #logo{
     height: 33px;
@@ -61,7 +61,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 }
 
 .btn-classlist{
-  background: #6f0029;
+  background: #660000;
   color: #fff;
   margin-top: .5em;
   width: 100%;

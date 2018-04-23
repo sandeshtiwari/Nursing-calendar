@@ -29,22 +29,22 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 
 <style>
 .btn-primary {
-    background: #6f0029;
+    background: #660000;
     color: #ffffff;
 }
 .bg-dark{
-  background-color: #6f0029 !important;
+  background-color: #660000 !important;
 }
 
 .bg-dark{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 
 .navbar-sidenav{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #sidenavToggler{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #logo{
     height: 35px;
@@ -59,10 +59,10 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
 
 </style>
 
-<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
+    <a class="navbar-brand" href="admin_page.php"><img id="logo" src="ulm_logo_new.png">Nursing Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -82,7 +82,7 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
           <a class="nav-link" href="lead_teacher.php">
-            <i class="fa fa-fw fa-th"></i>
+            <i class="fa fa-address-book"></i>
             <span class="nav-link-text">Assign Lead Teacher</span>
           </a>
         </li>
@@ -96,6 +96,12 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
           <a class="nav-link" href="registration.php">
             <i class="fa fa-power-off"></i>
             <span class="nav-link-text">Registration Deadline</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
+          <a class="nav-link" href="admin_notes.php">
+            <i class="fa fa-sticky-note"></i>
+            <span class="nav-link-text">Add notes</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
@@ -112,10 +118,10 @@ if ($_SESSION['privilege'] != 'admin' || isset($_SESSION['email']))
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
           <a class="nav-link" href="logs.php">
-            <i class="fa fa-address-book"></i>
+            <i class="fa fa-th-list"></i>
             <span class="nav-link-text">Logs</span>
           </a>
-        </li>      
+        </li>
       </ul>
 
 

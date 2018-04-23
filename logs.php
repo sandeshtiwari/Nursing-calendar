@@ -62,7 +62,7 @@ $admin = new Admin($con, $_SESSION['email']);
 
 <style>
  .btn-primary {
-      background: #6f0029;
+      background: #660000;
       color: #ffffff;
   }
   .btn-danger{
@@ -74,14 +74,14 @@ $admin = new Admin($con, $_SESSION['email']);
 }
 
 .bg-dark{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 
 .navbar-sidenav{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #sidenavToggler{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #logo{
     height: 35px;
@@ -94,7 +94,7 @@ $admin = new Admin($con, $_SESSION['email']);
     color: #e9ecef;
 }
 .btn-logdwn{
-  background: #6f0029;
+  background: #660000;
   color: #ffffff;
   position: absolute;
   right: 160px;
@@ -104,7 +104,7 @@ $admin = new Admin($con, $_SESSION['email']);
 }
 
 .btn-btndel{
-  background: #6f0029;
+  background: #660000;
   color: #ffffff;
   position: absolute;
   right: 20px;
@@ -159,6 +159,14 @@ $admin = new Admin($con, $_SESSION['email']);
             <span class="nav-link-text">Collision</span>
           </a>
         </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Registration Deadline">
+          <a class="nav-link" href="registration.php">
+            <i class="fa fa-power-off"></i>
+            <span class="nav-link-text">Registration Deadline</span>
+          </a>
+        </li>
+        
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
           <a class="nav-link" href="admin_notes.php">
             <i class="fa fa-sticky-note"></i>

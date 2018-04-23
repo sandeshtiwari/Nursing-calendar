@@ -30,7 +30,7 @@
 
 <style>
   .btn-primary {
-      background: #6f0029;
+      background: #660000;
       color: #ffffff;
   }
   .btn-danger{
@@ -42,14 +42,14 @@
 }
 
 .bg-dark{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 
 .navbar-sidenav{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #sidenavToggler{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #logo{
     height: 35px;
@@ -73,23 +73,48 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
-          <a class="nav-link" href="admin_page.php">
-            <i class="fa fa-fw fa-th"></i>
-            <span class="nav-link-text">Rooms</span>
-          </a>
-        </li>
+        
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Calendar">
           <a class="nav-link" href="admin_calendar.php">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Master Calendar</span>
           </a>
         </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Rooms">
+          <a class="nav-link" href="admin_page.php">
+            <i class="fa fa-fw fa-th"></i>
+            <span class="nav-link-text">Rooms</span>
+          </a>
+        </li>
+
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Assign Lead Teacher">
+          <a class="nav-link" href="lead_teacher.php">
+            <i class="fa fa-address-book"></i>
+            <span class="nav-link-text">Assign Lead Teacher</span>
+          </a>
+        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Collision">
           <a class="nav-link" href="collision.php">
             <i class="fa fa-minus-circle"></i>
             <span class="nav-link-text">Collision</span>
           </a>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Registration Deadline">
+          <a class="nav-link" href="registration.php">
+            <i class="fa fa-power-off"></i>
+            <span class="nav-link-text">Registration Deadline</span>
+          </a>
+        </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add notes">
+          <a class="nav-link" href="admin_notes.php">
+            <i class="fa fa-sticky-note"></i>
+            <span class="nav-link-text">Add notes</span>
+          </a>
+        </li>
+        
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students">
           <a class="nav-link" href="show_students.php">
@@ -103,6 +128,14 @@
             <span class="nav-link-text">Teachers</span>
           </a>
         </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teachers">
+          <a class="nav-link" href="logs.php">
+            <i class="fa fa-th-list"></i>
+            <span class="nav-link-text">Logs</span>
+          </a>
+        </li>
+
       </ul>
 
 

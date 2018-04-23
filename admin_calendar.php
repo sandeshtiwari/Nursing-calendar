@@ -53,7 +53,7 @@
 
 <style>
   .btn-primary {
-      background: #6f0029;
+      background: #660000;
       color: #ffffff;
   }
   .btn-danger{
@@ -65,14 +65,14 @@
 }
 
 .bg-dark{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 
 .navbar-sidenav{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #sidenavToggler{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #logo{
     height: 35px;

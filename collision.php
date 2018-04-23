@@ -56,7 +56,7 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 </head>
 <style>
 .btn-primary {
-    background: #6f0029;
+    background: #660000;
     color: #ffffff;
 }
 .btn-danger{
@@ -68,14 +68,14 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 }
 
 .bg-dark{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 
 .navbar-sidenav{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #sidenavToggler{
-  background: #6f0029 !important;
+  background: #660000 !important;
 }
 #logo{
     height: 35px;

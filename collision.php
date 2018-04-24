@@ -12,18 +12,18 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
   $collidingCourse = $admin->giveCollidingCourse($room_id, $week_id, $day, $semester_id);
   echo "<table class='table table-hover'>";
   echo "<thead><tr><th>Requests on ".$day."</th>";
-  echo "<td><a href='resolveCollision.php?delete=true&course_id=".$requesting_course."&room_id=".$room_id."&week_id=".$week_id."&day=".$day."&semester_id=".$semester_id."' class='btn btn-outline-secondary'>Delete Request</a></td>";
+  echo "<td><a href='resolveCollision.php?delete=true&course_id=".$requesting_course."&room_id=".$room_id."&week_id=".$week_id."&day=".$day."&semester_id=".$semester_id."' class='btn btn-outline-primary'>Delete Request</a></td>";
   echo "</tr></thead>";
   echo "<tbody>";
   echo "<tr>";
   echo "<td>".$requesting_course." ".$admin->giveCourseName($requesting_course)." <strong>requested</strong> ". $admin->giveRoomName($room_id)."</td>";
-  echo "<td><a href='resolveCollision.php?override=true&collidingCourse=".$collidingCourse."&course_id=".$requesting_course."&room_id=".$room_id."&week_id=".$week_id."&day=".$day."&semester_id=".$semester_id."' class='btn btn-secondary'>Give Access</a></td>";
+  echo "<td><a href='resolveCollision.php?override=true&collidingCourse=".$collidingCourse."&course_id=".$requesting_course."&room_id=".$room_id."&week_id=".$week_id."&day=".$day."&semester_id=".$semester_id."' class='btn btn-primary'>Give Access</a></td>";
   echo "</tr>";
   echo "<tr>";
   if(!empty($collidingCourse))
   {
     echo "<td>".$collidingCourse." ".$admin->giveCourseName($collidingCourse)." has <strong>booked</strong> ". $admin->giveRoomName($room_id)."</td>";  
-    echo "<td><a href='resolveCollision.php?move=true&room_id=$room_id&course_id=$collidingCourse&day=$day&week_id=$week_id&semester_id=$semester_id' class='btn btn-secondary'>Move class </a></td>";
+    echo "<td><a href='resolveCollision.php?move=true&room_id=$room_id&course_id=$collidingCourse&day=$day&week_id=$week_id&semester_id=$semester_id' class='btn btn-primary'>Move class </a></td>";
   }
   else
   {
@@ -85,6 +85,10 @@ function displayClasses($con, $requesting_course, $day, $room_id, $week_id, $sem
 }
 .navbar-dark .navbar-nav .nav-link {
     color: #e9ecef;
+}
+.btn-outline-primary{
+  color: #660000;
+  border-color: #660000;
 }
 
 

@@ -1,5 +1,7 @@
 <?php
     require "config/config.php";
+    require "classes/Admin.php";
+require "classes/Room.php";
 ?>
 <!DOCTYPE html>
 
@@ -166,33 +168,13 @@
   <li class="nav-item">
     <a class = "nav-link" data-toggle="tooltip" data-placement="right">
         <?php
-          
-          //require "class"
-          //error_reporting(0);
-       
 
-          $setting;
-          $open = "yes";
-          $close = "no";
+            $admin = new Admin($con, $_SESSION['email']);
 
-          $sql = "SELECT register_permission FROM semester WHERE ID = 1";
-
-          $result = mysqli_query($con, $sql);
-
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $setting = $row['register_permission'];
+            $admin->regBtn();
 
 
-          if($setting == $open){
-
-            echo " <input type='button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Open'>  ";
-          }
-
-          elseif($setting == $close){
-
-            echo " <input type='button' class = 'btn btn-danger' data-toggle = 'modal' data-target = '#myModal' value = 'Registration Closed'> ";
-          }    
-        ?>
+            ?>
     </a>
   </li>
 
@@ -218,8 +200,8 @@
         <div class="row">
           <div class="col-12">
             <?php
-              require "classes/admin.php";
-              require "classes/room.php";
+              //require "classes/admin.php";
+              
 
               
 

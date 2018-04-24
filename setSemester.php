@@ -13,7 +13,7 @@ if(isset($_POST['semname'])){
 
 try{
 
-$id = 3;
+$id = 1;
 
 $date_array1=explode("/",$selectedDate1);
 $date_array2=explode("/",$selectedDate2);
@@ -30,7 +30,7 @@ $new_date2=implode("-",$new_date_array2);
 $sql = "INSERT INTO semester(ID, semester, start_date, end_date, register_permission, deadline, Override) VALUES('$id','$semname','$new_date1','$new_date2','no','1990-10-10','off')";
 
 if(mysqli_query($con, $sql)){
-header('Location: registration.php');	
+header('Location: registration.php?datesSet');	
 }     
 else{
 header('Location: registration.php');	

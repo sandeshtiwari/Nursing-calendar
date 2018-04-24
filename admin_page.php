@@ -203,7 +203,12 @@ require "classes/Room.php";
               //require "classes/admin.php";
               
 
-              
+              if(isset($_GET['deadlineSet']))
+              {
+                  echo "<div class='alert alert-success' role='alert'>
+                    Deadline set
+                  </div>";
+              }
 
             $admin = new Admin($con, $_SESSION['email']);
 

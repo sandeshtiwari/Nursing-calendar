@@ -1,5 +1,6 @@
 <?php
 require "config/config.php";
+require "classes/Admin.php";
 
 if(isset($_POST['date'])){
 	$selectedDate = $_POST['date'];
@@ -56,11 +57,11 @@ $new_date_array=array($date_array[2],  $date_array[0], $date_array[1]);
 
 $new_date=implode("-",$new_date_array);
 $from_date = date("Y-m-d", strtotime($selectedDate));
-
+$admin = new Admin($con, $_SESSION['email']);
 //Setting Lead instructor for the all courses:
 $sql = "UPDATE semester SET deadline = '$new_date' WHERE ID = 1";
 if(mysqli_query($con, $sql)){
-header('Location: registration.php');	
+header('Location: registration.php?deadlineSet');	
 }     
 else{
 header('Location: registration.php');	

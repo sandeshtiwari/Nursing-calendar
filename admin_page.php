@@ -211,7 +211,14 @@ require "classes/Room.php";
 
             if(!empty($rooms)){
               
-
+                echo "<table class = 'rmtable'>";
+                echo "<tr>";
+              echo "<th>Room</th>
+                    <th>Projector</th>
+                    <th>Bed</th>
+                    <th>Capacity</th>
+                    <th></th> ";
+              echo "</tr>";
               foreach($rooms as $room => $details){
               
 
@@ -226,14 +233,8 @@ require "classes/Room.php";
                 $Bed = $details['Bed'];
                 $capacity = $details['capacity'];
 
-              echo "<table class = 'rmtable'>";
-              echo "<tr>";
-              echo "<th>Room</th>
-                    <th>Projector</th>
-                    <th>Bed</th>
-                    <th>Capacity</th>
-                    <th></th> ";
-              echo "</tr>";
+              
+              
 
               
               echo "<tr>";
@@ -243,8 +244,7 @@ require "classes/Room.php";
                     <td>$capacity</td>
                     <td><a href = 'roomCalendar.php?id=$ID' type='button' class = 'btn btn-primary btn-round'>Room calendar</a></td> <br>";
               echo "</tr>";
-              echo "</table>";
-
+              
 
               //echo "<div id='$ID' class='collapse'>
                 //<embed src='styles/roomCalendar.php?id=$ID' style='width:700px; height: 720px; position: relative; left: 175px;'>
@@ -252,6 +252,8 @@ require "classes/Room.php";
           //  </div>";
 
             }
+                echo "</table>";
+
             }
 
 

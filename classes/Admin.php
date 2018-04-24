@@ -365,14 +365,14 @@
 		{
 			$semester = $this->getLatestSem();
 			$clases = array();	
-			$sql = "SELECT DISTINCT Prefix, Number, Course_ID, Title FROM course WHERE Semester_ID = $semester;";
+			$sql = "SELECT DISTINCT Prefix, Number, Title FROM course WHERE Semester_ID = $semester group by Prefix, Number;";
 			$res = mysqli_query($this->con, $sql);
 
 				while($class = mysqli_fetch_assoc($res)){
 					$oneClass = array();
 					$oneClass['Prefix'] = $class['Prefix'];
 					$oneClass['Number'] = $class['Number'];
-					$oneClass['Course_ID'] = $class['Course_ID'];
+					//$oneClass['Course_ID'] = $class['Course_ID'];
 					$oneClass['Title'] = $class['Title'];
 
 					$clases[] = $oneClass;

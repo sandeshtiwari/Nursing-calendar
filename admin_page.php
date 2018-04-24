@@ -191,14 +191,11 @@ require "classes/Room.php";
       </ul>
     </div>
   </nav>
-  <div class="content-wrapper">
-    <div class="container-fluid">
-
-
+  <div class="content-wrapper" style="padding-left: 10px">
+    <div class="container-fluid">      
       
-      <div id='nurcalendar'></div>
         <div class="row">
-          <div class="col-12">
+          
             <?php
               //require "classes/admin.php";
               
